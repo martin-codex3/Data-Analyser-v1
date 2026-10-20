@@ -1,9 +1,13 @@
 import uuid
+from typing import TYPE_CHECKING
 
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.utils.base import Base
+
+if TYPE_CHECKING:
+    from app.models.roles.role_model import Role
 
 
 class Tenant(Base):
@@ -20,3 +24,4 @@ class Tenant(Base):
     email: Mapped[str] = mapped_column(nullable=False, index=True, unique=True)
     business_type: Mapped[str] = mapped_column(String(100))
     profile_image: Mapped[str | None] = mapped_column(String(50))
+    roles: Mapped[list["Role"]] = relationship(back_populates="tenant")
