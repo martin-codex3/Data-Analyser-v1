@@ -24,4 +24,4 @@ class Tenant(Base):
     email: Mapped[str] = mapped_column(nullable=False, index=True, unique=True)
     business_type: Mapped[str] = mapped_column(String(100))
     profile_image: Mapped[str | None] = mapped_column(String(50))
-    roles: Mapped[list["Role"]] = relationship(back_populates="tenant")
+    roles: Mapped[list["Role"] | None] = relationship(back_populates="tenant")
