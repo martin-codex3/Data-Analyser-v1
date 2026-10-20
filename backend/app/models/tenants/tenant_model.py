@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.models.tenant_roles.tenant_roles import tenant_roles
 from app.utils.base import Base
 
 if TYPE_CHECKING:
@@ -13,15 +14,21 @@ if TYPE_CHECKING:
 class Tenant(Base):
     __tablename__ = "tenants"
 
-    id: Mapped[str] = mapped_column(
-        primary_key=True, default_factory=lambda: uuid.uuid4()
+    id: Mapped[uuid.UUID] = mapped_column(
+        primary_key=True, default=lambda: uuid.uuid4()
     )
-    first_name: Mapped[str] = mapped_column(String(40), nullable=False)
-    last_name: Mapped[str] = mapped_column(String(40), nullable=False)
-    phone_number: Mapped[str] = mapped_column(nullable=False)
+    first_name: Mapped[str] = mapped_column(
+        String(40),
+    )
+    last_name: Mapped[str] = mapped_column(
+        String(40),
+    )
+    phone_number: Mapped[str] = mapped_column()
     address: Mapped[str] = mapped_column(String(50))
-    nationality: Mapped[str] = mapped_column(nullable=False, index=True)
-    email: Mapped[str] = mapped_column(nullable=False, index=True, unique=True)
+    nationality: Mapped[str] = mapped_column(index=True)
+    email: Mapped[str] = mapped_column(index=True, unique=True)
     business_type: Mapped[str] = mapped_column(String(100))
-    profile_image: Mapped[str | None] = mapped_column(String(50))
-    roles: Mapped[list["Role"] | None] = relationship(back_populates="tenant")
+    profile_image: Mapped[str] = mapped_column(String(50), nullable=True)
+    roles: Mapped[list["Role"]] = relationship(
+        secondary=tenant_roles, back_populates="tenants"
+    )

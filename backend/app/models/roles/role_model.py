@@ -1,21 +1,20 @@
-from datetime import datetime
-from typing import TYPE_CHECKING
+from datetime import UTC, datetime
 
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.models.tenant_roles.tenant_roles import tenant_roles
+from app.models.tenants.tenant_model import Tenant
 from app.utils.base import Base
-
-if TYPE_CHECKING:
-    from app.models.tenants.tenant_model import Tenant
 
 
 class Role(Base):
     __tablename__ = "roles"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement="auto")
-    name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
-    description: Mapped[str] = mapped_column(str(50), nullable=False)
-    created_date: Mapped[datetime] = mapped_column(default_factory=lambda: datetime.now)
-    tenant_id: Mapped[str] | None = mapped_column(ForeignKey("tenants.id"))
-    tenant: Mapped["Tenant"] | None = relationship(back_populates="roles")
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(50))
+    description: Mapped[str] = mapped_column(String(50))
+    created_date: Mapped[datetime] = mapped_column(default=lambda: datetime.now(UTC))
+    tenants: Mapped[list["Tenant"]] = relationship(
+        secondary=tenant_roles, back_populates="roles"
+    )

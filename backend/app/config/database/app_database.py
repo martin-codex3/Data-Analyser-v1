@@ -1,6 +1,8 @@
 from sqlalchemy.ext.asyncio.engine import create_async_engine
 
 from app.config.settings.app_settings import AppSettings
+from app.models.roles.role_model import Role  # noqa: F401
+from app.models.tenants.tenant_model import Tenant  # noqa: F401
 from app.utils.base import Base
 
 # we will create the database engine here
