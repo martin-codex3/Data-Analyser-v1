@@ -7,7 +7,7 @@ from app.utils.base import Base
 
 
 class Tenant(Base):
-    __tablename__ = "Tenants"
+    __tablename__ = "tenants"
 
     id: Mapped[str] = mapped_column(
         primary_key=True, default_factory=lambda: uuid.uuid4()
