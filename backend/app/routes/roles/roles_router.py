@@ -57,17 +57,36 @@ async def update_role(
     session: Annotated[AsyncSession, Depends(app_session)],
 ):
     """This will update the role"""
-    statement = await session.execute(select(Role.id == role_id))
+    statement = await session.execute(select(Role).where(Role.id == role_id))
     role = statement.scalars().first()
 
-    if role is None:
+    if not role:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Role with that id does not exists",
         )
 
-    role_to_update = role_data.model_dump()
+    role_to_update = role_data.model_dump(exclude_unset=True)
     for key, value in role_to_update.items():
         setattr(role, key, value)
 
+    await session.commit()
+    return role
+
+
+@roles_router.delete("/{role_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_role(
+    role_id: int, session: Annotated[AsyncSession, Depends(app_session)]
+):
+    """We will delete the role in the database based on the passed id"""
+    statement = await session.execute(select(Role).where(Role.id == role_id))
+    role = statement.scalars().first()
+
+    if not role:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Role with that id does not exists",
+        )
+
+    await session.delete(role)
     await session.commit()
