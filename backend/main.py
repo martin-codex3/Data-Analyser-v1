@@ -5,6 +5,7 @@ from fastapi_faults import FaultRegistry
 
 from app.config.database.app_database import app_database_engine, app_database_init
 from app.routes.roles.roles_router import roles_router
+from app.routes.tenants.tenant_routes import tenant_routes
 
 api_version: str = "v1"
 
@@ -29,6 +30,7 @@ faults = FaultRegistry(faults=[], name="Api Faults")
 
 
 app.include_router(router=roles_router, prefix="/api/roles", tags=["Roles"])
+app.include_router(router=tenant_routes, prefix="/api/tenants", tags=["Tenants"])
 
 api_faults = FaultRegistry.merge(
     faults, name="api", type_base="https://api.example.com/problems"
