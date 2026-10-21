@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio.engine import create_async_engine
+from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 
 from app.config.settings.app_settings import AppSettings
 from app.models.roles.role_model import Role  # noqa: F401
@@ -17,3 +18,17 @@ async def app_database_init():
     and all the associated tables will be created automatically"""
     async with app_database_engine.begin() as connection:
         await connection.run_sync(Base.metadata.create_all)
+
+
+async def app_session():
+    """This will establish the app database session.
+    It will be used as a dependency"""
+    Session = async_sessionmaker(
+        bind=app_database_engine,
+        class_=AsyncSession,
+        expire_on_commit=False,
+        autoflush=True,
+    )
+
+    async with Session() as session:
+        yield session
