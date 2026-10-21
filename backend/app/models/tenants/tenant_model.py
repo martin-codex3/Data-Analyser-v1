@@ -29,6 +29,7 @@ class Tenant(Base):
     email: Mapped[str] = mapped_column(index=True, unique=True)
     business_type: Mapped[str] = mapped_column(String(100))
     profile_image: Mapped[str] = mapped_column(String(50), nullable=True)
+    password_hash: Mapped[str] = mapped_column(String(50))
     roles: Mapped[list["Role"]] = relationship(
         secondary=tenant_roles, back_populates="tenants"
     )
