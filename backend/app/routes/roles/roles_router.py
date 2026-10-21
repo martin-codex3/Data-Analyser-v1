@@ -118,3 +118,9 @@ async def assign_role_to_user(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Tenant with that id does not exists",
         )
+
+    # we will assign the roles here
+    new_tenant = Tenant.roles[role]
+    session.add(new_tenant)
+    await session.commit()
+    return new_tenant
