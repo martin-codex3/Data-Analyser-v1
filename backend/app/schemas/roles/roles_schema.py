@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -13,6 +14,12 @@ class RoleSchemaBase(BaseModel):
 class CreateRoleSchema(BaseModel):
     name: str = Field(min_length=1)
     description: str = Field(min_length=10)
+
+
+# for assigning roles to user
+class AssignRoleToUser(BaseModel):
+    role_id: int
+    tenant_id: uuid.UUID
 
 
 # for updating the roles

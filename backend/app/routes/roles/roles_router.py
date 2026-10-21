@@ -6,7 +6,9 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app.config.database.app_database import app_session
 from app.models.roles.role_model import Role
+from app.models.tenants.tenant_model import Tenant
 from app.schemas.roles.roles_schema import (
+    AssignRoleToUser,
     CreateRoleSchema,
     RoleReponseSchema,
     UpdateRoleSchema,
@@ -93,5 +95,26 @@ async def delete_role(
 
 
 @roles_router.post("/assign-roles")
-async def assign_role_to_user(session: Annotated[AsyncSession, Depends(app_session)]):
-    pass
+async def assign_role_to_user(
+    roled_data: AssignRoleToUser, session: Annotated[AsyncSession, Depends(app_session)]
+):
+
+    statement = await session.execute(select(Role).where(Role.id == roled_data.role_id))
+    role = statement.scalars().first()
+
+    if not role:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Role with that id does not exists",
+        )
+
+    # we will grab the passed user id
+    statement = await session.execute(
+        select(Tenant).where(Tenant.id == roled_data.tenant_id)
+    )
+    tenant = statement.scalars().first()
+    if not tenant:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Tenant with that id does not exists",
+        )
