@@ -1,10 +1,20 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class RoleSchema(BaseModel):
-    name: str = Field(min_length=1, max_length=50)
-    description: str = Field(min_length=1, max_length=100)
+class RoleSchemaBase(BaseModel):
+    name: str = Field(min_length=1)
+    description: str = Field(min_length=1)
     created_date: datetime = Field(default_factory=lambda: datetime.now())
-    user_id: str | None
+
+
+# for add new roles
+class CreateRoleSchema(BaseModel):
+    name: str = Field(min_length=1)
+    description: str = Field(min_length=10)
+
+
+# for the role response
+class RoleReponseSchema(RoleSchemaBase):
+    model_config = ConfigDict(from_attributes=True)
