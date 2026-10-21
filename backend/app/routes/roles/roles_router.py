@@ -90,3 +90,8 @@ async def delete_role(
 
     await session.delete(role)
     await session.commit()
+
+
+@roles_router.post("/assign-roles")
+async def assign_role_to_user(session: Annotated[AsyncSession, Depends(app_session)]):
+    pass
