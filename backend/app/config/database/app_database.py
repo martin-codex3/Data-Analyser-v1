@@ -20,15 +20,16 @@ async def app_database_init():
         await connection.run_sync(Base.metadata.create_all)
 
 
+Session = async_sessionmaker(
+    bind=app_database_engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+    autoflush=True,
+)
+
+
 async def app_session():
     """This will establish the app database session.
     It will be used as a dependency"""
-    Session = async_sessionmaker(
-        bind=app_database_engine,
-        class_=AsyncSession,
-        expire_on_commit=False,
-        autoflush=True,
-    )
-
     async with Session() as session:
         yield session
