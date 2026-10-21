@@ -1,4 +1,10 @@
 from datetime import datetime
+from typing import Annotated
+
+from fastapi import Depends
+from sqlalchemy.ext.asyncio.session import AsyncSession
+
+from app.config.database.app_database import app_session
 
 available_roles: list = [
     {
@@ -20,9 +26,6 @@ available_roles: list = [
 
 
 # we will attempt to seed the roles here
-async def role_seeder():
+async def role_seeder(session: Annotated[AsyncSession, Depends(app_session)]):
     for role in available_roles:
-        if not role["name"]:
-            print("This role does not exists")
-
-        # we will check is
+        print(role)
