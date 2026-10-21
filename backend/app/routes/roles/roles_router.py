@@ -6,7 +6,11 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app.config.database.app_database import app_session
 from app.models.roles.role_model import Role
-from app.schemas.roles.roles_schema import CreateRoleSchema, RoleReponseSchema
+from app.schemas.roles.roles_schema import (
+    CreateRoleSchema,
+    RoleReponseSchema,
+    UpdateRoleSchema,
+)
 
 roles_router = APIRouter()
 
@@ -39,3 +43,31 @@ async def create_role(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Role with that name already exsists",
             )
+        # we will add the role here
+    new_role = Role(**role_data_dict)
+    session.add(new_role)
+    await session.commit()
+    return new_role
+
+
+@roles_router.patch("/{role_id}")
+async def update_role(
+    role_id: int,
+    role_data: UpdateRoleSchema,
+    session: Annotated[AsyncSession, Depends(app_session)],
+):
+    """This will update the role"""
+    statement = await session.execute(select(Role.id == role_id))
+    role = statement.scalars().first()
+
+    if role is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Role with that id does not exists",
+        )
+
+    role_to_update = role_data.model_dump()
+    for key, value in role_to_update.items():
+        setattr(role, key, value)
+
+    await session.commit()

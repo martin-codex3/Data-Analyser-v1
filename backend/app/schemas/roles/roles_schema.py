@@ -15,6 +15,13 @@ class CreateRoleSchema(BaseModel):
     description: str = Field(min_length=10)
 
 
+# for updating the roles
+class UpdateRoleSchema(BaseModel):
+    name: str | None = Field(default=None, min_length=1)
+    description: str | None = Field(default=None, min_length=1)
+    model_config = ConfigDict(extra="ignore")
+
+
 # for the role response
 class RoleReponseSchema(RoleSchemaBase):
     model_config = ConfigDict(from_attributes=True)
