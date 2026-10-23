@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi_faults import FaultRegistry
 
 from app.config.database.app_database import app_database_engine, app_database_init
@@ -24,6 +25,9 @@ app = FastAPI(
     description="Modern document analyser using fastapi and sveltekit",
     lifespan=app_life_span,
 )
+
+# we will mount the static files here
+app.mount("/static", StaticFiles(directory="/static"), name="static")
 
 # for the app faults configurations
 faults = FaultRegistry(faults=[], name="Api Faults")

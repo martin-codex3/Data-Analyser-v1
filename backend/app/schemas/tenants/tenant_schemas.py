@@ -31,14 +31,14 @@ class TenantBaseSchema(BaseModel):
 
 # for creating a new tenant
 class CreateTenantSchema(BaseModel):
-    first_name = Annotated[str, Field(min_length=2)]
-    last_name: str = Field(min_length=3)
+    first_name: str = Field(min_length=3, max_length=30)
+    last_name: str = Field(min_length=3, max_length=30)
     phone_number: MalawiPhone
     address: str = Field(min_length=4)
     nationality: CountryAlpha3 = Field(min_length=1)
     email: EmailStr = Field(min_length=5)
     business_type: str = Field(min_length=2)
-    password = Annotated[str, Field(min_length=8, max_length=20)]
+    password: str = Field(min_length=5, max_length=30)
 
     @classmethod
     def profile_image_path(cls):
