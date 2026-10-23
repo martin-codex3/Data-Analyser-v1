@@ -1,6 +1,4 @@
-from typing import Annotated
-
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 from pydantic_extra_types.country import CountryAlpha3
 
 
@@ -11,14 +9,14 @@ class MalawiPhone:
 
 
 class TenantBaseSchema(BaseModel):
-    first_name = Annotated[str, Field(min_length=2)]
-    last_name: str = Field(min_length=3)
+    first_name: str = Field(min_length=3, max_length=30)
+    last_name: str = Field(min_length=3, max_length=30)
     phone_number: MalawiPhone
-    address: str = Field(min_length=4)
+    address: str = Field(min_length=3, max_length=30)
     nationality: CountryAlpha3 = Field(min_length=1)
     email: EmailStr = Field(min_length=5)
     business_type: str = Field(min_length=2)
-    password = Annotated[str, Field(min_length=8, max_length=20)]
+    password: str = Field(min_length=5, max_length=30)
     profile_image: str | None = Field(max_length=50)
 
     @classmethod
@@ -31,6 +29,7 @@ class TenantBaseSchema(BaseModel):
 
 # for creating a new tenant
 class CreateTenantSchema(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
     first_name: str = Field(min_length=3, max_length=30)
     last_name: str = Field(min_length=3, max_length=30)
     phone_number: MalawiPhone
