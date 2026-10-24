@@ -12,7 +12,7 @@ from app.schemas.tenants.tenant_schemas import CreateTenantSchema
 tenant_routes = APIRouter()
 
 
-@tenant_routes.post("/sign-in")
+@tenant_routes.post("/create-account")
 async def create_tenant_account(
     tenant_data: CreateTenantSchema,
     session: Annotated[AsyncSession, Depends(app_session)],
@@ -33,7 +33,7 @@ async def create_tenant_account(
 
     # we will fetch all the available roles here
     statement = await session.execute(
-        select(Role).where(func.lowe(Role.name == "admin"))
+        select(Role).where(func.lower(Role.name == "admin"))
     )
     role = statement.scalars().first()
 

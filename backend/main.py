@@ -27,7 +27,7 @@ app = FastAPI(
 )
 
 # we will mount the static files here
-app.mount("/static", StaticFiles(directory="/static"), name="static")
+app.mount("/static/uploads", StaticFiles(directory="static/uploads"), name="static")
 
 # for the app faults configurations
 faults = FaultRegistry(faults=[], name="Api Faults")
