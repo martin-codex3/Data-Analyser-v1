@@ -3,7 +3,7 @@ from datetime import UTC, datetime, timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
@@ -14,11 +14,9 @@ from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password
-from app.services.tenant_service import CurrentTenant
+from app.services.tenant_service import get_current_tenant
 
 tenant_routes = APIRouter()
-
-oauth_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @tenant_routes.post("/create-account")
@@ -69,7 +67,7 @@ async def login_for_access_token(
 ):
     """We will authenticate the tenant using their username and password"""
     statement = await session.execute(
-        select(Tenant).where(func.lower(Tenant.email == tenant_data.username))
+        select(Tenant).where(func.lower(Tenant.email) == tenant_data.username)
     )
 
     tenant = statement.scalars().first()
@@ -95,5 +93,5 @@ async def login_for_access_token(
 
 
 @tenant_routes.get("/me", status_code=status.HTTP_200_OK)
-async def read_tenant(current_tenant: CurrentTenant):
+async def read_tenant(current_tenant: Annotated[Tenant, Depends(get_current_tenant)]):
     return current_tenant

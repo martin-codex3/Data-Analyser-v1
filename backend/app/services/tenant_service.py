@@ -1,5 +1,7 @@
+import uuid
 from typing import Annotated
 
+import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
@@ -8,11 +10,10 @@ from app.config.database.app_database import Session
 from app.models.tenants.tenant_model import Tenant
 from app.services.jwt_token_management import decode_access_token
 
-oauth_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth_scheme = OAuth2PasswordBearer(tokenUrl="/api/tenants/token")
+
 
 # for the database session here
-
-
 async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
     """We will get the current logged in tenant"""
     credentials_exception = HTTPException(
@@ -20,10 +21,15 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    payload = decode_access_token(access_token=token)
-    tenant_id = payload.get("id")
 
-    if tenant_id is None:
+    try:
+        payload = decode_access_token(access_token=token)
+        tenant_id = uuid.UUID(payload.get("sub"))
+        print(tenant_id)
+
+        if tenant_id is None:
+            raise credentials_exception
+    except (TypeError, ValueError, jwt.InvalidTokenError):
         raise credentials_exception
 
     # we will attempt to get the user based on the id
@@ -35,7 +41,3 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
             raise credentials_exception
 
         return tenant
-
-
-# we will use this as a dependency
-CurrentTenant = Annotated[Tenant, get_current_tenant]
