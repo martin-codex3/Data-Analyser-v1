@@ -11,7 +11,7 @@ from app.config.database.app_database import app_session
 from app.config.settings.app_settings import AppSettings
 from app.models.roles.role_model import Role
 from app.models.tenants.tenant_model import Tenant
-from app.schemas.tenants.tenant_schemas import CreateTenantSchema
+from app.schemas.tenants.tenant_schemas import CreateTenantSchema, TenantResponseSchema
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password
 from app.services.tenant_service import get_current_tenant
@@ -19,7 +19,11 @@ from app.services.tenant_service import get_current_tenant
 tenant_routes = APIRouter()
 
 
-@tenant_routes.post("/create-account")
+@tenant_routes.post(
+    "/create-account",
+    status_code=status.HTTP_201_CREATED,
+    response_model=TenantResponseSchema,
+)
 async def create_tenant_account(
     tenant_data: CreateTenantSchema,
     session: Annotated[AsyncSession, Depends(app_session)],

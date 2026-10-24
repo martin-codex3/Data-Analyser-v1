@@ -25,7 +25,6 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
     try:
         payload = decode_access_token(access_token=token)
         tenant_id = uuid.UUID(payload.get("sub"))
-        print(tenant_id)
 
         if tenant_id is None:
             raise credentials_exception

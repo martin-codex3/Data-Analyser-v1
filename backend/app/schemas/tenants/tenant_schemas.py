@@ -1,3 +1,4 @@
+import uuid
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
@@ -45,10 +46,8 @@ class CreateTenantSchema(BaseModel):
 
     @classmethod
     def profile_image_path(cls):
-        if not cls.profile_image:
-            cls.profile_image = "static/uploads/profile.jpg"
-        else:
-            return cls.profile_image
+        if not cls.profile_image_path:
+            return "static/uploads/profile.jpg"
 
     @field_validator("first_name")
     @classmethod
@@ -63,3 +62,14 @@ class CreateTenantSchema(BaseModel):
         if not name.isalpha():
             raise ValueError("Your name should have letters only")
         return name.lower()
+
+
+class TenantResponseSchema(BaseModel):
+    id: uuid.UUID
+    first_name: str
+    last_name: str
+    phone_number: MalawiPhone
+    address: str
+    nationality: str
+    email: EmailStr
+    business_type: str
