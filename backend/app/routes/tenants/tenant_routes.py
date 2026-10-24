@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
@@ -11,6 +12,8 @@ from app.schemas.tenants.tenant_schemas import CreateTenantSchema
 from app.services.password_management import hash_tenant_password
 
 tenant_routes = APIRouter()
+
+oauth_scheme = OAuth2PasswordBearer(tokenUrl="api/tenants/token")
 
 
 @tenant_routes.post("/create-account")
@@ -51,3 +54,23 @@ async def create_tenant_account(
     await session.commit()
 
     return new_tenant
+
+
+# for authenticating the tenants
+@tenant_routes.post("/sign-in")
+async def login_for_access_token(
+    tenant_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    session: Annotated[AsyncSession, Depends(app_session)],
+):
+    """We will authenticate the tenant using their username and password"""
+    statement = await session.execute(
+        select(Tenant).where(func.lower(Tenant.email == tenant_data.username))
+    )
+
+    tenant = statement.scalars().first()
+    if not tenant:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
