@@ -1,9 +1,10 @@
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class AppSettings(BaseSettings):
     public_database_url: str
-    secret_key: str
+    secret_key: SecretStr
     algorithm: str
     access_token_expiry_minutes: int = 15
     Issuer: str
