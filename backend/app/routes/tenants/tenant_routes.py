@@ -14,6 +14,7 @@ from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password
+from app.services.tenant_service import CurrentTenant
 
 tenant_routes = APIRouter()
 
@@ -91,3 +92,8 @@ async def login_for_access_token(
         expires_delta=access_token_expiry,
     )
     return Token(access_token=access_token, token_type="bearer")
+
+
+@tenant_routes.get("/me", status_code=status.HTTP_200_OK)
+async def read_tenant(current_tenant: CurrentTenant):
+    return current_tenant

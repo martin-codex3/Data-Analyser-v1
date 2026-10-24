@@ -1,6 +1,7 @@
 from datetime import UTC, datetime, timedelta
 
 import jwt
+from fastapi import HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 
@@ -39,6 +40,9 @@ def decode_access_token(access_token: str):
             key=AppSettings.secret_key.get_secret_value(),
             algorithms=[AppSettings.algorithm],
         )
-    except jwt.InvalidTokenError as ex:
-        print(f"Something went wrong here {ex}")
-        raise
+    except jwt.InvalidTokenError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
