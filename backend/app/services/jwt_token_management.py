@@ -11,7 +11,7 @@ class Token(BaseModel):
     token_type: str
 
 
-async def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
 
     if expires_delta:
@@ -22,5 +22,7 @@ async def create_access_token(data: dict, expires_delta: timedelta | None = None
         )
 
     to_encode.update({"exp": expires})
-    jwt_encoded = jwt.encode(to_encode, AppSettings.secret_key, AppSettings.algorithm)
+    jwt_encoded = jwt.encode(
+        to_encode, AppSettings.secret_key.get_secret_value(), AppSettings.algorithm
+    )
     return jwt_encoded

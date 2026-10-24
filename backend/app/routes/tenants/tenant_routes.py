@@ -17,7 +17,7 @@ from app.services.password_management import hash_tenant_password
 
 tenant_routes = APIRouter()
 
-oauth_scheme = OAuth2PasswordBearer(tokenUrl="api/tenants/token")
+oauth_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 @tenant_routes.post("/create-account")
@@ -61,7 +61,7 @@ async def create_tenant_account(
 
 
 # for authenticating the tenants
-@tenant_routes.post("/sign-in")
+@tenant_routes.post("/token")
 async def login_for_access_token(
     tenant_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: Annotated[AsyncSession, Depends(app_session)],
@@ -80,8 +80,14 @@ async def login_for_access_token(
         )
     access_token_expiry = timedelta(minutes=AppSettings.access_token_expiry_minutes)
     # we will generate the access token here
-    access_token = await create_access_token(
-        data={"sub": tenant.id, "jti": lambda: uuid.uuid4(), "iat": datetime.now(UTC)},
+    access_token = create_access_token(
+        data={
+            "sub": str(tenant.id),
+            "jti": str(uuid.uuid4()),
+            "iat": datetime.now(UTC),
+            "exp": AppSettings.access_token_expiry_minutes,
+            "iss": AppSettings.Issuer,
+        },
         expires_delta=access_token_expiry,
     )
     return Token(access_token=access_token, token_type="bearer")
