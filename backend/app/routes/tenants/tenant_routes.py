@@ -1,3 +1,5 @@
+import uuid
+from datetime import UTC, datetime, timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -6,9 +8,11 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app.config.database.app_database import app_session
+from app.config.settings.app_settings import AppSettings
 from app.models.roles.role_model import Role
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema
+from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password
 
 tenant_routes = APIRouter()
@@ -74,3 +78,10 @@ async def login_for_access_token(
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    access_token_expiry = timedelta(minutes=AppSettings.access_token_expiry_minutes)
+    # we will generate the access token here
+    access_token = await create_access_token(
+        data={"sub": tenant.id, "jti": lambda: uuid.uuid4(), "iat": datetime.now(UTC)},
+        expires_delta=access_token_expiry,
+    )
+    return Token(access_token=access_token, token_type="bearer")

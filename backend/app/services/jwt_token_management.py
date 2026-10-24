@@ -1,12 +1,13 @@
 from datetime import UTC, datetime, timedelta
 
 import jwt
+from pydantic import BaseModel
 
 from app.config.settings.app_settings import AppSettings
 
 
-class Token:
-    acess_token: str
+class Token(BaseModel):
+    access_token: str
     token_type: str
 
 
