@@ -19,7 +19,7 @@ class TenantBaseSchema(BaseModel):
     nationality: str = Field(min_length=3)
     email: EmailStr = Field(min_length=5)
     business_type: str = Field(min_length=2)
-    password: str = Field(min_length=5, max_length=30)
+    password_hash: str = Field(min_length=5, max_length=30)
     profile_image: str | None = Field(max_length=50)
 
     @classmethod
@@ -39,7 +39,7 @@ class CreateTenantSchema(BaseModel):
     nationality: str = Field(min_length=3)
     email: EmailStr
     business_type: str = Field(min_length=2)
-    password: str = Field(min_length=5, max_length=30)
+    password_hash: str = Field(min_length=5, max_length=30)
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
