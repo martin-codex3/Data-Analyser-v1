@@ -96,6 +96,8 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@tenant_routes.get("/me", status_code=status.HTTP_200_OK)
+@tenant_routes.get(
+    "/me", status_code=status.HTTP_200_OK, response_model=TenantResponseSchema
+)
 async def read_tenant(current_tenant: Annotated[Tenant, Depends(get_current_tenant)]):
     return current_tenant

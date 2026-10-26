@@ -4,6 +4,8 @@ from typing import Annotated
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 from pydantic_extra_types.phone_numbers import PhoneNumberValidator
 
+from app.schemas.roles.roles_schema import RoleReponseSchema
+
 MalawiPhone = Annotated[
     str, PhoneNumberValidator(supported_regions=["MW"], default_region="MW")
 ]
@@ -73,3 +75,5 @@ class TenantResponseSchema(BaseModel):
     nationality: str
     email: EmailStr
     business_type: str
+    profile_image: str
+    roles: list[RoleReponseSchema]
