@@ -1,11 +1,14 @@
 import uuid
+from typing import TYPE_CHECKING
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.tenant_users.tenant_user import tenant_users
-from app.models.tenants.tenant_model import Tenant
+from app.models.tenant_users.tenant_user import TenantUsers
 from app.utils.base import Base
+
+if TYPE_CHECKING:
+    from app.models.tenant_users.tenant_user import TenantUsers
 
 
 class ApplicationUser(Base):
@@ -17,6 +20,6 @@ class ApplicationUser(Base):
     phone_number: Mapped[str] = mapped_column(String(15))
     email: Mapped[str] = mapped_column(unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(20), index=True)
-    tenants: Mapped[list["Tenant"]] = relationship(
-        back_populates="application_users", lazy="selectin", secondary=tenant_users
+    tenants: Mapped[list["TenantUsers"]] = relationship(
+        back_populates="applicatio_users"
     )

@@ -1,11 +1,15 @@
 import uuid
+from typing import TYPE_CHECKING
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.application_users.application_user import ApplicationUser
-from app.models.tenant_users.tenant_user import tenant_users
+from app.models.tenant_roles.tenant_roles import tenant_roles
 from app.utils.base import Base
+
+if TYPE_CHECKING:
+    from app.models.roles.role_model import Role
+    from app.models.tenant_users.tenant_user import TenantUsers
 
 
 class Tenant(Base):
@@ -18,6 +22,7 @@ class Tenant(Base):
     business_type: Mapped[str] = mapped_column(String(100))
     address: Mapped[str] = mapped_column(String(100))
     nationality: Mapped[str] = mapped_column(index=True)
-    users: Mapped[list["ApplicationUser"]] = relationship(
-        secondary=tenant_users, back_populates="tenants", lazy="selectin"
+    users: Mapped[list["TenantUsers"]] = relationship(back_populates="tenants")
+    roles: Mapped[list["Role"]] = relationship(
+        secondary=tenant_roles, back_populates="roles"
     )
