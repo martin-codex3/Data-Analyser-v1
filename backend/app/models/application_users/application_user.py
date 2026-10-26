@@ -14,12 +14,12 @@ if TYPE_CHECKING:
 class ApplicationUser(Base):
     __tablename__ = "application_users"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+    id: Mapped[uuid.UUID] = mapped_column(
+        primary_key=True, default=lambda: uuid.uuid4()
+    )
     first_name: Mapped[str] = mapped_column(String(50))
     last_name: Mapped[str] = mapped_column(String(50))
     phone_number: Mapped[str] = mapped_column(String(15))
     email: Mapped[str] = mapped_column(unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(20), index=True)
-    tenants: Mapped[list["TenantUsers"]] = relationship(
-        back_populates="applicatio_users"
-    )
+    tenants: Mapped[list["TenantUsers"]] = relationship(back_populates="users")

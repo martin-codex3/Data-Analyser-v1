@@ -24,5 +24,5 @@ class Tenant(Base):
     nationality: Mapped[str] = mapped_column(index=True)
     users: Mapped[list["TenantUsers"]] = relationship(back_populates="tenants")
     roles: Mapped[list["Role"]] = relationship(
-        secondary=tenant_roles, back_populates="roles"
+        secondary=tenant_roles, back_populates="tenants"
     )

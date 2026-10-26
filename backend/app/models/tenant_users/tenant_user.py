@@ -27,9 +27,7 @@ class TenantUsers(Base):
     updated_date: Mapped[datetime] = mapped_column(default=datetime.now(UTC))
 
     # this will also include the parents and the childrens of both tables
-    tenant: Mapped["Tenant"] = relationship(
-        back_populates="application_users", lazy="selectin"
-    )
-    application_user: Mapped["ApplicationUser"] = relationship(
+    tenants: Mapped["Tenant"] = relationship(back_populates="users", lazy="selectin")
+    users: Mapped["ApplicationUser"] = relationship(
         back_populates="tenants", lazy="selectin"
     )
