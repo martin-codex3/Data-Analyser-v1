@@ -21,6 +21,7 @@ class TenantBaseSchema(BaseModel):
     address: str = Field(min_length=3, max_length=30)
     nationality: str = Field(min_length=3)
     email: EmailStr = Field(min_length=5)
+    business_name: str = Field(min_length=5, max_length=40)
     business_type: str = Field(min_length=2)
     password_hash: str = Field(min_length=5, max_length=30)
     profile_image: str | None = Field(max_length=50)
@@ -41,6 +42,7 @@ class CreateTenantSchema(BaseModel):
     address: str = Field(min_length=4)
     nationality: str = Field(min_length=3)
     email: EmailStr
+    business_name: str = Field(min_length=5, max_length=40)
     business_type: str = Field(min_length=2)
     password_hash: str = Field(min_length=5, max_length=30)
 
