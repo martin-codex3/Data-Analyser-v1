@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from app.config.database.app_database import app_session
 from app.models.application_users.application_user import ApplicationUser
 from app.models.roles.role_model import Role
+from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema
 
@@ -70,5 +71,14 @@ async def create_tenant_account(
         )
 
         session.add(new_tenant)
+        await session.flush()
+
+        # we will assign the role here
+        new_tenant_user = TenantUsers(
+            tenat_id=new_tenant.id, application_user_id=new_user.id, role=role
+        )
+
+        session.add(new_tenant_user)
+
         await session.commit()
         return new_tenant
