@@ -36,6 +36,21 @@ async def create_tenant_account(
                 detail="That role does not exists",
             )
 
+        # we will check if the user already exists here
+        statement = await session.execute(
+            select(ApplicationUser).where(
+                func.lower(ApplicationUser.email) == tenant_data.email,
+            )
+        )
+
+        user = statement.scalars().first()
+
+        if user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Email already registered",
+            )
+
         # we will now create the user
         new_user = ApplicationUser(
             first_name=tenant_data.first_name,
@@ -75,7 +90,7 @@ async def create_tenant_account(
 
         # we will assign the role here
         new_tenant_user = TenantUsers(
-            tenat_id=new_tenant.id, application_user_id=new_user.id, role=role
+            tenant_id=new_tenant.id, application_user_id=new_user.id, role=role.name
         )
 
         session.add(new_tenant_user)
