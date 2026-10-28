@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
@@ -9,13 +10,16 @@ from app.models.application_users.application_user import ApplicationUser
 from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
-from app.schemas.tenants.tenant_schemas import CreateTenantSchema
+from app.schemas.tenants.tenant_schemas import CreateTenantSchema, TenantResponseSchema
+from app.services.password_management import hash_tenant_password
 
 tenant_routes = APIRouter()
 
 
 @tenant_routes.post(
     "/create-account",
+    response_model=TenantResponseSchema,
+    status_code=status.HTTP_200_OK,
 )
 async def create_tenant_account(
     tenant_data: CreateTenantSchema,
@@ -57,7 +61,9 @@ async def create_tenant_account(
             last_name=tenant_data.last_name,
             phone_number=tenant_data.phone_number,
             email=tenant_data.email,
-            password_hash=tenant_data.password_hash,
+            password_hash=hash_tenant_password(
+                tenant_data.password_hash,
+            ),
         )
 
         session.add(new_user)
@@ -96,4 +102,35 @@ async def create_tenant_account(
         session.add(new_tenant_user)
 
         await session.commit()
-        return new_tenant
+        return {
+            "first_name": new_user.first_name,
+            "last_name": new_user.last_name,
+            "phone_number": new_user.phone_number,
+            "address": new_tenant.address,
+            "nationality": new_tenant.nationality,
+            "email": new_user.email,
+            "business_name": new_tenant.business_name,
+            "business_type": new_tenant.business_type,
+        }
+
+
+@tenant_routes.post("/sign-in")
+async def login_to_create_token(
+    tenant_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    session: Annotated[AsyncSession, Depends(app_session)],
+):
+
+    statement = await session.execute(
+        select(ApplicationUser).where(
+            func.lower(ApplicationUser.email) == tenant_data.username
+        )
+    )
+
+    email = statement.scalars().first()
+
+    if not email:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Provided email does not match with the saved records",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
