@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.utils.base import Base
 
 if TYPE_CHECKING:
-    from app.models.membership_roles.membership_role import MembershipRole
+    from app.models.tenant_memberships.tenant_membership import TenantMembership
 
 
 class Role(Base):
@@ -17,4 +17,6 @@ class Role(Base):
     name: Mapped[str] = mapped_column(String(50))
     description: Mapped[str] = mapped_column(String(50))
     created_date: Mapped[datetime] = mapped_column(default=lambda: datetime.now(UTC))
-    tenant_users: Mapped[list["MembershipRole"]] = relationship(back_populates="roles")
+    tenant_users: Mapped[list["TenantMembership"]] = relationship(
+        back_populates="roles"
+    )
