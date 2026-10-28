@@ -14,8 +14,9 @@ from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema, TenantResponseSchema
-from app.services.jwt_token_management import create_access_token
+from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password, verify_password
+from app.services.tenant_service import get_current_tenant
 
 tenant_routes = APIRouter()
 
@@ -161,8 +162,8 @@ async def login_to_create_token(
 
     expire_delta = timedelta(minutes=AppSettings.access_token_expiry_minutes)
     token_data = {
-        "user_id": user.id,
-        "tenant_id": tenant_user.tenant_id,
+        "user_id": str(user.id),
+        "sub": str(tenant_user.tenant_id),
         "email": user.email,
         "issuer": "StrideTechnologies",
         "jti": str(uuid.uuid4()),
@@ -171,3 +172,11 @@ async def login_to_create_token(
     }
 
     access_token = create_access_token(data=token_data, expires_delta=expire_delta)
+    return Token(access_token=access_token, token_type="bearer")
+
+
+@tenant_routes.get("/me")
+async def current_user(
+    current_user: Annotated[ApplicationUser, Depends(get_current_tenant)],
+):
+    pass

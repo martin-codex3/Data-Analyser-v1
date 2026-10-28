@@ -6,7 +6,7 @@ class AppSettings(BaseSettings):
     public_database_url: str
     secret_key: SecretStr
     algorithm: str
-    access_token_expiry_minutes: int = 15
+    access_token_expiry_minutes: int = 50
     Issuer: str
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")

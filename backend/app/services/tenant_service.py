@@ -7,6 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
 
 from app.config.database.app_database import Session
+from app.models.application_users.application_user import ApplicationUser
 from app.models.tenants.tenant_model import Tenant
 from app.services.jwt_token_management import decode_access_token
 
@@ -25,9 +26,14 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
     try:
         payload = decode_access_token(access_token=token)
         tenant_id = uuid.UUID(payload.get("sub"))
+        user_id = uuid.UUID(payload.get("user_id"))
 
         if tenant_id is None:
             raise credentials_exception
+
+        if user_id is None:
+            raise credentials_exception
+
     except (TypeError, ValueError, jwt.InvalidTokenError):
         raise credentials_exception
 
@@ -37,6 +43,15 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
         tenant = statement.scalars().first()
 
         if tenant is None:
+            raise credentials_exception
+
+        # we will also fetch the user here
+        statement = await session.execute(
+            select(ApplicationUser).where(ApplicationUser.id == user_id)
+        )
+        user = statement.scalars().first()
+
+        if user is None:
             raise credentials_exception
 
         return tenant
