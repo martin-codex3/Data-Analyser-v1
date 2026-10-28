@@ -22,6 +22,8 @@ class TenantUsers(Base):
         ForeignKey("application_users.id"), primary_key=True
     )
 
+    roles: Mapped[str] = mapped_column()
+
     # extra data
     created_date: Mapped[datetime] = mapped_column(default=datetime.now(UTC))
     updated_date: Mapped[datetime] = mapped_column(default=datetime.now(UTC))

@@ -58,6 +58,7 @@ async def create_tenant_account(
     role = statement.scalars().first()
 
     if not role:
+        await session.rollback()
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="That role does not exists",
