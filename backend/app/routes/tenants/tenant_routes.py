@@ -11,7 +11,7 @@ from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema, TenantResponseSchema
-from app.services.password_management import hash_tenant_password
+from app.services.password_management import hash_tenant_password, verify_password
 
 tenant_routes = APIRouter()
 
@@ -126,11 +126,20 @@ async def login_to_create_token(
         )
     )
 
-    email = statement.scalars().first()
+    user = statement.scalars().first()
 
-    if not email:
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Provided email does not match with the saved records",
+            detail="Email or password is incorrect",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if tenant_data.password is not verify_password(
+        tenant_data.password, user.password_hash
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Email or password is incorrect",
             headers={"WWW-Authenticate": "Bearer"},
         )
