@@ -8,7 +8,6 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from app.config.settings.app_settings import AppSettings
 from app.models.application_users.application_user import ApplicationUser  # noqa: F401
-from app.models.membership_roles.membership_role import MembershipRole  # noqa: F401
 from app.models.roles.role_model import Role  # noqa: F401
 from app.models.tenant_users.tenant_user import TenantUsers  # noqa: F401
 from app.models.tenants.tenant_model import Tenant  # noqa: F401

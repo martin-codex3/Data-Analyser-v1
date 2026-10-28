@@ -2,20 +2,21 @@ import uuid
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.utils.base import Base
 
 if TYPE_CHECKING:
     from app.models.application_users.application_user import ApplicationUser
-    from app.models.tenant_memberships.tenant_membership import TenantMembership
     from app.models.tenants.tenant_model import Tenant
 
 
 class TenantUsers(Base):
     __tablename__ = "tenant_users"
-
+    id: Mapped[uuid.UUID] = mapped_column(
+        primary_key=True, default=lambda: uuid.uuid4()
+    )
     tenant_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("tenants.id"), primary_key=True
     )
@@ -24,6 +25,7 @@ class TenantUsers(Base):
     )
 
     # extra data
+    role: Mapped[str] = mapped_column(String(50))
     created_date: Mapped[datetime] = mapped_column(default=datetime.now(UTC))
     updated_date: Mapped[datetime] = mapped_column(default=datetime.now(UTC))
 
@@ -31,7 +33,4 @@ class TenantUsers(Base):
     tenants: Mapped["Tenant"] = relationship(back_populates="users", lazy="selectin")
     users: Mapped["ApplicationUser"] = relationship(
         back_populates="tenants", lazy="selectin"
-    )
-    roles: Mapped[list["TenantMembership"]] = relationship(
-        back_populates="tenant_users"
     )
