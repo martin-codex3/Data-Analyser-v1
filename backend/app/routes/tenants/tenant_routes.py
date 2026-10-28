@@ -16,7 +16,7 @@ from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema, TenantResponseSchema
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password, verify_password
-from app.services.tenant_service import get_current_tenant
+from app.services.tenant_service import CurrentUser
 
 tenant_routes = APIRouter()
 
@@ -119,7 +119,7 @@ async def create_tenant_account(
         }
 
 
-@tenant_routes.post("/sign-in")
+@tenant_routes.post("/token")
 async def login_to_create_token(
     tenant_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     session: Annotated[AsyncSession, Depends(app_session)],
@@ -175,8 +175,8 @@ async def login_to_create_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@tenant_routes.get("/me")
+@tenant_routes.get("/me", response_model=TenantResponseSchema)
 async def current_user(
-    current_user: Annotated[ApplicationUser, Depends(get_current_tenant)],
+    current_user: CurrentUser,
 ):
-    pass
+    return current_user

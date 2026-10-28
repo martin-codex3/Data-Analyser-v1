@@ -20,4 +20,6 @@ class Tenant(Base):
     business_type: Mapped[str] = mapped_column(String(100))
     address: Mapped[str] = mapped_column(String(100))
     nationality: Mapped[str] = mapped_column(index=True)
-    users: Mapped[list["TenantUsers"]] = relationship(back_populates="tenants")
+    users: Mapped[list["TenantUsers"]] = relationship(
+        back_populates="tenants", lazy="selectin"
+    )

@@ -22,4 +22,6 @@ class ApplicationUser(Base):
     phone_number: Mapped[str] = mapped_column(String(15))
     email: Mapped[str] = mapped_column(unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String(20), index=True)
-    tenants: Mapped[list["TenantUsers"]] = relationship(back_populates="users")
+    tenants: Mapped[list["TenantUsers"]] = relationship(
+        back_populates="users", lazy="selectin"
+    )

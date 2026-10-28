@@ -54,4 +54,16 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
         if user is None:
             raise credentials_exception
 
-        return tenant
+        return {
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "phone_number": user.phone_number,
+            "address": tenant.address,
+            "nationality": tenant.nationality,
+            "email": user.email,
+            "business_name": tenant.business_name,
+            "business_type": tenant.business_type,
+        }
+
+
+CurrentUser = Annotated[ApplicationUser, Depends(get_current_tenant)]
