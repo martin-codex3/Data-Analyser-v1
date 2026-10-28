@@ -9,11 +9,15 @@ from app.utils.base import Base
 
 if TYPE_CHECKING:
     from app.models.application_users.application_user import ApplicationUser
+    from app.models.membership_roles.membership_role import MembershipRole
     from app.models.tenants.tenant_model import Tenant
 
 
 class TenantUsers(Base):
     __tablename__ = "tenant_users"
+    id: Mapped[uuid.UUID] = mapped_column(
+        primary_key=True, default=lambda: uuid.uuid4()
+    )
 
     tenant_id: Mapped[uuid.UUID] = mapped_column(
         ForeignKey("tenants.id"), primary_key=True
@@ -33,3 +37,4 @@ class TenantUsers(Base):
     users: Mapped["ApplicationUser"] = relationship(
         back_populates="tenants", lazy="selectin"
     )
+    roles: Mapped[list["MembershipRole"]] = relationship(back_populates="tenant_users")

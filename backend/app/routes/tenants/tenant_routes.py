@@ -89,6 +89,5 @@ async def create_tenant_account(
 
     new_tenant = Tenant(**new_tenant_dict)
 
-    Tenant.roles = [role]
     session.add(new_tenant)
     await session.commit()
