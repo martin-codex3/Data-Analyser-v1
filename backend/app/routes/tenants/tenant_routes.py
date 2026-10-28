@@ -1,3 +1,5 @@
+import uuid
+from datetime import timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -6,11 +8,13 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app.config.database.app_database import app_session
+from app.config.settings.app_settings import AppSettings
 from app.models.application_users.application_user import ApplicationUser
 from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenants.tenant_schemas import CreateTenantSchema, TenantResponseSchema
+from app.services.jwt_token_management import create_access_token
 from app.services.password_management import hash_tenant_password, verify_password
 
 tenant_routes = APIRouter()
@@ -135,11 +139,35 @@ async def login_to_create_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    if tenant_data.password is not verify_password(
-        tenant_data.password, user.password_hash
-    ):
+    if not verify_password(tenant_data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Email or password is incorrect",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    statement = await session.execute(
+        select(TenantUsers).where(TenantUsers.application_user_id == user.id)
+    )
+
+    tenant_user = statement.scalars().first()
+
+    if tenant_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Cannot find the specified condition",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    expire_delta = timedelta(minutes=AppSettings.access_token_expiry_minutes)
+    token_data = {
+        "user_id": user.id,
+        "tenant_id": tenant_user.tenant_id,
+        "email": user.email,
+        "issuer": "StrideTechnologies",
+        "jti": str(uuid.uuid4()),
+        "exp": AppSettings.access_token_expiry_minutes,
+        "audience": "StrideTechnologies",
+    }
+
+    access_token = create_access_token(data=token_data, expires_delta=expire_delta)
