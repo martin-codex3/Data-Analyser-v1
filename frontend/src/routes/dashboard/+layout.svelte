@@ -5,7 +5,7 @@
   import DataSetIcon from "@iconify-svelte/tabler/database";
   import GroupIcon from "@iconify-svelte/tabler/users-group";
   import ChatIcon from "@iconify-svelte/tabler/message";
-  import ProcessingIcon from "@iconify-svelte/tabler/time-duration-0";
+  import ProcessingIcon from "@iconify-svelte/tabler/filter";
   import SettingsIcon from "@iconify-svelte/tabler/settings";
   import SecurityIcon from "@iconify-svelte/tabler/shield";
 
@@ -21,7 +21,7 @@
   let overviewLinks: Link[] = [
     { label: "Overview", to: "/dashboard", icon: OverviewIcon },
     { label: "Documents", to: "/dashboard/documents", icon: DocumentsIcon },
-    { label: "", to: "/dashboard", icon: DataSetIcon },
+    { label: "Datasets", to: "/dashboard/datasets", icon: DataSetIcon },
   ];
 
   //   for the collaborations
@@ -54,47 +54,86 @@
   ];
 </script>
 
-<div class="main__content__wrapper bg-gray-100 px-5 py-5">
+<div class="main__content__wrapper bg-gray-100 px-10">
   <nav
-    class="main__navigation fixed h-screen w-32 rounded-3xl bg-white border px-7 py-5 border-gray-200"
+    class="main__navigation fixed h-[calc(100vh-3rem)] w-32 top-1/2 -translate-y-1/2 rounded-3xl bg-white border px-7 py-5 border-gray-200"
   >
-    <div class="nav__wrapper">
-      <div></div>
-      <div class="">
-        <ul class="flex flex-col gap-5">
-          <div class="space-y-2">
-            {#each overviewLinks as link}
-              <li class="">
-                <a
-                  href={link.to}
-                  class="flex items-center justify-center hover:bg-mauve-100 rounded-full p-2"
-                >
-                  <link.icon height="1.8em" />
-                </a>
-              </li>
-            {/each}
-          </div>
+    <div class="">
+      <ul class="space-y-5">
+        <div class="space-y-2">
+          {#each overviewLinks as link}
+            <li class="">
+              <a
+                href={link.to}
+                title={link.label}
+                class={[
+                  "flex items-center justify-center hover:bg-blue-100 hover:text-blue-800 rounded-full p-2",
+                  page.url.pathname === link.to
+                    ? "bg-primary-main-blue text-blue-100"
+                    : "",
+                ]}
+              >
+                <link.icon height="1.8em" />
+              </a>
+            </li>
+          {/each}
+        </div>
 
-          <!-- for the collaborations here -->
-          <div class="space-y-2">
-            {#each overviewLinks as link}
-              <li>
-                <a
-                  href={link.to}
-                  class="flex items-center justify-center hover:bg-mauve-100 rounded-full p-2"
-                >
-                  <link.icon height="1.8em" />
-                </a>
-              </li>
-            {/each}
-          </div>
-        </ul>
-      </div>
+        <!-- for the collaborations here -->
+        <div class="space-y-2">
+          {#each collaborationLinks as link}
+            <li>
+              <a
+                href={link.to}
+                title={link.label}
+                class={[
+                  "flex items-center justify-center hover:bg-blue-100 hover:text-blue-800 rounded-full p-2",
+                  page.url.pathname === link.to
+                    ? "bg-primary-main-blue text-blue-100"
+                    : "",
+                ]}
+              >
+                <link.icon height="1.8em" />
+              </a>
+            </li>
+          {/each}
+        </div>
+
+        <!-- for the workspace management -->
+        <div class="space-y-2">
+          {#each administrationLinks as link}
+            <li>
+              <a
+                href={link.to}
+                title={link.label}
+                class={[
+                  "flex items-center justify-center hover:bg-blue-100 hover:text-blue-800 rounded-full p-2",
+                  page.url.pathname === link.to
+                    ? "bg-primary-main-blue text-blue-100"
+                    : "",
+                ]}
+              >
+                <link.icon height="1.8em" />
+              </a>
+            </li>
+          {/each}
+        </div>
+
+        <div
+          class="absolute bottom-5 flex items-center justify-center left-0 right-0"
+        >
+          <button
+            aria-label="profile-image-button"
+            title="ProfileImage"
+            class="bg-blue-100 border border-primary-main-blue rounded-full p-8"
+          ></button>
+        </div>
+      </ul>
     </div>
   </nav>
 
   <main class="min-h-screen">
-    <section class="ms-32">
+    <section class="ms-35">
       {@render children()}
     </section>
   </main>
