@@ -1,11 +1,11 @@
 <script lang="ts"></script>
 
 <section>
-  <div class="main__wrapper min-h-screen">
-    <div class="grid grid-cols-12 gap-5">
-      <div
-        class="col-span-5 py-10 px-8 h-[calc(100vh-1rem)] overflow-auto scrollbar-thin space-y-10"
-      >
+  <div
+    class="main__wrapper min-h-screen overflow-auto scrollbar-thin w-full max-w-6xl mx-auto"
+  >
+    <div class="grid grid-cols-2 gap-5">
+      <div class="py-10 px-8 space-y-10">
         <div>
           <h1 class="text-6xl font-bold first-letter:uppercase">
             lets's get started
@@ -26,7 +26,8 @@
                     type="text"
                     name="first_name"
                     id="FirstName"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    placeholder="john"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
 
@@ -35,8 +36,9 @@
                   <input
                     type="text"
                     name="last_name"
+                    placeholder="doe"
                     id="Lastname"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
               </div>
@@ -48,7 +50,7 @@
                     type="email"
                     name="email"
                     id="Email"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
 
@@ -57,8 +59,9 @@
                   <input
                     type="text"
                     name="address"
+                    placeholder="Blantyre"
                     id="Address"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
               </div>
@@ -70,7 +73,7 @@
                     type="text"
                     name="first_name"
                     id="PhoneNumber"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
 
@@ -79,7 +82,7 @@
                   <select
                     name="nationality"
                     id="Nationality"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   ></select>
                 </div>
               </div>
@@ -91,7 +94,7 @@
                     type="text"
                     name="business_name"
                     id="BusinessName"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
 
@@ -101,7 +104,7 @@
                     type="text"
                     name="business_type"
                     id="BusinessType"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
               </div>
@@ -113,7 +116,7 @@
                     type="password"
                     name="password"
                     id="Password"
-                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
                 </div>
               </div>
@@ -131,7 +134,9 @@
           </form>
         </div>
       </div>
-      <div class="col-span-7"></div>
+
+      <!-- for the design here -->
+      <div class=""></div>
     </div>
   </div>
 </section>

@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      countries-list:
+        specifier: ^3.4.1
+        version: 3.4.1
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^8.0.0
@@ -328,6 +332,9 @@ packages:
   cookie@2.0.1:
     resolution: {integrity: sha512-yuToqVvRrj6pfDXREyQAAv8SkAEk/8GS3jQRTiUMm66TVtBYmqQeoEjL2Lmq8Rpo6271vH76InTChTitEAm65w==}
     engines: {node: '>=22'}
+
+  countries-list@3.4.1:
+    resolution: {integrity: sha512-sKLGAZD5EAdzQwQ19vOp/9u33MTjmZ0CkdXPYtp/An6cyIlJ/E8TwGf2FcPe1AnzHO+h7nbTfoHyXIi58Hpa+Q==}
 
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
@@ -872,6 +879,8 @@ snapshots:
   clsx@2.1.1: {}
 
   cookie@2.0.1: {}
+
+  countries-list@3.4.1: {}
 
   deepmerge@4.3.1: {}
 
