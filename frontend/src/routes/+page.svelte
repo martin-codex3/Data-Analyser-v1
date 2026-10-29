@@ -1,4 +1,9 @@
-<script lang="ts"></script>
+<script lang="ts">
+  import { enhance } from "$app/forms";
+  import { getCountryDataList } from "countries-list";
+
+  const countries = $derived(getCountryDataList());
+</script>
 
 <section>
   <div
@@ -6,18 +11,24 @@
   >
     <div class="grid grid-cols-2 gap-5">
       <div class="py-10 px-8 space-y-10">
-        <div>
+        <div class="space-y-2">
           <h1 class="text-6xl font-bold first-letter:uppercase">
-            lets's get started
+            lets's get started.
           </h1>
-          <p class="text-gray-500 text-xl first-letter:capitalize">
-            login to see what's happening
+          <p class="text-gray-500 text-2xl first-letter:capitalize">
+            setup your account to get access to all the features.
           </p>
         </div>
 
         <!-- for the form here  -->
         <div>
-          <form action="">
+          <form
+            method="POST"
+            action="?/createAccount"
+            use:enhance={() => {
+              return async ({ result, update }) => {};
+            }}
+          >
             <div class="main__form__wrapper space-y-5">
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <div class="">
@@ -71,7 +82,7 @@
                   <label for="PhoneNumber">Phone number</label>
                   <input
                     type="text"
-                    name="first_name"
+                    name="phone_number"
                     id="PhoneNumber"
                     class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   />
@@ -83,7 +94,11 @@
                     name="nationality"
                     id="Nationality"
                     class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
-                  ></select>
+                  >
+                    {#each countries as country}
+                      <option value={country.name}>{country.name}</option>
+                    {/each}
+                  </select>
                 </div>
               </div>
 
@@ -125,7 +140,7 @@
                 <button
                   aria-label="save-button"
                   title="Create Account"
-                  class="flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full py-3 w-54 text-blue-100"
+                  class="flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full py-3 w-54 text-blue-100 cursor-pointer hover:shadow-xl transition duration-200"
                 >
                   <span class="capitalize">create account</span>
                 </button>

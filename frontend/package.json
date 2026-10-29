@@ -28,6 +28,7 @@
 		"#lib/*": "./src/lib/*"
 	},
 	"dependencies": {
-		"countries-list": "^3.4.1"
+		"countries-list": "^3.4.1",
+		"svelte-sonner": "^1.2.2"
 	}
 }
