@@ -88,7 +88,12 @@
                     name="last_name"
                     placeholder="doe"
                     id="Lastname"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/last_name")
+                        ? "border-red-600 bg-red-50/50"
+                        : "",
+                    ]}
                   />
                   {#if fieldErrors("#/last_name")}
                     <span class="text-red-600 text-sm"
@@ -105,7 +110,12 @@
                     type="email"
                     name="email"
                     id="Email"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/email")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                    ]}
                   />
                   {#if fieldErrors("#/email")}
                     <span class="text-red-600 text-sm"
@@ -121,7 +131,12 @@
                     name="address"
                     placeholder="Blantyre"
                     id="Address"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/address")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                    ]}
                   />
                   {#if fieldErrors("#/address")}
                     <span class="text-red-600 text-sm"
@@ -138,7 +153,12 @@
                     type="text"
                     name="phone_number"
                     id="PhoneNumber"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/phone_number")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                    ]}
                   />
                   {#if fieldErrors("#/phone_number")}
                     <span class="text-red-600 text-sm"
@@ -152,7 +172,12 @@
                   <select
                     name="nationality"
                     id="Nationality"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/nationality")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                    ]}
                   >
                     {#each countries as country}
                       <option value={country.name}>{country.name}</option>
@@ -173,7 +198,12 @@
                     type="text"
                     name="business_name"
                     id="BusinessName"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/business_name")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                    ]}
                   />
                   {#if fieldErrors("#/business_name")}
                     <span class="text-red-600 text-sm"
@@ -188,7 +218,12 @@
                     type="text"
                     name="business_type"
                     id="BusinessType"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/business_type")
+                        ? "bg-red-50 border-red-600"
+                        : "",
+                    ]}
                   />
                   {#if fieldErrors("#/business_type")}
                     <span class="text-red-600 text-sm"
@@ -205,7 +240,12 @@
                     type="password"
                     name="password"
                     id="Password"
-                    class="w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/password_hash")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                    ]}
                   />
                   {#if fieldErrors("#/password_hash")}
                     <span class="text-red-600 text-sm"
