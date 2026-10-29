@@ -3,10 +3,9 @@
 <section>
   <div class="main__wrapper min-h-screen">
     <div class="grid grid-cols-12 gap-5">
-      <div class="col-span-5 py-10 px-8">
-        <!-- for the heading -->
-        <div class="flex items-center justify-between"></div>
-
+      <div
+        class="col-span-5 py-10 px-8 h-[calc(100vh-1rem)] overflow-auto scrollbar-thin space-y-10"
+      >
         <div>
           <h1 class="text-6xl font-bold first-letter:uppercase">
             lets's get started
@@ -19,7 +18,7 @@
         <!-- for the form here  -->
         <div>
           <form action="">
-            <div class="main__form__wrapper">
+            <div class="main__form__wrapper space-y-5">
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 <div class="">
                   <label for="FirstName">First name</label>
@@ -83,6 +82,50 @@
                     class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
                   ></select>
                 </div>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div class="">
+                  <label for="BusinessName">Business name</label>
+                  <input
+                    type="text"
+                    name="business_name"
+                    id="BusinessName"
+                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                  />
+                </div>
+
+                <div class="">
+                  <label for="BusinessType">Business type</label>
+                  <input
+                    type="text"
+                    name="business_type"
+                    id="BusinessType"
+                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-1 gap-5">
+                <div class="">
+                  <label for="Password">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="Password"
+                    class="w-full py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <button
+                  aria-label="save-button"
+                  title="Create Account"
+                  class="flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full py-3 w-54 text-blue-100"
+                >
+                  <span class="capitalize">create account</span>
+                </button>
               </div>
             </div>
           </form>
