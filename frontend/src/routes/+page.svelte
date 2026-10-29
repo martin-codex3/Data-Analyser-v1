@@ -1,6 +1,8 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { getCountryDataList } from "countries-list";
+  import LoadingSvg from "@iconify-svelte/svg-spinners/180-ring";
+  import { toast } from "svelte-sonner";
 
   const countries = $derived(getCountryDataList());
 
@@ -28,7 +30,15 @@
             method="POST"
             action="?/createAccount"
             use:enhance={() => {
-              return async ({ result, update }) => {};
+              isCreatingAccount = true;
+              return async ({ result, update }) => {
+                await update();
+                isCreatingAccount = false;
+
+                if (result.type === "failure") {
+                  toast.error("There is an error mate");
+                }
+              };
             }}
           >
             <div class="main__form__wrapper space-y-5">
@@ -142,9 +152,13 @@
                 <button
                   aria-label="save-button"
                   title="Create Account"
-                  class="flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full py-3 w-54 text-blue-100 cursor-pointer hover:shadow-xl transition duration-200"
+                  class="flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full h-12 w-54 text-blue-100 cursor-pointer hover:shadow-xl transition duration-200"
                 >
-                  <span class="capitalize">create account</span>
+                  {#if isCreatingAccount}
+                    <LoadingSvg height="1em" />
+                  {:else}
+                    <span class="capitalize">create account</span>
+                  {/if}
                 </button>
               </div>
             </div>

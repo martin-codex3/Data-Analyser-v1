@@ -1,4 +1,5 @@
-import type { Actions } from "@sveltejs/kit";
+import { fail, type Actions } from "@sveltejs/kit";
+import { PRIVATE_API_ENDPOINT } from "$app/env/public"
 
 export const actions: Actions = {
     createAccount: async ({ request, fetch }) => {
@@ -15,5 +16,16 @@ export const actions: Actions = {
         const password = data.get("password")?.toString() ?? "";
 
         // we will attempt to save the details here
+        const response = await fetch(`${PRIVATE_API_ENDPOINT}/tenants`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        if (!response.ok) {
+            const responseData = await response.json()
+            return fail(response.status, { message: "Failed to create account" });
+        }
+
+        return { success: true }
     }
 }
