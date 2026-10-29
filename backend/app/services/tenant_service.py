@@ -55,6 +55,8 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
             raise credentials_exception
 
         return {
+            "tenant_id": tenant.id,
+            "user_id": user.id,
             "first_name": user.first_name,
             "last_name": user.last_name,
             "phone_number": user.phone_number,

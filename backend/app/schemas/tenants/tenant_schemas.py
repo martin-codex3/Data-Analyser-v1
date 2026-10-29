@@ -1,3 +1,4 @@
+import uuid
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
@@ -66,6 +67,8 @@ class CreateTenantSchema(BaseModel):
 
 
 class TenantResponseSchema(BaseModel):
+    tenant_id: uuid.UUID
+    user_id: uuid.UUID
     first_name: str
     last_name: str
     phone_number: MalawiPhone

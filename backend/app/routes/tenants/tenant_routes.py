@@ -175,8 +175,15 @@ async def login_to_create_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@tenant_routes.get("/me", response_model=TenantResponseSchema)
+@tenant_routes.get(
+    "/me", response_model=TenantResponseSchema, status_code=status.HTTP_200_OK
+)
 async def current_user(
     current_user: CurrentUser,
 ):
     return current_user
+
+
+@tenant_routes.patch("/{user_id}", status_code=status.HTTP_200_OK)
+async def update_user():
+    pass

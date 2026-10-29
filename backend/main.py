@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_faults import FaultRegistry
 
@@ -35,6 +36,17 @@ faults = FaultRegistry(faults=[], name="Api Faults")
 
 app.include_router(router=roles_router, prefix="/api/roles", tags=["Roles"])
 app.include_router(router=tenant_routes, prefix="/api/tenants", tags=["Tenants"])
+
+# we will configure the cors here
+origins = ["http://localhost:5173"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=origins,
+    allow_headers=["*"],
+    allow_methods=["*"],
+)
 
 api_faults = FaultRegistry.merge(
     faults, name="api", type_base="https://api.example.com/problems"
