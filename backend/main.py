@@ -38,7 +38,7 @@ app.include_router(router=roles_router, prefix="/api/roles", tags=["Roles"])
 app.include_router(router=tenant_routes, prefix="/api/tenants", tags=["Tenants"])
 
 # we will configure the cors here
-origins = ["http://localhost:5173"]
+origins = ["http://localhost:5173", "http://localhost:8080"]
 
 app.add_middleware(
     CORSMiddleware,

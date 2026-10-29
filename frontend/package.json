@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"@iconify-svelte/svg-spinners": "gitlab:iconify-icons/svelte#svg-spinners",
+		"@iconify-svelte/tabler": "gitlab:iconify-icons/svelte#tabler",
 		"@tabler/icons": "^3.50.0",
 		"countries-list": "^3.4.1",
 		"svelte-sonner": "^1.2.2"

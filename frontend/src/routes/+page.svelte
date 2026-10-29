@@ -4,6 +4,7 @@
   import LoadingSvg from "@iconify-svelte/svg-spinners/180-ring";
   import { toast } from "svelte-sonner";
   import type { PageProps } from "./$types";
+  import { goto } from "$app/navigation";
 
   const countries = $derived(getCountryDataList());
 
@@ -17,11 +18,14 @@
     if (form?.problem) {
       errorTitle = form?.problem?.title;
     }
+    if (form?.problem?.detail) {
+      errorTitle = form.problem.detail;
+    }
   });
 
   //   for the errors
   const fieldErrors = $derived((field: string) => {
-    return form?.problem?.errors.find((e) => e.pointer === field);
+    return form?.problem?.errors?.find((e) => e.pointer === field);
   });
 </script>
 
@@ -54,6 +58,11 @@
                 if (result.type === "failure") {
                   toast.error(errorTitle);
                   return;
+                }
+
+                if (result.type === "success") {
+                  toast.success("Account created successfully");
+                  await goto("/dashboard");
                 }
               };
             }}
@@ -113,6 +122,9 @@
                     class={[
                       "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
                       fieldErrors("#/email")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                      form?.problem?.detail
                         ? "bg-red-50/50 border-red-600"
                         : "",
                     ]}

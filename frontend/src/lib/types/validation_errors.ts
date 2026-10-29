@@ -5,5 +5,6 @@ export interface ValidationErrors {
     title: string,
     status: number,
     code: string,
+    detail: string,
     errors: [ErrorDetails]
 }

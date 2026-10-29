@@ -23,7 +23,7 @@ tenant_routes = APIRouter()
 
 @tenant_routes.post(
     "/create-account",
-    response_model=TenantResponseSchema,
+    response_model=Token,
     status_code=status.HTTP_200_OK,
 )
 async def create_tenant_account(
@@ -104,19 +104,26 @@ async def create_tenant_account(
             tenant_id=new_tenant.id, application_user_id=new_user.id, role=role.name
         )
 
+        await session.flush()
+
         session.add(new_tenant_user)
 
         await session.commit()
-        return {
-            "first_name": new_user.first_name,
-            "last_name": new_user.last_name,
-            "phone_number": new_user.phone_number,
-            "address": new_tenant.address,
-            "nationality": new_tenant.nationality,
+
+        # after commiting we will create the access token here
+        expire_delta = timedelta(minutes=AppSettings.access_token_expiry_minutes)
+        token_data = {
+            "user_id": str(new_user.id),
+            "sub": str(new_tenant.id),
             "email": new_user.email,
-            "business_name": new_tenant.business_name,
-            "business_type": new_tenant.business_type,
+            "issuer": "StrideTechnologies",
+            "jti": str(uuid.uuid4()),
+            "exp": AppSettings.access_token_expiry_minutes,
+            "audience": "StrideTechnologies",
         }
+
+        access_token = create_access_token(data=token_data, expires_delta=expire_delta)
+        return Token(access_token=access_token, token_type="bearer")
 
 
 @tenant_routes.post("/token")
