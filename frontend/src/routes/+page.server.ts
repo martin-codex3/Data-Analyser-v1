@@ -1,5 +1,7 @@
 import { fail, type Actions } from "@sveltejs/kit";
-import { PRIVATE_API_ENDPOINT } from "$app/env/public"
+import { PUBLIC_API_ENDPOINT } from "$app/env/public"
+import type { ValidationErrors } from "#lib/types/validation_errors.ts";
+import type { CreateTenant } from "#lib/types/tenant/create_tenant.ts";
 
 export const actions: Actions = {
     createAccount: async ({ request, fetch }) => {
@@ -15,15 +17,28 @@ export const actions: Actions = {
         const phone_number = data.get("phone_number")?.toString().trim() ?? "";
         const password = data.get("password")?.toString() ?? "";
 
+        const payload: CreateTenant = {
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phone_number,
+            address: address,
+            email: email,
+            nationality: nationality,
+            business_name: business_name,
+            business_type: business_type,
+            password_hash: password
+        }
+
         // we will attempt to save the details here
-        const response = await fetch(`${PRIVATE_API_ENDPOINT}/tenants`, {
+        const response = await fetch(`${PUBLIC_API_ENDPOINT}/tenants/create-account`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
         });
 
         if (!response.ok) {
-            const responseData = await response.json()
-            return fail(response.status, { message: "Failed to create account" });
+            const responseData: ValidationErrors = await response.json()
+            return fail(response.status, { problem: responseData });
         }
 
         return { success: true }

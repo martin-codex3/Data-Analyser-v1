@@ -3,10 +3,21 @@
   import { getCountryDataList } from "countries-list";
   import LoadingSvg from "@iconify-svelte/svg-spinners/180-ring";
   import { toast } from "svelte-sonner";
+  import type { PageProps } from "./$types";
 
   const countries = $derived(getCountryDataList());
 
   let isCreatingAccount: boolean = $state(false);
+
+  let errorTitle: string = $state("");
+
+  let { data, form }: PageProps = $props();
+
+  $effect(() => {
+    if (form?.problem) {
+      errorTitle = form?.problem?.title;
+    }
+  });
 </script>
 
 <section>
@@ -36,7 +47,8 @@
                 isCreatingAccount = false;
 
                 if (result.type === "failure") {
-                  toast.error("There is an error mate");
+                  toast.error(errorTitle);
+                  return;
                 }
               };
             }}
