@@ -3,6 +3,8 @@
   import { getCountryDataList } from "countries-list";
 
   const countries = $derived(getCountryDataList());
+
+  let isCreatingAccount: boolean = $state(false);
 </script>
 
 <section>
