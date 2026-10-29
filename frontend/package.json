@@ -28,6 +28,7 @@
 		"#lib/*": "./src/lib/*"
 	},
 	"dependencies": {
+		"@iconify-svelte/svg-spinners": "gitlab:iconify-icons/svelte#svg-spinners",
 		"@tabler/icons": "^3.50.0",
 		"countries-list": "^3.4.1",
 		"svelte-sonner": "^1.2.2"
