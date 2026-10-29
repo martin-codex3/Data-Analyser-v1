@@ -1,2 +1,16 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @plugin '@tailwindcss/forms';
+
+@theme {
+  --font-primary-main: SF-Pro, ui-sans-serif, system-ui, sans-serif;
+  --color-primary-main-blue: rgb(0, 113, 227);
+  --color-primary-main-yellow: hsl(46 100% 50%);
+}
+
+@font-face {
+  font-family: "SF-Pro";
+  src: url("/fonts/SF-Pro.ttf") format("truetype");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
