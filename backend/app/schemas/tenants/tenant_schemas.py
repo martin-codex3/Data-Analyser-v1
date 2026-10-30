@@ -1,3 +1,5 @@
+import uuid
+from datetime import UTC, datetime
 from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
@@ -48,7 +50,13 @@ class CreateTenantSchema(BaseModel):
     status: str | None = Field(default="Active")
     website_url: str | None = Field(min_length=4, max_length=255)
     slug: str | None = Field(min_length=5)
-    settings: dict = Field(default={})
+    settings: dict | None = Field(default={})
+    created_by_id: uuid.UUID | None = Field(default=uuid.uuid4())
+    created_at: datetime = Field(default=datetime.now(UTC))
+    updated_at: datetime = Field(default=datetime.now(UTC))
+    is_deleted: bool = Field(default=False)
+    description: str | None = Field(min_length=5, max_length=255)
+    business_logo: str | None = Field(max_length=100)
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
