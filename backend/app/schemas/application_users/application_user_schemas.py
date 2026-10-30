@@ -1,7 +1,8 @@
+import string
 from datetime import UTC, datetime
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 from pydantic_extra_types.phone_numbers import PhoneNumberValidator
 
 MalawiPhone = Annotated[
@@ -21,3 +22,14 @@ class ApplicationUserSchema(BaseModel):
     is_email_verified: bool = Field(default=False)
     account_verified_at: datetime = Field(default=datetime.now(UTC))
     password_hash: str = Field(min_length=5, max_length=20)
+
+    @field_validator("password_hash")
+    @classmethod
+    def validate_password(cls, value: str):
+        if not value.istitle():
+            raise ValueError("Password should have one uppercase")
+        if not value.isalnum():
+            raise ValueError("Password should have atleast one digit")
+        if value is not string.punctuation:
+            raise ValueError("Password should have a special character")
+        return value
