@@ -42,7 +42,7 @@
   let administrationLinks: any[] = [
     {
       label: "Workspace Settings",
-      to: "dashboard/workspace-settings",
+      to: "/dashboard/workspace-settings",
       icon: SettingsIcon,
     },
 
@@ -56,7 +56,7 @@
 
 <div class="main__content__wrapper bg-gray-100 px-5">
   <nav
-    class="main__navigation fixed h-[calc(100vh-3rem)] w-32 top-1/2 -translate-y-1/2 rounded-3xl bg-white border px-7 py-5 border-gray-300"
+    class="main__navigation fixed h-[calc(100vh-1rem)] w-32 top-1/2 -translate-y-1/2 rounded-3xl bg-white border px-7 py-5 border-gray-300"
   >
     <div class="">
       <ul class="space-y-5">
@@ -125,7 +125,7 @@
           <button
             aria-label="profile-image-button"
             title="ProfileImage"
-            class="bg-blue-100 border border-primary-main-blue rounded-full p-8"
+            class="bg-blue-100 border border-primary-main-blue rounded-full p-7"
           ></button>
         </div>
       </ul>
