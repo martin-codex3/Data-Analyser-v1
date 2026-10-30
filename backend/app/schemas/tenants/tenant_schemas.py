@@ -33,15 +33,22 @@ class TenantBaseSchema(BaseModel):
 
 # for creating a new tenant
 class CreateTenantSchema(BaseModel):
-    first_name: str = Field(min_length=3, max_length=30)
-    last_name: str = Field(min_length=3, max_length=30)
-    phone_number: MalawiPhone
-    address: str = Field(min_length=4)
-    nationality: str = Field(min_length=3)
-    email: EmailStr
     business_name: str = Field(min_length=5, max_length=40)
     business_type: str = Field(min_length=2)
-    password_hash: str = Field(min_length=5, max_length=30)
+    business_email: EmailStr
+    business_phone: MalawiPhone
+    registration_number: str | None = Field(min_length=5, max_length=50)
+    industry: str | None = Field(min_length=5)
+    address_line_1: str = Field(min_length=5, max_length=100)
+    address_line_2: str | None = Field(min_length=5, max_length=100)
+    city: str | None = Field(min_length=5, max_length=100)
+    region: str | None = Field(min_length=5, max_length=100)
+    postal_code: str | None
+    country_code: str | None = Field()
+    status: str | None = Field(default="Active")
+    website_url: str | None = Field(min_length=4, max_length=255)
+    slug: str | None = Field(min_length=5)
+    settings: dict = Field(default={})
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
