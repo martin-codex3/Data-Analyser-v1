@@ -1,4 +1,5 @@
 import uuid
+from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import String
@@ -21,6 +22,11 @@ class ApplicationUser(Base):
     last_name: Mapped[str] = mapped_column(String(50))
     phone_number: Mapped[str] = mapped_column(String(15))
     email: Mapped[str] = mapped_column(unique=True, index=True)
+    username: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    profile_image: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    account_created_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(UTC)
+    )
     password_hash: Mapped[str] = mapped_column(String(20), index=True)
     tenants: Mapped[list["TenantUsers"]] = relationship(
         back_populates="users", lazy="selectin"
