@@ -13,7 +13,8 @@ from app.models.application_users.application_user import ApplicationUser
 from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
-from app.schemas.tenants.tenant_schemas import CreateTenantSchema, TenantResponseSchema
+from app.schemas.tenant_users.tenant_user_schema import CreateTenantUserSchema
+from app.schemas.tenants.tenant_schemas import TenantResponseSchema
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password, verify_password
 from app.services.tenant_service import CurrentUser
@@ -27,7 +28,7 @@ tenant_routes = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 async def create_tenant_account(
-    tenant_data: CreateTenantSchema,
+    tenant_user_data: CreateTenantUserSchema,
     session: Annotated[AsyncSession, Depends(app_session)],
 ):
     async with session.begin():
@@ -48,7 +49,8 @@ async def create_tenant_account(
         # we will check if the user already exists here
         statement = await session.execute(
             select(ApplicationUser).where(
-                func.lower(ApplicationUser.email) == tenant_data.email,
+                func.lower(ApplicationUser.email)
+                == tenant_user_data.application_user_schema.email,
             )
         )
 
@@ -62,12 +64,12 @@ async def create_tenant_account(
 
         # we will now create the user
         new_user = ApplicationUser(
-            first_name=tenant_data.first_name,
-            last_name=tenant_data.last_name,
-            phone_number=tenant_data.phone_number,
-            email=tenant_data.email,
+            first_name=tenant_user_data.application_user_schema.first_name,
+            last_name=tenant_user_data.application_user_schema.last_name,
+            phone_number=tenant_user_data.application_user_schema.phone_number,
+            email=tenant_user_data.application_user_schema.email,
             password_hash=hash_tenant_password(
-                tenant_data.password_hash,
+                tenant_user_data.application_user_schema.password_hash,
             ),
         )
 
@@ -77,7 +79,8 @@ async def create_tenant_account(
         # we will check the business name
         statement = await session.execute(
             select(Tenant).where(
-                func.lower(Tenant.business_name) == tenant_data.business_name
+                func.lower(Tenant.business_name)
+                == tenant_user_data.tenant_schema.business_name.lower()
             )
         )
 
@@ -90,10 +93,10 @@ async def create_tenant_account(
 
         # we will create the tenant here
         new_tenant = Tenant(
-            business_name=tenant_data.business_name,
-            business_type=tenant_data.business_type,
-            address=tenant_data.address,
-            nationality=tenant_data.nationality,
+            business_name=tenant_user_data.tenant_schema.business_name,
+            business_type=tenant_user_data.tenant_schema.business_type,
+            address=tenant_user_data.tenant_schema.address_line_1,
+            nationality=tenant_user_data.tenant_schema.country_code,
         )
 
         session.add(new_tenant)
