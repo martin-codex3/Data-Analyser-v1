@@ -26,10 +26,10 @@
 
   //   for the collaborations
   let collaborationLinks: any[] = [
-    { label: "Team Members", to: "dashboard/team-members", icon: GroupIcon },
+    { label: "Team Members", to: "/dashboard/team-members", icon: GroupIcon },
     {
       label: "Comments & Activity",
-      to: "dashboard/comments-activity",
+      to: "/dashboard/comments-and-activity",
       icon: ChatIcon,
     },
     {
@@ -54,9 +54,9 @@
   ];
 </script>
 
-<div class="main__content__wrapper bg-gray-100 px-10">
+<div class="main__content__wrapper bg-gray-100 px-5">
   <nav
-    class="main__navigation fixed h-[calc(100vh-3rem)] w-32 top-1/2 -translate-y-1/2 rounded-3xl bg-white border px-7 py-5 border-gray-200"
+    class="main__navigation fixed h-[calc(100vh-3rem)] w-32 top-1/2 -translate-y-1/2 rounded-3xl bg-white border px-7 py-5 border-gray-300"
   >
     <div class="">
       <ul class="space-y-5">
@@ -113,7 +113,7 @@
                     : "",
                 ]}
               >
-                <link.icon height="1.8em" />
+                <link.icon height="1.5em" />
               </a>
             </li>
           {/each}
@@ -133,7 +133,7 @@
   </nav>
 
   <main class="min-h-screen">
-    <section class="ms-35">
+    <section class="ms-33">
       {@render children()}
     </section>
   </main>

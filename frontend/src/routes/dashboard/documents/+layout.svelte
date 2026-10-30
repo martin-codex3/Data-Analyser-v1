@@ -3,24 +3,26 @@
   let { children } = $props();
   import DocumentsIcon from "@iconify-svelte/tabler/files";
   import UpdalodIcon from "@iconify-svelte/tabler/upload";
+  import DocumentDetails from "@iconify-svelte/tabler/details";
+  import DocumentArchiveIcon from "@iconify-svelte/tabler/archive";
 
   const documentLinks = [
-    { label: "All Documents", to: "dashboard/documents", icon: DocumentsIcon },
+    { label: "All Documents", to: "/dashboard/documents", icon: DocumentsIcon },
     {
       label: "Upload Document",
-      to: "dashboard/documents",
-      icon: DocumentsIcon,
+      to: "documents/upload-document",
+      icon: UpdalodIcon,
     },
     {
       label: "Document Details",
-      to: "dashboard/documents",
-      icon: DocumentsIcon,
+      to: "documents/document-details",
+      icon: DocumentDetails,
     },
-    { label: "Archive", to: "dashboard/documents", icon: DocumentsIcon },
+    { label: "Archive", to: "documents/arichived", icon: DocumentsIcon },
     {
-      label: "Delete Documents",
-      to: "dashboard/documents",
-      icon: DocumentsIcon,
+      label: "Deleted Documents",
+      to: "documents/deleted-documents",
+      icon: DocumentArchiveIcon,
     },
   ];
 </script>
@@ -33,49 +35,22 @@
 
     <!-- for the main navigation -->
     <div>
-      <ul class="">
-        <li class="">
-          <a
-            href="/dashboard/documents"
-            class={[
-              "flex items-center gap-2 rounded-full px-4 py-2 hover:bg-blue-50 hover:text-blue-800",
-              page.url.pathname === "/dashboard/documents"
-                ? "bg-blue-50 text-blue-900"
-                : "",
-            ]}
-          >
-            <DocumentsIcon height="1.8em" class="shrink-0" />
-            <span class="capitalize">all documents</span>
-          </a>
-        </li>
-
-        <li class="">
-          <a href="/documents/all-documents" class="flex items-center gap-2">
-            <DocumentsIcon height="1.8em" class="shrink-0" />
-            <span class="capitalize">upload documents</span>
-          </a>
-        </li>
-
-        <li class="">
-          <a href="/documents/all-documents" class="flex items-center gap-2">
-            <DocumentsIcon height="1.8em" class="shrink-0" />
-            <span class="capitalize">document details</span>
-          </a>
-        </li>
-
-        <li class="">
-          <a href="/documents/all-documents" class="flex items-center gap-2">
-            <DocumentsIcon height="1.8em" class="shrink-0" />
-            <span class="capitalize">archived</span>
-          </a>
-        </li>
-
-        <li class="">
-          <a href="/documents/all-documents" class="flex items-center gap-2">
-            <DocumentsIcon height="1.8em" class="shrink-0" />
-            <span class="capitalize">deleted documents</span>
-          </a>
-        </li>
+      <ul class="space-y-2">
+        {#each documentLinks as link}
+          <li>
+            <a
+              href={link.to}
+              title={link.label}
+              class={[
+                "flex items-center gap-2 px-3 py-3 rounded-full hover:bg-blue-50 hover:text-blue-900 transition duration-300",
+                page.url.pathname === link.to ? "bg-blue-50 text-blue-900" : "",
+              ]}
+            >
+              <link.icon height="1.7em" />
+              <span>{link.label}</span>
+            </a>
+          </li>
+        {/each}
       </ul>
     </div>
   </div>
