@@ -18,9 +18,9 @@ class ApplicationUser(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         primary_key=True, default=lambda: uuid.uuid4()
     )
-    first_name: Mapped[str] = mapped_column(String(50), nullable=False)
-    last_name: Mapped[str] = mapped_column(String(50), nullable=False)
-    phone_number: Mapped[str] = mapped_column(String(15), nullable=False)
+    first_name: Mapped[str] = mapped_column(String(50))
+    last_name: Mapped[str] = mapped_column(String(50))
+    phone_number: Mapped[str] = mapped_column(String(15))
     email: Mapped[str] = mapped_column(unique=True, index=True)
     username: Mapped[str | None] = mapped_column(String(100), nullable=True)
     profile_image: Mapped[str | None] = mapped_column(String(50), nullable=True)
