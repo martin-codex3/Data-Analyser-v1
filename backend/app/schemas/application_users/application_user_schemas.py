@@ -45,3 +45,50 @@ class ApplicationUserSchema(BaseModel):
             raise ValueError("Password should be more than 5 characters")
 
         return value
+
+
+# for updating the application user
+class UpdateApplicationUserSchema(BaseModel):
+    model_config = ConfigDict(from_attributes=True, arbitrary_types_allowed=True)
+    first_name: str | None = Field(default=None, min_length=5, max_length=40)
+    last_name: str | None = Field(default=None, min_length=5, max_length=40)
+    phone_number: MalawiPhone | None = Field(
+        default=None,
+    )
+    email: EmailStr | None = Field(
+        default=None,
+    )
+    username: str | None = Field(default=None, min_length=5, max_length=50)
+    profile_image: str | None = Field(default=None, max_length=50)
+    is_email_verified: bool | None = Field(default=False)
+    account_verified_at: datetime = Field(default=datetime.now(UTC))
+    password_hash: str | None = Field(default=None, min_length=5, max_length=20)
+
+    @classmethod
+    def profile_image_path(cls):
+        if not cls.profile_image:
+            return "assets/uploads/profile.jpg"
+
+    @field_validator("first_name")
+    @classmethod
+    def validate_first_name(cls, name: str) -> str:
+        if not name.isalpha():
+            raise ValueError("Your name should have letters only")
+        return name.lower()
+
+    @field_validator("last_name")
+    @classmethod
+    def validate_last_name(cls, name: str) -> str:
+        if not name.isalpha():
+            raise ValueError("Your name should have letters only")
+        return name.lower()
+
+    @field_validator("password_hash")
+    @classmethod
+    def validate_password(cls, value: str):
+        if not value.istitle():
+            raise ValueError("Password should have one uppercase")
+        if len(value) <= 5:
+            raise ValueError("Password should be more than 5 characters")
+
+        return value
