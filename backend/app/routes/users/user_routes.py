@@ -78,6 +78,20 @@ async def login_to_create_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
+@users_routes.get(
+    "/me", status_code=status.HTTP_200_OK, response_model=ApplicationUserResponse
+)
+async def get_current_user(current_user: CurrentUser):
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not authorized to access this account",
+            headers={"WWW-AUthenticate": "Bearer"},
+        )
+
+    return current_user
+
+
 @users_routes.patch(
     "/{user_id}", status_code=status.HTTP_200_OK, response_model=ApplicationUserResponse
 )

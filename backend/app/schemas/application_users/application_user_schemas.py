@@ -104,4 +104,5 @@ class ApplicationUserResponse(BaseModel):
     username: str | None
     profile_image: str | None
     is_email_verified: bool = Field(default=False)
+    bio: str | None
     account_verified_at: datetime = Field(default=datetime.now(UTC))
