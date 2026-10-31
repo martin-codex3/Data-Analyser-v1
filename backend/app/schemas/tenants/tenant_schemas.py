@@ -2,7 +2,7 @@ import uuid
 from datetime import UTC, datetime
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from pydantic_extra_types.phone_numbers import PhoneNumberValidator
 
 MalawiPhone = Annotated[
@@ -64,20 +64,6 @@ class CreateTenantSchema(BaseModel):
     def profile_image_path(cls):
         if not cls.profile_image_path:
             return "static/uploads/profile.jpg"
-
-    @field_validator("first_name")
-    @classmethod
-    def validate_first_name(cls, name: str) -> str:
-        if not name.isalpha():
-            raise ValueError("Your name should have letters only")
-        return name.lower()
-
-    @field_validator("last_name")
-    @classmethod
-    def validate_last_name(cls, name: str) -> str:
-        if not name.isalpha():
-            raise ValueError("Your name should have letters only")
-        return name.lower()
 
 
 class TenantResponseSchema(BaseModel):

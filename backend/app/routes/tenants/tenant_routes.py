@@ -95,8 +95,9 @@ async def create_tenant_account(
         new_tenant = Tenant(
             business_name=tenant_user_data.tenant_schema.business_name,
             business_type=tenant_user_data.tenant_schema.business_type,
-            address=tenant_user_data.tenant_schema.address_line_1,
-            nationality=tenant_user_data.tenant_schema.country_code,
+            business_email=tenant_user_data.tenant_schema.business_email,
+            business_phone=tenant_user_data.tenant_schema.business_phone,
+            address_line_1=tenant_user_data.tenant_schema.address_line_1,
         )
 
         session.add(new_tenant)

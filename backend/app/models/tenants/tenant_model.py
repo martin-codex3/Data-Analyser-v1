@@ -20,7 +20,7 @@ class Tenant(Base):
     business_name: Mapped[str] = mapped_column(String(255))
     business_type: Mapped[str] = mapped_column(String(100))
     business_email: Mapped[str] = mapped_column(String(200))
-    buiness_phone: Mapped[str] = mapped_column(String(30))
+    business_phone: Mapped[str] = mapped_column(String(30))
     registration_number: Mapped[str | None] = mapped_column(String(50), nullable=True)
     industry: Mapped[str | None] = mapped_column(String(255), nullable=True)
     address_line_1: Mapped[str | None] = mapped_column(String(30), nullable=True)
