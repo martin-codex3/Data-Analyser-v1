@@ -5,8 +5,9 @@ import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio.session import AsyncSession
 
-from app.config.database.app_database import Session
+from app.config.database.app_database import app_session
 from app.models.application_users.application_user import ApplicationUser
 from app.models.tenants.tenant_model import Tenant
 from app.services.jwt_token_management import decode_access_token
@@ -15,7 +16,10 @@ oauth_scheme = OAuth2PasswordBearer(tokenUrl="/api/tenants/token")
 
 
 # for the database session here
-async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
+async def get_current_tenant(
+    token: Annotated[str, Depends(oauth_scheme)],
+    session: Annotated[AsyncSession, Depends(app_session)],
+):
     """We will get the current logged in tenant"""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -37,35 +41,22 @@ async def get_current_tenant(token: Annotated[str, Depends(oauth_scheme)]):
     except (TypeError, ValueError, jwt.InvalidTokenError):
         raise credentials_exception
 
-    # we will attempt to get the user based on the id
-    async with Session() as session:
-        statement = await session.execute(select(Tenant).where(Tenant.id == tenant_id))
-        tenant = statement.scalars().first()
+    statement = await session.execute(select(Tenant).where(Tenant.id == tenant_id))
+    tenant = statement.scalars().first()
 
-        if tenant is None:
-            raise credentials_exception
+    if tenant is None:
+        raise credentials_exception
 
-        # we will also fetch the user here
-        statement = await session.execute(
-            select(ApplicationUser).where(ApplicationUser.id == user_id)
-        )
-        user = statement.scalars().first()
+    # we will also fetch the user here
+    statement = await session.execute(
+        select(ApplicationUser).where(ApplicationUser.id == user_id)
+    )
+    user = statement.scalars().first()
 
-        if user is None:
-            raise credentials_exception
+    if user is None:
+        raise credentials_exception
 
-        return {
-            "tenant_id": tenant.id,
-            "user_id": user.id,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "phone_number": user.phone_number,
-            "address": tenant.address,
-            "nationality": tenant.nationality,
-            "email": user.email,
-            "business_name": tenant.business_name,
-            "business_type": tenant.business_type,
-        }
+        return user
 
 
 CurrentUser = Annotated[ApplicationUser, Depends(get_current_tenant)]
