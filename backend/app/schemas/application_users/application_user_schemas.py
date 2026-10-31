@@ -1,3 +1,4 @@
+import uuid
 from datetime import UTC, datetime
 from typing import Annotated
 
@@ -92,3 +93,15 @@ class UpdateApplicationUserSchema(BaseModel):
             raise ValueError("Password should be more than 5 characters")
 
         return value
+
+
+class ApplicationUserResponse(BaseModel):
+    id: uuid.UUID
+    first_name: str
+    last_name: str
+    phone_number: MalawiPhone
+    email: EmailStr
+    username: str
+    profile_image: str
+    is_email_verified: bool
+    account_verified_at: datetime
