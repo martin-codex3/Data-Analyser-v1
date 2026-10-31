@@ -12,6 +12,7 @@ from app.config.settings.app_settings import AppSettings
 from app.models.application_users.application_user import ApplicationUser
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.schemas.application_users.application_user_schemas import (
+    ApplicationUserResponse,
     UpdateApplicationUserSchema,
 )
 from app.services.jwt_token_management import Token, create_access_token
@@ -77,7 +78,9 @@ async def login_to_create_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@users_routes.patch("/{user_id}")
+@users_routes.patch(
+    "/{user_id}", status_code=status.HTTP_200_OK, response_model=ApplicationUserResponse
+)
 async def update_user_account(
     user_id: uuid.UUID,
     current_user: CurrentUser,
@@ -86,10 +89,6 @@ async def update_user_account(
 ):
     """We will update the user data here"""
     application_user_data_dict = application_user_data.model_dump(exclude_unset=True)
-
-    print("Authenticated user ID:", current_user.id)
-    print("Requested user ID:", user_id)
-    print("IDs match:", current_user.id == user_id)
 
     if current_user.id != user_id:
         raise HTTPException(

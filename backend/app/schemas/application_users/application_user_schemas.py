@@ -101,7 +101,7 @@ class ApplicationUserResponse(BaseModel):
     last_name: str
     phone_number: MalawiPhone
     email: EmailStr
-    username: str
-    profile_image: str
-    is_email_verified: bool
-    account_verified_at: datetime
+    username: str | None
+    profile_image: str | None
+    is_email_verified: bool = Field(default=False)
+    account_verified_at: datetime = Field(default=datetime.now(UTC))
