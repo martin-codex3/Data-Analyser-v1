@@ -12,7 +12,7 @@ from app.models.application_users.application_user import ApplicationUser
 from app.models.tenants.tenant_model import Tenant
 from app.services.jwt_token_management import decode_access_token
 
-oauth_scheme = OAuth2PasswordBearer(tokenUrl="/api/tenants/token")
+oauth_scheme = OAuth2PasswordBearer(tokenUrl="/api/users/token")
 
 
 # for the database session here
@@ -56,7 +56,7 @@ async def get_current_tenant(
     if user is None:
         raise credentials_exception
 
-        return user
+    return user
 
 
 CurrentUser = Annotated[ApplicationUser, Depends(get_current_tenant)]

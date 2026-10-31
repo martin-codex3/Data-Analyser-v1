@@ -3,7 +3,6 @@ from datetime import timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
@@ -14,16 +13,14 @@ from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenant_users.tenant_user_schema import CreateTenantUserSchema
-from app.schemas.tenants.tenant_schemas import TenantResponseSchema
 from app.services.jwt_token_management import Token, create_access_token
-from app.services.password_management import hash_tenant_password, verify_password
-from app.services.tenant_service import CurrentUser
+from app.services.password_management import hash_tenant_password
 
 tenant_routes = APIRouter()
 
 
 @tenant_routes.post(
-    "/create-account",
+    "/create-tenant-account",
     response_model=Token,
     status_code=status.HTTP_200_OK,
 )
@@ -127,73 +124,3 @@ async def create_tenant_account(
 
         access_token = create_access_token(data=token_data, expires_delta=expire_delta)
         return Token(access_token=access_token, token_type="bearer")
-
-
-@tenant_routes.post("/token")
-async def login_to_create_token(
-    tenant_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    session: Annotated[AsyncSession, Depends(app_session)],
-):
-
-    statement = await session.execute(
-        select(ApplicationUser).where(
-            func.lower(ApplicationUser.email) == tenant_data.username
-        )
-    )
-
-    user = statement.scalars().first()
-
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Email or password is incorrect",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    if not verify_password(tenant_data.password, user.password_hash):
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Email or password is incorrect",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    statement = await session.execute(
-        select(TenantUsers).where(TenantUsers.application_user_id == user.id)
-    )
-
-    tenant_user = statement.scalars().first()
-
-    if tenant_user is None:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Cannot find the specified condition",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    expire_delta = timedelta(minutes=AppSettings.access_token_expiry_minutes)
-    token_data = {
-        "user_id": str(user.id),
-        "sub": str(tenant_user.tenant_id),
-        "email": user.email,
-        "issuer": "StrideTechnologies",
-        "jti": str(uuid.uuid4()),
-        "exp": AppSettings.access_token_expiry_minutes,
-        "audience": "StrideTechnologies",
-    }
-
-    access_token = create_access_token(data=token_data, expires_delta=expire_delta)
-    return Token(access_token=access_token, token_type="bearer")
-
-
-@tenant_routes.get(
-    "/me", response_model=TenantResponseSchema, status_code=status.HTTP_200_OK
-)
-async def current_user(
-    current_user: CurrentUser,
-):
-    return current_user
-
-
-@tenant_routes.patch("/{user_id}", status_code=status.HTTP_200_OK)
-async def update_user():
-    pass
