@@ -18,7 +18,8 @@ class CreateTenantUserSchema(BaseModel):
     business_type: str = Field(min_length=2)
     business_email: EmailStr
     business_phone: MalawiPhone
-    password_hash: str = Field(min_length=5, max_length=20)
+    address_line_1: str = Field(min_length=5, max_length=100)
+    password_hash: str = Field(min_length=10, max_length=20)
 
     @field_validator("first_name")
     @classmethod
@@ -39,7 +40,9 @@ class CreateTenantUserSchema(BaseModel):
     def validate_password(cls, value: str):
         if not value.istitle():
             raise ValueError("Password should have one uppercase")
-        if len(value) <= 5:
-            raise ValueError("Password should be more than 5 characters")
+        if len(value) <= 10:
+            raise ValueError("Password should be more than 10 characters")
+        if len(value) > 20:
+            raise ValueError("Password must not be more than 20 characters")
 
         return value

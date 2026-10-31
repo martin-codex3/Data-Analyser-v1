@@ -49,8 +49,7 @@ async def create_tenant_account(
         # we will check if the user already exists here
         statement = await session.execute(
             select(ApplicationUser).where(
-                func.lower(ApplicationUser.email)
-                == tenant_user_data.application_user_schema.email,
+                func.lower(ApplicationUser.email) == tenant_user_data.email,
             )
         )
 
@@ -64,12 +63,12 @@ async def create_tenant_account(
 
         # we will now create the user
         new_user = ApplicationUser(
-            first_name=tenant_user_data.application_user_schema.first_name,
-            last_name=tenant_user_data.application_user_schema.last_name,
-            phone_number=tenant_user_data.application_user_schema.phone_number,
-            email=tenant_user_data.application_user_schema.email,
+            first_name=tenant_user_data.first_name,
+            last_name=tenant_user_data.last_name,
+            phone_number=tenant_user_data.phone_number,
+            email=tenant_user_data.email,
             password_hash=hash_tenant_password(
-                tenant_user_data.application_user_schema.password_hash,
+                tenant_user_data.password_hash,
             ),
         )
 
@@ -80,7 +79,7 @@ async def create_tenant_account(
         statement = await session.execute(
             select(Tenant).where(
                 func.lower(Tenant.business_name)
-                == tenant_user_data.tenant_schema.business_name.lower()
+                == tenant_user_data.business_name.lower()
             )
         )
 
@@ -93,11 +92,11 @@ async def create_tenant_account(
 
         # we will create the tenant here
         new_tenant = Tenant(
-            business_name=tenant_user_data.tenant_schema.business_name,
-            business_type=tenant_user_data.tenant_schema.business_type,
-            business_email=tenant_user_data.tenant_schema.business_email,
-            business_phone=tenant_user_data.tenant_schema.business_phone,
-            address_line_1=tenant_user_data.tenant_schema.address_line_1,
+            business_type=tenant_user_data.business_type,
+            business_name=tenant_user_data.business_name,
+            business_email=tenant_user_data.business_email,
+            business_phone=tenant_user_data.business_phone,
+            address_line_1=tenant_user_data.address_line_1,
         )
 
         session.add(new_tenant)
