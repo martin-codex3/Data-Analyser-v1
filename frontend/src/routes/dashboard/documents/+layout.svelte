@@ -5,6 +5,7 @@
   import UpdalodIcon from "@iconify-svelte/tabler/upload";
   import DocumentDetails from "@iconify-svelte/tabler/details";
   import DocumentArchiveIcon from "@iconify-svelte/tabler/archive";
+  import CloseIcon from "@iconify-svelte/tabler/x";
 
   const documentLinks = [
     { label: "All Documents", to: "/dashboard/documents", icon: DocumentsIcon },
@@ -29,9 +30,18 @@
 
 <section>
   <div
-    class="fixed overflow-auto top-1/2 -translate-y-1/2 space-y-10 border border-gray-300 bg-white px-5 py-6 rounded-4xl w-80 h-[calc(100vh-1rem)]"
+    class="fixed overflow-auto space-y-10 border-r border-gray-300 bg-white px-5 py-3 w-80 h-[calc(100vh)]"
   >
-    <h1 class="capitalize text-lg font-semibold">documents manager</h1>
+    <div class="flex items-center justify-between">
+      <h1 class="capitalize text-lg font-semibold">manager</h1>
+      <button
+        aria-label="close-button"
+        title="Close Panel"
+        class="flex items-center justify-center text-blue-50 bg-primary-main-blue rounded-full p-2 cursor-pointer hover:shadow-sm transition duration-200"
+      >
+        <CloseIcon height="1.3em" />
+      </button>
+    </div>
 
     <!-- for the main navigation -->
     <div>

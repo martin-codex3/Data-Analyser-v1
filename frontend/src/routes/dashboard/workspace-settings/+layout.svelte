@@ -57,7 +57,7 @@
 
 <div class="main__main__wrapper">
   <nav
-    class="fixed bg-white border-x border-x-gray-300 px-5 space-y-10 py-3 h-[calc(100vh)] min-w-90 overflow-auto scrollbar-thin"
+    class="fixed bg-white border-r border-r-gray-300 px-5 space-y-10 py-3 h-[calc(100vh)] min-w-90 overflow-auto scrollbar-thin"
   >
     <div>
       <h1 class="text-2xl capitalize">settings</h1>
