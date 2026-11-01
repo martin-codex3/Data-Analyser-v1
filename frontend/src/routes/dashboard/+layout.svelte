@@ -54,81 +54,28 @@
   ];
 </script>
 
-<div class="main__content__wrapper bg-gray-100 px-5">
+<div class="main__content__wrapper bg-gray-100">
   <nav
-    class="main__navigation fixed h-[calc(100vh-1rem)] w-32 top-1/2 -translate-y-1/2 rounded-3xl bg-white border px-7 py-5 border-gray-300"
+    class="main__navigation fixed h-[calc(100vh)] w-80 top-1/2 -translate-y-1/2 bg-white border-r px-5 py-5 border-gray-300"
   >
     <div class="">
-      <ul class="space-y-5">
-        <div class="space-y-2">
+      <!-- for the documents -->
+      <div>
+        <ul class="space-y-1">
           {#each overviewLinks as link}
-            <li class="">
-              <a
-                href={link.to}
-                title={link.label}
-                class={[
-                  "flex items-center justify-center hover:bg-blue-100 hover:text-blue-800 rounded-full p-2",
-                  page.url.pathname === link.to
-                    ? "bg-primary-main-blue text-blue-100"
-                    : "",
-                ]}
-              >
-                <link.icon height="1.8em" />
-              </a>
-            </li>
-          {/each}
-        </div>
-
-        <!-- for the collaborations here -->
-        <div class="space-y-2">
-          {#each collaborationLinks as link}
             <li>
               <a
                 href={link.to}
                 title={link.label}
-                class={[
-                  "flex items-center justify-center hover:bg-blue-100 hover:text-blue-800 rounded-full p-2",
-                  page.url.pathname === link.to
-                    ? "bg-primary-main-blue text-blue-100"
-                    : "",
-                ]}
+                class="flex items-center gap-3 hover:bg-blue-50 hover:text-blue-900 rounded-full px-3 py-2"
               >
-                <link.icon height="1.8em" />
+                <link.icon height="1.7em" class="shrink-0" />
+                <span>{link.label}</span>
               </a>
             </li>
           {/each}
-        </div>
-
-        <!-- for the workspace management -->
-        <div class="space-y-2">
-          {#each administrationLinks as link}
-            <li>
-              <a
-                href={link.to}
-                title={link.label}
-                class={[
-                  "flex items-center justify-center hover:bg-blue-100 hover:text-blue-800 rounded-full p-2",
-                  page.url.pathname === link.to
-                    ? "bg-primary-main-blue text-blue-100"
-                    : "",
-                ]}
-              >
-                <link.icon height="1.5em" />
-              </a>
-            </li>
-          {/each}
-        </div>
-
-        <div
-          class="absolute bottom-5 flex items-center justify-center left-0 right-0"
-        >
-          <button
-            aria-label="profile-image-button"
-            title="ProfileImage"
-            class="bg-blue-100 border border-primary-main-blue rounded-full p-7"
-          ></button>
-        </div>
-      </ul>
+        </ul>
+      </div>
     </div>
   </nav>
 

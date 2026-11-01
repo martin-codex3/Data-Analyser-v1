@@ -19,7 +19,7 @@
       errorTitle = form?.problem?.title;
     }
     if (form?.problem?.detail) {
-      errorTitle = form.problem.detail;
+      errorTitle = form?.problem?.detail;
     }
   });
 
@@ -140,25 +140,25 @@
                   <label for="Address">Address</label>
                   <input
                     type="text"
-                    name="address"
+                    name="address_line_1"
                     placeholder="Blantyre"
                     id="Address"
                     class={[
                       "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
-                      fieldErrors("#/address")
+                      fieldErrors("#/address_line_1")
                         ? "bg-red-50/50 border-red-600"
                         : "",
                     ]}
                   />
-                  {#if fieldErrors("#/address")}
+                  {#if fieldErrors("#/address_line_1")}
                     <span class="text-red-600 text-sm"
-                      >{fieldErrors("#/address")?.detail}</span
+                      >{fieldErrors("#/address_line_1")?.detail}</span
                     >
                   {/if}
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <div class="grid grid-cols-1 lg:grid-cols-1 gap-5">
                 <div class="">
                   <label for="PhoneNumber">Phone number</label>
                   <input
@@ -175,29 +175,6 @@
                   {#if fieldErrors("#/phone_number")}
                     <span class="text-red-600 text-sm"
                       >{fieldErrors("#/phone_number")?.detail}</span
-                    >
-                  {/if}
-                </div>
-
-                <div class="">
-                  <label for="Nationality">Nationality</label>
-                  <select
-                    name="nationality"
-                    id="Nationality"
-                    class={[
-                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
-                      fieldErrors("#/nationality")
-                        ? "bg-red-50/50 border-red-600"
-                        : "",
-                    ]}
-                  >
-                    {#each countries as country}
-                      <option value={country.name}>{country.name}</option>
-                    {/each}
-                  </select>
-                  {#if fieldErrors("#/nationality")}
-                    <span class="text-red-600 text-sm"
-                      >{fieldErrors("#/nationality")?.detail}</span
                     >
                   {/if}
                 </div>
@@ -240,6 +217,48 @@
                   {#if fieldErrors("#/business_type")}
                     <span class="text-red-600 text-sm"
                       >{fieldErrors("#/business_type")?.detail}</span
+                    >
+                  {/if}
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div class="">
+                  <label for="BusinessEmail">Business email</label>
+                  <input
+                    type="email"
+                    name="business_email"
+                    id="BusinessEmail"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/business_email")
+                        ? "bg-red-50/50 border-red-600"
+                        : "",
+                    ]}
+                  />
+                  {#if fieldErrors("#/business_email")}
+                    <span class="text-red-600 text-sm"
+                      >{fieldErrors("#/business_email")?.detail}</span
+                    >
+                  {/if}
+                </div>
+
+                <div class="">
+                  <label for="BusinessPhone">Business phone</label>
+                  <input
+                    type="text"
+                    name="business_phone"
+                    id="BusinessPhone"
+                    class={[
+                      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+                      fieldErrors("#/business_phone")
+                        ? "bg-red-50 border-red-600"
+                        : "",
+                    ]}
+                  />
+                  {#if fieldErrors("#/business_phone")}
+                    <span class="text-red-600 text-sm"
+                      >{fieldErrors("#/business_phone")?.detail}</span
                     >
                   {/if}
                 </div>
