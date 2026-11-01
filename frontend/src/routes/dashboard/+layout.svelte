@@ -52,6 +52,20 @@
       icon: SecurityIcon,
     },
   ];
+
+  let organisationSettings: any[] = [
+    {
+      label: "Organisation Settings",
+      to: "/dashboard/workspace-settings",
+      icon: SettingsIcon,
+    },
+
+    {
+      label: "User management",
+      to: "dashboard/audit-logs",
+      icon: SecurityIcon,
+    },
+  ];
 </script>
 
 <div class="main__content__wrapper bg-gray-100">
@@ -130,14 +144,21 @@
           {/each}
         </ul>
       </div>
+
+      <!-- for the organisation settings -->
     </div>
 
     <!-- for the profile image and settings -->
     <div class="absolute bottom-3 right-3 left-3">
       <a
-        href="/"
+        href="/dashboard/account-profile"
         title="User profile"
-        class="flex w-full rounded-full px-2 py-2 bg-blue-50 items-center gap-2"
+        class={[
+          "flex w-full rounded-full px-2 py-1 hover:bg-blue-50 transition duration-300 items-center gap-2",
+          page.url.pathname === "/dashboard/account-profile"
+            ? "bg-blue-50 text-blue-900"
+            : "",
+        ]}
       >
         <div
           class="bg-primary-main-blue h-9 w-9 rounded-full flex items-center justify-center"
