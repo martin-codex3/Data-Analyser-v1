@@ -68,9 +68,9 @@
   ];
 </script>
 
-<div class="main__content__wrapper bg-gray-100">
+<div class="main__content__wrapper">
   <nav
-    class="main__navigation fixed h-[calc(100vh)] w-80 top-1/2 -translate-y-1/2 bg-white border-r px-3 py-5 border-gray-300 overflow-auto scrollbar-thin"
+    class="main__navigation fixed h-[calc(100vh)] w-80 bg-white border-r px-3 py-5 border-gray-300 overflow-auto scrollbar-thin"
   >
     <div class="space-y-7">
       <!-- for the documents -->

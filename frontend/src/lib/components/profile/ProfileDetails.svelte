@@ -35,7 +35,7 @@
         >
           <div class="flex items-center gap-2">
             <NameIcon height="1.8em" class="shrink-0" />
-            <h1 class="text-lg first-letter:uppercase">first name</h1>
+            <h1 class="first-letter:uppercase">first name</h1>
           </div>
 
           <div class="flex items-center gap-5">
@@ -59,7 +59,112 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="text-lg">{user.last_name}</h2>
+            <h2 class="">{user.last_name}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        <!-- for the phone number -->
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
+        >
+          <div class="flex items-center gap-2">
+            <NameIcon height="1.8em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">phone number</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2 class="">{user.phone_number}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        <!-- for the username -->
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
+        >
+          <div class="flex items-center gap-2">
+            <NameIcon height="1.8em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">username</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2 class="">{user.username}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        <!-- for the email -->
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
+        >
+          <div class="flex items-center gap-2">
+            <NameIcon height="1.8em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">last name</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2 class="">{user.last_name}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        <!-- if the email confirmed -->
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
+        >
+          <div class="flex items-center gap-2">
+            <NameIcon height="1.8em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">is email confirmed</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2 class="">{user.is_email_verified}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        <!-- email confirmed at -->
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
+        >
+          <div class="flex items-center gap-2">
+            <NameIcon height="1.8em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">email confirmed at</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2 class="">{user.account_verified_at}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"

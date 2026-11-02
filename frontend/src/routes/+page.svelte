@@ -32,9 +32,9 @@
   <title>Login</title>
 </svelte:head>
 
-<section>
+<section class="min-h-screen bg-white">
   <div
-    class="main__wrapper min-h-screen overflow-auto scrollbar-thin w-full max-w-5xl mx-auto"
+    class="main__wrapper overflow-auto scrollbar-thin w-full max-w-5xl mx-auto"
   >
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
       <div class="py-10 px-8 space-y-10">
