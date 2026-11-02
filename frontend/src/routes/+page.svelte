@@ -19,7 +19,7 @@
     }
 
     if (form?.problem?.detail) {
-      errorTitle = form?.problem?.title;
+      errorTitle = form?.problem?.detail;
     }
   });
 
@@ -42,7 +42,7 @@
           <h1 class="text-6xl font-bold first-letter:uppercase">
             welcome back.
           </h1>
-          <p class="text-gray-500 text-2xl first-letter:capitalize">
+          <p class="text-gray-500 text-2xl first-letter:capitalize ps-1">
             log in to your account
           </p>
         </div>
@@ -89,11 +89,11 @@
 
               <TextInput
                 type="password"
-                name="password_hash"
+                name="password"
                 label="Password"
                 id="Password"
                 placeholder=""
-                errorValue={fieldError("#/password_hash")?.detail}
+                errorValue={fieldError("#/password")?.detail}
               />
               <div>
                 <StyledButton

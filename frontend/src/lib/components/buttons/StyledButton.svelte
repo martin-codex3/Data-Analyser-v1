@@ -11,7 +11,10 @@
 <button
   aria-label="styled-button-component"
   {title}
-  class="flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full h-12 w-54 text-blue-50 cursor-pointer hover:shadow-xl transition duration-200"
+  class={[
+    "flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full h-12 w-54 text-blue-50 cursor-pointer hover:shadow-xl transition duration-200",
+    isLoading ? "disabled disabled:bg-blue-300" : "",
+  ]}
 >
   {#if isLoading}
     <LoadingIcon height="1.3em" />
