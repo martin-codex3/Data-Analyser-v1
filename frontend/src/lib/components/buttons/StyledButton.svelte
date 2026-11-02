@@ -14,7 +14,7 @@
   class="flex items-center justify-center bg-primary-main-blue first-letter:capitalize rounded-full h-12 w-54 text-blue-50 cursor-pointer hover:shadow-xl transition duration-200"
 >
   {#if isLoading}
-    <LoadingIcon />
+    <LoadingIcon height="1.3em" />
   {:else}
     <span>{label}</span>
   {/if}

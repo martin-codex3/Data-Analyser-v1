@@ -14,7 +14,7 @@
 
 <section>
   <div
-    class="main__wrapper min-h-screen overflow-auto scrollbar-thin w-full max-w-6xl mx-auto"
+    class="main__wrapper min-h-screen overflow-auto scrollbar-thin w-full max-w-5xl mx-auto"
   >
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
       <div class="py-10 px-8 space-y-10">
@@ -39,7 +39,7 @@
         <div>
           <form
             method="POST"
-            action="?/createAccount"
+            action="?/signIn"
             use:enhance={() => {
               isSigningin = true;
               return async ({ result, update }) => {
@@ -53,7 +53,6 @@
 
                 if (result.type === "success") {
                   toast.success("Account created successfully");
-                  await goto("/dashboard");
                 }
               };
             }}
@@ -61,7 +60,7 @@
             <div class="main__form__wrapper space-y-7">
               <TextInput
                 type="email"
-                name="email"
+                name="username"
                 label="Email"
                 id="Email"
                 placeholder="example@gmail.com"
@@ -80,6 +79,15 @@
                   label="Login"
                   title="Log in"
                 />
+              </div>
+
+              <div class="flex items-center justify-center gap-2">
+                <p class="first-letter:uppercase">don't have an account?</p>
+                <a
+                  href="/accounts"
+                  class="underline text-lg capitalize hover:text-primary-main-blue transition duration-300"
+                  >create account.</a
+                >
               </div>
             </div>
           </form>
