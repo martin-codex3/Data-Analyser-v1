@@ -1,11 +1,12 @@
-import { redirect } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import type { Handle } from "@sveltejs/kit/hooks";
 import { PUBLIC_API_ENDPOINT } from "$app/env/public";
+
 
 export const handle: Handle = async ({ event, resolve }) => {
     event.locals.token = event.cookies.get("access_token");
     const access_token = event.locals.token;
-    event.locals.user;
+    event.locals.user = null;
 
     if (!access_token) {
         if (event.url.pathname.startsWith("/dashboard")) {
@@ -20,14 +21,10 @@ export const handle: Handle = async ({ event, resolve }) => {
         });
 
         if (response.status === 401 || response.status === 403) {
-            redirect(307, "/");
-        }
-
-        if (!response.ok) {
-            redirect(307, "/");
-        }
-
-        if (response.ok) {
+            event.cookies.delete("access_token", { path: "/" });
+        } else if (!response.ok) {
+            redirect(307, "Unable to verify authentication");
+        } else {
             event.locals.user = await response.json()
         }
     }

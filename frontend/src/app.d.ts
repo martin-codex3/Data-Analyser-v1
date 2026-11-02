@@ -12,7 +12,7 @@ declare global {
 		}
 		interface Locals {
 			token: string | undefined,
-			user: User
+			user: User | null
 		}
 		// interface PageData {}
 		// interface PageState {}

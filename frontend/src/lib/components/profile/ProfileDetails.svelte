@@ -1,13 +1,15 @@
 <script lang="ts">
   import type { User } from "#lib/types/users/user.ts";
   import CameraIcon from "@iconify-svelte/tabler/camera";
+  import NameIcon from "@iconify-svelte/tabler/user";
+  import PencilIcon from "@iconify-svelte/tabler/pencil";
 
   let { user }: { user: User } = $props();
 </script>
 
 <div>
   <div class="motion-preset-slide-down-sm motion-duration-200">
-    <div class="">
+    <div class="space-y-5">
       <div class="flex items-center gap-3">
         <div class="relative">
           <div class="h-18 w-18 rounded-full bg-blue-100"></div>
@@ -27,8 +29,46 @@
       </div>
 
       <!-- for the other content here -->
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2"></div>
+      <div class="space-y-1">
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-tr-3xl rounded-tl-3xl rounded-bl-lg rounded-br-lg"
+        >
+          <div class="flex items-center gap-2">
+            <NameIcon height="1.8em" class="shrink-0" />
+            <h1 class="text-lg first-letter:uppercase">first name</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2>{user.first_name}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
+        >
+          <div class="flex items-center gap-2">
+            <NameIcon height="1.8em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">last name</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2 class="text-lg">{user.last_name}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
