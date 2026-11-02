@@ -1,5 +1,6 @@
 <script lang="ts">
   import StyledButton from "#lib/components/buttons/StyledButton.svelte";
+  import TextInput from "#lib/components/inputs/TextInput.svelte";
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { toast } from "svelte-sonner";
@@ -57,7 +58,22 @@
               };
             }}
           >
-            <div class="main__form__wrapper space-y-5">
+            <div class="main__form__wrapper space-y-7">
+              <TextInput
+                type="email"
+                name="email"
+                label="Email"
+                id="Email"
+                placeholder="example@gmail.com"
+              ></TextInput>
+
+              <TextInput
+                type="password"
+                name="password_hash"
+                label="Password"
+                id="Password"
+                placeholder=""
+              ></TextInput>
               <div>
                 <StyledButton
                   isLoading={isSigningin}
