@@ -30,7 +30,7 @@ export const actions: Actions = {
 
         if (response.ok) {
             const responseData: Token = await response.json();
-            cookies.set("access_token", responseData.access_token, {
+            cookies.set("access_token", responseData.access_token ?? "", {
                 secure: true,
                 httpOnly: true,
                 sameSite: "lax"

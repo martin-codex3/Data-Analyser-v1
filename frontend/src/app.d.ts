@@ -11,7 +11,7 @@ declare global {
 			formErrors: ValidationError
 		}
 		interface Locals {
-			token: Token,
+			token: string | undefined,
 			user: User
 		}
 		// interface PageData {}

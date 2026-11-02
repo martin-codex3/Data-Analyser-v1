@@ -108,7 +108,7 @@
                 <p class="first-letter:uppercase">don't have an account?</p>
                 <a
                   href="/accounts"
-                  class="underline text-lg capitalize hover:text-primary-main-blue transition duration-300"
+                  class="underline underline-offset-4 text-lg capitalize hover:text-primary-main-blue transition duration-300"
                   >create account.</a
                 >
               </div>
