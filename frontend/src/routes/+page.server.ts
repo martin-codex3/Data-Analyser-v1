@@ -2,6 +2,7 @@ import { fail, type Actions } from "@sveltejs/kit";
 import { PUBLIC_API_ENDPOINT } from "$app/env/public"
 import type { ValidationErrors } from "#lib/types/validation_errors.ts";
 import type { CreateTenant } from "#lib/types/tenant/create_tenant.ts";
+import type { Token } from "#lib/types/tokens/token.ts";
 
 export const actions: Actions = {
     createAccount: async ({ request, fetch, cookies }) => {
@@ -46,7 +47,7 @@ export const actions: Actions = {
 
         // we will set the cookies here 
         if (response.ok) {
-            const responseData = await response.json();
+            const responseData: Token = await response.json();
             cookies.set("access_token", responseData.access_token, {
                 httpOnly: true,
                 secure: true,

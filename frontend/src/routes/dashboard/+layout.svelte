@@ -154,7 +154,7 @@
         href="/dashboard/account-profile"
         title="User profile"
         class={[
-          "flex w-full rounded-full px-2 py-1 hover:bg-blue-50 transition duration-300 items-center gap-2",
+          "flex w-full rounded-full px-2 py-1 border border-gray-200 hover:bg-blue-50 transition duration-300 items-center gap-2",
           page.url.pathname === "/dashboard/account-profile"
             ? "bg-blue-50 text-blue-900"
             : "",

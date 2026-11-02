@@ -29,6 +29,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Auth</title>
+</svelte:head>
+
 <section>
   <div
     class="main__wrapper min-h-screen overflow-auto scrollbar-thin w-full max-w-6xl mx-auto"
