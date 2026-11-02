@@ -72,7 +72,8 @@
                 }
 
                 if (result.type === "success") {
-                  toast.success("Account created successfully");
+                  toast.success("Logged in successfully");
+                  goto("/dashboard");
                 }
               };
             }}
