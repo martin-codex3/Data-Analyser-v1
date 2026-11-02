@@ -4,8 +4,27 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { toast } from "svelte-sonner";
+  import type { PageProps } from "./$types";
+  import { derived } from "svelte/store";
 
   let isSigningin: boolean = $state(false);
+
+  let { form }: PageProps = $props();
+  let errorTitle: string = $state("");
+
+  $effect(() => {
+    if (form?.problem) {
+      errorTitle = form?.problem?.title;
+    }
+
+    if (form?.problem?.detail) {
+      errorTitle = form?.problem?.title;
+    }
+  });
+
+  let fieldError = $derived((field: string) => {
+    return form?.problem?.errors?.find((e) => e.pointer === field);
+  });
 </script>
 
 <svelte:head>
@@ -47,7 +66,7 @@
                 isSigningin = false;
 
                 if (result.type === "failure") {
-                  toast.error("Hey mate");
+                  toast.error(errorTitle);
                   return;
                 }
 
