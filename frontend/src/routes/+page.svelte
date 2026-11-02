@@ -6,6 +6,7 @@
   import { toast } from "svelte-sonner";
   import type { PageProps } from "./$types";
   import { derived } from "svelte/store";
+  import { error } from "@sveltejs/kit";
 
   let isSigningin: boolean = $state(false);
 
@@ -83,7 +84,8 @@
                 label="Email"
                 id="Email"
                 placeholder="example@gmail.com"
-              ></TextInput>
+                errorValue={fieldError("#/username")?.detail}
+              />
 
               <TextInput
                 type="password"
@@ -91,7 +93,8 @@
                 label="Password"
                 id="Password"
                 placeholder=""
-              ></TextInput>
+                errorValue={fieldError("#/password_hash")?.detail}
+              />
               <div>
                 <StyledButton
                   isLoading={isSigningin}
