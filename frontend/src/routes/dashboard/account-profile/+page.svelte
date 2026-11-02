@@ -12,6 +12,10 @@
   let { data }: PageProps = $props();
 </script>
 
+<svelte:head>
+  <title>Account Profile</title>
+</svelte:head>
+
 <section class="min-h-screen flex flex-col justify-center items-center">
   <div
     class="w-full max-w-3xl mx-auto bg-white h-[calc(100vh-1rem)] overflow-hidden px-5 py-4 rounded-4xl border border-gray-300"

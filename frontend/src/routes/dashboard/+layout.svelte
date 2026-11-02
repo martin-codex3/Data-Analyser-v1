@@ -56,13 +56,13 @@
   let organisationSettings: any[] = [
     {
       label: "Organisation Settings",
-      to: "/dashboard/workspace-settings",
+      to: "/dashboard/",
       icon: SettingsIcon,
     },
 
     {
       label: "User management",
-      to: "dashboard/audit-logs",
+      to: "dashboard/user-management",
       icon: SecurityIcon,
     },
   ];
@@ -70,9 +70,16 @@
 
 <div class="main__content__wrapper">
   <nav
-    class="main__navigation fixed h-[calc(100vh)] w-80 bg-white border-r px-3 py-5 border-gray-300 overflow-auto scrollbar-thin"
+    class="main__navigation fixed h-[calc(100vh)] w-80 bg-white border-r px-3 py-5 border-gray-300 overflow-hidden"
   >
-    <div class="space-y-7">
+    <div>
+      <h1>logo</h1>
+    </div>
+
+    <!-- for the site links -->
+    <div
+      class="space-y-7 h-full overflow-auto scrollbar-thin scrollbar-gutter-stable scrollbar-thumb-gray-400 py-10"
+    >
       <!-- for the documents -->
       <div class="space-y-2">
         <h1 class="capitalize text-gray-500">general</h1>
@@ -123,6 +130,30 @@
 
       <!-- for the administration links -->
       <div class="space-y-2">
+        <h1 class="capitalize text-gray-500">organisation</h1>
+        <ul class="space-y-1">
+          {#each organisationSettings as link}
+            <li>
+              <a
+                href={link.to}
+                title={link.label}
+                class={[
+                  "flex items-center gap-3 hover:bg-blue-50 hover:text-blue-900 rounded-full px-3 py-2",
+                  page.url.pathname === link.to
+                    ? "bg-blue-50 text-blue-900"
+                    : "",
+                ]}
+              >
+                <link.icon height="1.7em" class="shrink-0" />
+                <span>{link.label}</span>
+              </a>
+            </li>
+          {/each}
+        </ul>
+      </div>
+
+      <!-- for the organisation settings -->
+      <div class="space-y-2">
         <h1 class="capitalize text-gray-500">settings</h1>
         <ul class="space-y-1">
           {#each administrationLinks as link}
@@ -144,31 +175,10 @@
           {/each}
         </ul>
       </div>
-
-      <!-- for the organisation settings -->
     </div>
 
-    <!-- for the profile image and settings -->
-    <div class="absolute bottom-3 right-3 left-3">
-      <a
-        href="/dashboard/account-profile"
-        title="User profile"
-        class={[
-          "flex w-full rounded-full px-2 py-1 border border-gray-200 hover:bg-blue-50 transition duration-300 items-center gap-2",
-          page.url.pathname === "/dashboard/account-profile"
-            ? "bg-blue-50 text-blue-900"
-            : "",
-        ]}
-      >
-        <div
-          class="bg-primary-main-blue h-9 w-9 rounded-full flex items-center justify-center"
-        ></div>
-
-        <div>
-          <h1 class="text-sm">Martin Silungwe</h1>
-          <p class="text-sm">active</p>
-        </div>
-      </a>
+    <div class="bg-blue-500 fixed bottom-0 w-full">
+      <h1>hey</h1>
     </div>
   </nav>
 
