@@ -8,8 +8,9 @@
   import ProcessingIcon from "@iconify-svelte/tabler/filter";
   import SettingsIcon from "@iconify-svelte/tabler/settings";
   import SecurityIcon from "@iconify-svelte/tabler/shield";
+  import ChevronIcon from "@iconify-svelte/tabler/chevron-right";
 
-  let { children } = $props();
+  let { children, data } = $props();
 
   interface Link {
     label: string;
@@ -71,7 +72,7 @@
 <div class="main__content__wrapper">
   <nav
     class="fixed flex h-screen w-80 flex-col
-         border-r border-gray-300 bg-white px-3 py-5"
+         border-r border-gray-300 bg-white px-3 py-3"
   >
     <div>
       <h1>logo</h1>
@@ -179,7 +180,31 @@
       </div>
     </div>
 
-    <div class="shrink-0 border-t border-gray-200 pt-3"></div>
+    <div class="shrink-0">
+      <a
+        href="/dashboard/account-profile"
+        class={[
+          "flex items-center justify-between border border-gray-300 rounded-full px-2",
+          page.url.pathname === "/dashboard/account-profile"
+            ? "bg-blue-50"
+            : "",
+        ]}
+      >
+        <div class="flex items-center gap-3">
+          <!-- Avatar -->
+          <div class="h-8 w-8 rounded-full bg-blue-300"></div>
+
+          <div>
+            <h1>{data.user.first_name}</h1>
+            <p class="text-sm">View your profile</p>
+          </div>
+        </div>
+
+        <div>
+          <ChevronIcon height="1.3em" />
+        </div>
+      </a>
+    </div>
   </nav>
 
   <main class="min-h-screen">

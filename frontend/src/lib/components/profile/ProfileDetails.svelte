@@ -5,7 +5,17 @@
   import PencilIcon from "@iconify-svelte/tabler/pencil";
   import PhoneIcon from "@iconify-svelte/tabler/phone";
   import EmailIcon from "@iconify-svelte/tabler/email-stamp";
+
   let { user }: { user: User } = $props();
+  let openUpdateModal: boolean = $state(false);
+
+  const handleOpenUpdateModal = async () => {
+    openUpdateModal = true;
+  };
+
+  const handleCloseUpdateModal = async () => {
+    openUpdateModal = false;
+  };
 </script>
 
 <div>
