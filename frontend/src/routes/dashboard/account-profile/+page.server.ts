@@ -25,7 +25,7 @@ export const actions: Actions = {
         // we will attempt to update the client here 
         const response = await fetch(`${PUBLIC_API_ENDPOINT}/users/${user.id}`, {
             method: "PATCH",
-            headers: { "Content-Type": "application/json", "Authorization": "Bearer" },
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${locals.token}` },
             body: JSON.stringify(payload)
         });
 

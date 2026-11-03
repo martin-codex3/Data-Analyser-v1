@@ -66,7 +66,16 @@
               isUpdating = false;
 
               if (result.type === "failure") {
-                toast("");
+                toast(errorTitle);
+              }
+
+              if (result.type === "error") {
+                toast(errorTitle);
+              }
+
+              if (result.type === "success") {
+                toast.success("Profile updated successfully");
+                handleCloseUpdateModal();
               }
             };
           }}
