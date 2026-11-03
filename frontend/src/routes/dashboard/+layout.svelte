@@ -70,7 +70,8 @@
 
 <div class="main__content__wrapper">
   <nav
-    class="main__navigation fixed h-[calc(100vh)] w-80 bg-white border-r px-3 py-5 border-gray-300 overflow-hidden"
+    class="fixed flex h-screen w-80 flex-col
+         border-r border-gray-300 bg-white px-3 py-5"
   >
     <div>
       <h1>logo</h1>
@@ -78,7 +79,8 @@
 
     <!-- for the site links -->
     <div
-      class="space-y-7 h-full overflow-auto scrollbar-thin scrollbar-gutter-stable scrollbar-thumb-gray-400 py-10"
+      class="min-h-0 flex-1 space-y-7 overflow-y-auto
+           scrollbar-thin scrollbar-thumb-gray-400 py-8"
     >
       <!-- for the documents -->
       <div class="space-y-2">
@@ -96,7 +98,7 @@
                     : "",
                 ]}
               >
-                <link.icon height="1.7em" class="shrink-0" />
+                <link.icon height="1.5em" class="shrink-0" />
                 <span>{link.label}</span>
               </a>
             </li>
@@ -120,7 +122,7 @@
                     : "",
                 ]}
               >
-                <link.icon height="1.7em" class="shrink-0" />
+                <link.icon height="1.5em" class="shrink-0" />
                 <span>{link.label}</span>
               </a>
             </li>
@@ -144,7 +146,7 @@
                     : "",
                 ]}
               >
-                <link.icon height="1.7em" class="shrink-0" />
+                <link.icon height="1.5em" class="shrink-0" />
                 <span>{link.label}</span>
               </a>
             </li>
@@ -168,7 +170,7 @@
                     : "",
                 ]}
               >
-                <link.icon height="1.7em" class="shrink-0" />
+                <link.icon height="1.5em" class="shrink-0" />
                 <span>{link.label}</span>
               </a>
             </li>
@@ -177,9 +179,7 @@
       </div>
     </div>
 
-    <div class="bg-blue-500 fixed bottom-0 w-full">
-      <h1>hey</h1>
-    </div>
+    <div class="shrink-0 border-t border-gray-200 pt-3"></div>
   </nav>
 
   <main class="min-h-screen">
