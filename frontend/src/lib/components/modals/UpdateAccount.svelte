@@ -5,10 +5,11 @@
   //   for the typing
   interface Props {
     value: string;
+    label: string;
     closeModal: () => {};
   }
 
-  let { value, closeModal }: Props = $props();
+  let { value, closeModal, label }: Props = $props();
 
   const handleCloseUpdateModal = () => {
     closeModal();
@@ -19,7 +20,7 @@
   class="fixed inset-0 z-10 backdrop-blur-sm bg-black/50 flex items-center justify-center"
 >
   <div
-    class="bg-white rounded-4xl px-10 py-5 w-full max-w-lg h-80 motion-preset-slide-down-sm motion-duration-300"
+    class="bg-white rounded-4xl px-10 py-5 w-full max-w-lg h-fit motion-preset-slide-down-sm motion-duration-300"
   >
     <div class="space-y-5">
       <div class="flex items-center justify-between">
@@ -44,7 +45,7 @@
         <TextInput
           type="text"
           id={value}
-          label={value}
+          {label}
           {value}
           placeholder=""
           name=""
@@ -57,9 +58,17 @@
           <button
             aria-label="cancel button"
             title="Cancel Button"
-            class="flex items-center justify-center"
+            class="flex items-center justify-center bg-blue-100 rounded-full px-5 py-2 text-primary-main-blue cursor-pointer"
           >
             <span>Cancel</span>
+          </button>
+
+          <button
+            aria-label="save button"
+            title="Save Button"
+            class="flex items-center justify-center bg-primary-main-blue rounded-full px-5 py-2 text-blue-100 cursor-pointer"
+          >
+            <span>Save</span>
           </button>
         </div>
       </div>

@@ -15,10 +15,12 @@
   let { user }: { user: User } = $props();
   let openUpdateModal: boolean = $state(false);
   let editedValue: string = $state("");
+  let inputLabel: string = $state("");
 
-  const handleOpenUpdateModal = async (key: string) => {
+  const handleOpenUpdateModal = async (key: string, label: string) => {
     if (key) {
       editedValue = key;
+      inputLabel = label;
       openUpdateModal = true;
     }
   };
@@ -66,7 +68,8 @@
             <button
               aria-label="Update details button"
               title="Update Name"
-              onclick={() => handleOpenUpdateModal(user.first_name)}
+              onclick={() =>
+                handleOpenUpdateModal(user.first_name, "First name")}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />
@@ -243,7 +246,11 @@
   <!-- for the modal here -->
   <div>
     {#if openUpdateModal}
-      <UpdateAccount closeModal={handleCloseUpdateModal} value={editedValue} />
+      <UpdateAccount
+        closeModal={handleCloseUpdateModal}
+        value={editedValue}
+        label={inputLabel}
+      />
     {/if}
   </div>
 </div>
