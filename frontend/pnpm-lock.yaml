@@ -39,6 +39,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.3.0
         version: 4.3.3(vite@8.3.4(jiti@2.7.0))
+      date-fns:
+        specifier: ^4.4.0
+        version: 4.4.0
       svelte:
         specifier: ^5.57.1
         version: 5.57.2
@@ -369,6 +372,9 @@ packages:
 
   countries-list@3.4.1:
     resolution: {integrity: sha512-sKLGAZD5EAdzQwQ19vOp/9u33MTjmZ0CkdXPYtp/An6cyIlJ/E8TwGf2FcPe1AnzHO+h7nbTfoHyXIi58Hpa+Q==}
+
+  date-fns@4.4.0:
+    resolution: {integrity: sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w==}
 
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
@@ -951,6 +957,8 @@ snapshots:
   cookie@2.0.1: {}
 
   countries-list@3.4.1: {}
+
+  date-fns@4.4.0: {}
 
   deepmerge@4.3.1: {}
 

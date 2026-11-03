@@ -4,13 +4,20 @@
   import NameIcon from "@iconify-svelte/tabler/user";
   import PencilIcon from "@iconify-svelte/tabler/pencil";
   import PhoneIcon from "@iconify-svelte/tabler/phone";
-  import EmailIcon from "@iconify-svelte/tabler/email-stamp";
+  import EmailIcon from "@iconify-svelte/tabler/message";
+  import MessageIcon from "@iconify-svelte/tabler/message";
+  import ConfirmIcon from "@iconify-svelte/tabler/exclamation-circle";
+  import BioIcon from "@iconify-svelte/tabler/file";
+  import TimeIcon from "@iconify-svelte/tabler/calendar-time";
+  import UsernameIcon from "@iconify-svelte/tabler/user-star";
 
   let { user }: { user: User } = $props();
   let openUpdateModal: boolean = $state(false);
 
-  const handleOpenUpdateModal = async () => {
-    openUpdateModal = true;
+  const handleOpenUpdateModal = async (key: string) => {
+    if (key) {
+      openUpdateModal = true;
+    }
   };
 
   const handleCloseUpdateModal = async () => {
@@ -56,6 +63,7 @@
             <button
               aria-label="Update details button"
               title="Update Name"
+              onclick={() => handleOpenUpdateModal(user.first_name)}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />
@@ -109,7 +117,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <NameIcon height="1.8em" class="shrink-0" />
+            <UsernameIcon height="1.8em" class="shrink-0" />
             <h1 class="first-letter:uppercase">username</h1>
           </div>
 
@@ -151,7 +159,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <NameIcon height="1.8em" class="shrink-0" />
+            <ConfirmIcon height="1.8em" class="shrink-0" />
             <h1 class="first-letter:uppercase">is email confirmed</h1>
           </div>
 
@@ -172,7 +180,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <NameIcon height="1.8em" class="shrink-0" />
+            <TimeIcon height="1.8em" class="shrink-0" />
             <h1 class="first-letter:uppercase">email confirmed at</h1>
           </div>
 
@@ -193,7 +201,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-br-3xl rounded-bl-3xl rounded-tr-lg rounded-tl-lg"
         >
           <div class="flex items-center gap-2">
-            <NameIcon height="1.8em" class="shrink-0" />
+            <BioIcon height="1.8em" class="shrink-0" />
             <h1 class="first-letter:uppercase">bio</h1>
           </div>
 
