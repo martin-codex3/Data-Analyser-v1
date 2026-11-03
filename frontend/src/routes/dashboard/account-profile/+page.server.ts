@@ -1,4 +1,4 @@
-import { redirect, type Actions } from "@sveltejs/kit";
+import { json, redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "../../$types";
 import { PUBLIC_API_ENDPOINT } from "$app/env/public"
 
@@ -20,8 +20,7 @@ export const actions: Actions = {
         }
 
         const data = await request.formData();
-
-        const payload = { field_value: data.get("") }
+        const payload = Object.fromEntries(data.entries());
 
         console.log(payload)
 
