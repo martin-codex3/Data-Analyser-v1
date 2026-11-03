@@ -2,16 +2,29 @@
   import CloseIcon from "@iconify-svelte/tabler/x";
   import TextInput from "../inputs/TextInput.svelte";
   import { enhance } from "$app/forms";
+  import LoadingSVG from "@iconify-svelte/svg-spinners/180-ring";
+  import { toast } from "svelte-sonner";
+  import type { ActionData, PageProps } from "../../../routes/$types";
+
+  let isUpdating: boolean = $state(false);
+  let errorTitle: string = $state("");
 
   //   for the typing
   interface Props {
     fieldLabel: string;
     fieldValue: string;
     fieldName: string;
-    closeModal: () => {};
+    form: ActionData;
+    closeModal: () => void;
   }
 
-  let { fieldLabel, closeModal, fieldValue, fieldName }: Props = $props();
+  let { fieldLabel, closeModal, fieldValue, fieldName, form }: Props = $props();
+
+  $effect(() => {
+    if (form?.problem) {
+      errorTitle = form.problem?.title;
+    }
+  });
 
   const handleCloseUpdateModal = () => {
     closeModal();
@@ -47,7 +60,15 @@
         <form
           method="POST"
           use:enhance={() => {
-            return async ({ update, result }) => {};
+            isUpdating = true;
+            return async ({ update, result }) => {
+              await update();
+              isUpdating = false;
+
+              if (result.type === "failure") {
+                toast("");
+              }
+            };
           }}
         >
           <div class="space-y-5">
@@ -80,7 +101,12 @@
                   formaction="account-profile?/editProfile"
                   class="flex items-center justify-center bg-primary-main-blue rounded-full px-5 py-2 text-blue-100 cursor-pointer"
                 >
-                  <span>Save</span>
+                  <span class="flex items-center gap-2">
+                    Save
+                    {#if isUpdating}
+                      <LoadingSVG height="1.1em" />
+                    {/if}
+                  </span>
                 </button>
               </div>
             </div>

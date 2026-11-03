@@ -1,4 +1,4 @@
-import { json, redirect, type Actions } from "@sveltejs/kit";
+import { fail, json, redirect, type Actions, type ValidationError } from "@sveltejs/kit";
 import type { PageServerLoad } from "../../$types";
 import { PUBLIC_API_ENDPOINT } from "$app/env/public"
 
@@ -22,9 +22,19 @@ export const actions: Actions = {
         const data = await request.formData();
         const payload = Object.fromEntries(data.entries());
 
-        console.log(payload)
-
         // we will attempt to update the client here 
-        // const response = await fetch(`${PUBLIC_API_ENDPOINT}/`)
+        const response = await fetch(`${PUBLIC_API_ENDPOINT}/users/${user.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", "Authorization": "Bearer" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const responseData: ValidationError = await response.json();
+            fail(response.status, { problem: responseData })
+        }
+
+        // if the response if okay
+        return { success: true }
     }
 }

@@ -11,8 +11,9 @@
   import TimeIcon from "@iconify-svelte/tabler/calendar-time";
   import UsernameIcon from "@iconify-svelte/tabler/user-star";
   import UpdateAccount from "../modals/UpdateAccount.svelte";
+  import type { ActionData } from "../../../routes/$types";
 
-  let { user }: { user: User } = $props();
+  let { user, form }: { user: User; form: ActionData } = $props();
   let openUpdateModal: boolean = $state(false);
 
   let fieldValue: string = $state("");
@@ -101,6 +102,8 @@
             <button
               aria-label="Update details button"
               title="Update Name"
+              onclick={() =>
+                handleOpenUpdateModal(user.last_name, "Last name", "last_name")}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />
@@ -262,6 +265,7 @@
         {fieldValue}
         {fieldLabel}
         {fieldName}
+        {form}
       />
     {/if}
   </div>
