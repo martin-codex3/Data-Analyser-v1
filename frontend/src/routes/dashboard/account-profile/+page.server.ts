@@ -11,7 +11,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions: Actions = {
-    default: async () => {
-        console.log("hey")
+    editProfile: async ({ request, fetch, locals }) => {
+
+        const data = await request.formData();
+        const first_name = data.get("first_name")?.toString().trim() ?? "";
+        console.log(first_name)
     }
 }

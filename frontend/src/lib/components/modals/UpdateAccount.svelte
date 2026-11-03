@@ -1,15 +1,17 @@
 <script lang="ts">
   import CloseIcon from "@iconify-svelte/tabler/x";
   import TextInput from "../inputs/TextInput.svelte";
+  import { enhance } from "$app/forms";
 
   //   for the typing
   interface Props {
     value: string;
     label: string;
+    input_name: string;
     closeModal: () => {};
   }
 
-  let { value, closeModal, label }: Props = $props();
+  let { value, closeModal, label, input_name }: Props = $props();
 
   const handleCloseUpdateModal = () => {
     closeModal();
@@ -42,16 +44,21 @@
       </div>
 
       <div class="">
-        <form action="">
+        <form
+          method="POST"
+          use:enhance={() => {
+            return async ({ update, result }) => {};
+          }}
+        >
           <div class="space-y-5">
             <div>
               <TextInput
                 type="text"
-                id={value}
+                id={label}
                 {label}
                 {value}
                 placeholder=""
-                name=""
+                name={input_name}
                 errorValue=""
               />
             </div>
@@ -60,7 +67,7 @@
               <div class="flex items-center gap-3">
                 <button
                   aria-label="cancel button"
-                  title="Cancel Button"
+                  title="Cancel"
                   onclick={handleCloseUpdateModal}
                   class="flex items-center justify-center bg-blue-100 rounded-full px-5 py-2 text-primary-main-blue cursor-pointer"
                 >
@@ -69,7 +76,8 @@
 
                 <button
                   aria-label="save button"
-                  title="Save Button"
+                  title="Save"
+                  formaction="account-profile?/editProfile"
                   class="flex items-center justify-center bg-primary-main-blue rounded-full px-5 py-2 text-blue-100 cursor-pointer"
                 >
                   <span>Save</span>
