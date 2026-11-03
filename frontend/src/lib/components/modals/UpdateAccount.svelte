@@ -56,6 +56,18 @@
         </p>
       </div>
 
+      <div>
+        {#if fieldLabel === "Email"}
+          <div class="bg-green-900 text-green-50 p-3 rounded-xl">
+            <p class="text-sm">
+              You'll not get redirected to the log in page when you change your
+              email. But changes will be reflected next time you log in using
+              the new email.
+            </p>
+          </div>
+        {/if}
+      </div>
+
       <div class="">
         <form
           method="POST"

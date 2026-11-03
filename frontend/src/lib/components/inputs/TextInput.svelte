@@ -37,7 +37,7 @@
     {placeholder}
     {value}
     class={[
-      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue",
+      "w-full mt-1 py-3 px-3 rounded-lg outline-none border border-gray-300 focus:border-primary-main-blue focus:ring-primary-main-blue invalid:border-red-600",
       errorValue ? "bg-red-50/50 border-red-600 placeholder:text-red-600" : "",
     ]}
   />

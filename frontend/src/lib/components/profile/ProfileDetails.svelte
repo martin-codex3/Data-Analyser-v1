@@ -12,6 +12,7 @@
   import UsernameIcon from "@iconify-svelte/tabler/user-star";
   import UpdateAccount from "../modals/UpdateAccount.svelte";
   import type { ActionData } from "../../../routes/$types";
+  import { format } from "date-fns";
 
   let { user, form }: { user: User; form: ActionData } = $props();
   let openUpdateModal: boolean = $state(false);
@@ -36,6 +37,12 @@
   const handleCloseUpdateModal = async () => {
     openUpdateModal = false;
   };
+
+  let isEmailVerified = $derived((value: boolean) => {
+    return value
+      ? "bg-green-500 text-green-900 rounded-full px-3 py-1 text-sm"
+      : "bg-orange-300 text-orange-900 rounded-full px-3 py-1 text-sm";
+  });
 </script>
 
 <div>
@@ -72,7 +79,7 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2>{user.first_name}</h2>
+            <h2>{user.first_name ?? "Not set"}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
@@ -98,7 +105,7 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.last_name}</h2>
+            <h2 class="">{user.last_name ?? "Not set"}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
@@ -121,10 +128,16 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.phone_number}</h2>
+            <h2 class="">{user.phone_number ?? "Not set"}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
+              onclick={() =>
+                handleOpenUpdateModal(
+                  user.phone_number,
+                  "Phone number",
+                  "phone_number",
+                )}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />
@@ -142,10 +155,16 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.username}</h2>
+            <h2 class="">{user.username ?? "Not set"}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
+              onclick={() =>
+                handleOpenUpdateModal(
+                  user.username ?? "",
+                  "Username",
+                  "username",
+                )}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />
@@ -163,10 +182,12 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.email}</h2>
+            <h2 class="">{user.email ?? "Not set"}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
+              onclick={() =>
+                handleOpenUpdateModal(user.email, "Email", "email")}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />
@@ -184,14 +205,9 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.is_email_verified}</h2>
-            <button
-              aria-label="Update details button"
-              title="Update Name"
-              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
-            >
-              <PencilIcon height="1.4em" class="shrink-0" />
-            </button>
+            <h2 class={isEmailVerified(user.is_email_verified)}>
+              {user.is_email_verified ? "Verified" : "Not verified"}
+            </h2>
           </div>
         </div>
 
@@ -205,14 +221,7 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.account_verified_at}</h2>
-            <button
-              aria-label="Update details button"
-              title="Update Name"
-              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
-            >
-              <PencilIcon height="1.4em" class="shrink-0" />
-            </button>
+            <h2 class="">{format(user.account_verified_at, "dd/MM/yyyy")}</h2>
           </div>
         </div>
 
@@ -230,6 +239,12 @@
             <button
               aria-label="Update details button"
               title="Update Name"
+              onclick={() =>
+                handleOpenUpdateModal(
+                  user.bio ?? "Not set",
+                  "Blography",
+                  "bio",
+                )}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />

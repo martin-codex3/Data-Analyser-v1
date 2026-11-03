@@ -6,7 +6,7 @@ export interface User {
     email: string
     username: string | undefined
     profile_image: string | undefined
-    is_email_verified: string
+    is_email_verified: boolean
     bio: string | undefined
     account_verified_at: string
 }
