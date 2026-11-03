@@ -240,11 +240,7 @@
               aria-label="Update details button"
               title="Update Name"
               onclick={() =>
-                handleOpenUpdateModal(
-                  user.bio ?? "Not set",
-                  "Blography",
-                  "bio",
-                )}
+                handleOpenUpdateModal(user.bio ?? "Not set", "Bio", "bio")}
               class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
             >
               <PencilIcon height="1.4em" class="shrink-0" />

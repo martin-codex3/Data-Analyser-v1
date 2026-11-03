@@ -31,6 +31,22 @@
   };
 </script>
 
+{#snippet input(fieldLabel: string | undefined)}
+  {#if fieldLabel === "Bio"}
+    <div>hey</div>
+  {:else}
+    <TextInput
+      type="text"
+      id={fieldLabel}
+      label={fieldLabel}
+      value={fieldValue}
+      placeholder=""
+      errorValue=""
+      name={fieldName}
+    />
+  {/if}
+{/snippet}
+
 <div
   class="fixed inset-0 z-10 backdrop-blur-sm bg-black/50 flex items-center justify-center"
 >
@@ -93,17 +109,7 @@
           }}
         >
           <div class="space-y-5">
-            <div>
-              <TextInput
-                type="text"
-                id={fieldLabel}
-                label={fieldLabel}
-                value={fieldValue}
-                placeholder=""
-                errorValue=""
-                name={fieldName}
-              />
-            </div>
+            <div>{@render input(fieldLabel)}</div>
 
             <div class="flex items-center justify-end">
               <div class="flex items-center gap-3">

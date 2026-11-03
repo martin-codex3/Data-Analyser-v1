@@ -2,8 +2,8 @@
   import { error } from "@sveltejs/kit";
 
   interface Props {
-    id: string;
-    label: string;
+    id: string | undefined;
+    label: string | undefined;
     type: string;
     name: string;
     value: string;
