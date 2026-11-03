@@ -10,12 +10,15 @@
   import BioIcon from "@iconify-svelte/tabler/file";
   import TimeIcon from "@iconify-svelte/tabler/calendar-time";
   import UsernameIcon from "@iconify-svelte/tabler/user-star";
+  import UpdateAccount from "../modals/UpdateAccount.svelte";
 
   let { user }: { user: User } = $props();
   let openUpdateModal: boolean = $state(false);
+  let editedValue: string = $state("");
 
   const handleOpenUpdateModal = async (key: string) => {
     if (key) {
+      editedValue = key;
       openUpdateModal = true;
     }
   };
@@ -235,5 +238,12 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <!-- for the modal here -->
+  <div>
+    {#if openUpdateModal}
+      <UpdateAccount closeModal={handleCloseUpdateModal} value={editedValue} />
+    {/if}
   </div>
 </div>
