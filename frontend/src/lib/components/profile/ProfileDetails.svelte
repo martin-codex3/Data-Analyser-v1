@@ -14,19 +14,20 @@
 
   let { user }: { user: User } = $props();
   let openUpdateModal: boolean = $state(false);
-  let editedValue: string = $state("");
-  let inputLabel: string = $state("");
-  let inputName: string = $state("");
+
+  let fieldValue: string = $state("");
+  let fieldLabel: string = $state("");
+  let fieldName: string = $state("");
 
   const handleOpenUpdateModal = async (
-    key: string,
+    value: string,
     label: string,
     name: string,
   ) => {
-    if (key) {
-      editedValue = key;
-      inputLabel = label;
-      inputName = name;
+    if (value != null) {
+      fieldValue = value;
+      fieldLabel = label;
+      fieldName = name;
       openUpdateModal = true;
     }
   };
@@ -258,9 +259,9 @@
     {#if openUpdateModal}
       <UpdateAccount
         closeModal={handleCloseUpdateModal}
-        value={editedValue}
-        label={inputLabel}
-        input_name={inputName}
+        {fieldValue}
+        {fieldLabel}
+        {fieldName}
       />
     {/if}
   </div>

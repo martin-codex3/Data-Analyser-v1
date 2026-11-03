@@ -1,5 +1,6 @@
 import { redirect, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "../../$types";
+import { PUBLIC_API_ENDPOINT } from "$app/env/public"
 
 export const load: PageServerLoad = async ({ locals }) => {
     const user = locals.user;
@@ -12,9 +13,19 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
     editProfile: async ({ request, fetch, locals }) => {
+        // we will check if the user is still logges in
+        const user = locals.user
+        if (!user) {
+            redirect(307, "/")
+        }
 
         const data = await request.formData();
-        const first_name = data.get("first_name")?.toString().trim() ?? "";
-        console.log(first_name)
+
+        const payload = { field_value: data.get("") }
+
+        console.log(payload)
+
+        // we will attempt to update the client here 
+        // const response = await fetch(`${PUBLIC_API_ENDPOINT}/`)
     }
 }

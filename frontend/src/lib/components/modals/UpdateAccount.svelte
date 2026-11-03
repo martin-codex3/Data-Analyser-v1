@@ -5,13 +5,13 @@
 
   //   for the typing
   interface Props {
-    value: string;
-    label: string;
-    input_name: string;
+    fieldLabel: string;
+    fieldValue: string;
+    fieldName: string;
     closeModal: () => {};
   }
 
-  let { value, closeModal, label, input_name }: Props = $props();
+  let { fieldLabel, closeModal, fieldValue, fieldName }: Props = $props();
 
   const handleCloseUpdateModal = () => {
     closeModal();
@@ -54,12 +54,12 @@
             <div>
               <TextInput
                 type="text"
-                id={label}
-                {label}
-                {value}
+                id={fieldLabel}
+                label={fieldLabel}
+                value={fieldValue}
                 placeholder=""
-                name={input_name}
                 errorValue=""
+                name={fieldName}
               />
             </div>
 
