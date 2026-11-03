@@ -29,7 +29,7 @@
 {/snippet}
 
 <div class="space-y-1">
-  <label for={id}>{label}</label>
+  <label for={id} class="">{label}</label>
   <input
     {type}
     {name}
