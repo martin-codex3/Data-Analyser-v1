@@ -64,7 +64,7 @@
         </div>
         <div>
           <h1>{user.first_name}</h1>
-          <p>{user.account_verified_at}</p>
+          <p>{user.account_created_at}</p>
         </div>
       </div>
 
@@ -74,7 +74,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-tr-3xl rounded-tl-3xl rounded-bl-lg rounded-br-lg"
         >
           <div class="flex items-center gap-2">
-            <NameIcon height="1.8em" class="shrink-0" />
+            <NameIcon height="1.5em" class="shrink-0" />
             <h1 class="first-letter:uppercase">first name</h1>
           </div>
 
@@ -100,7 +100,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <NameIcon height="1.8em" class="shrink-0" />
+            <NameIcon height="1.5em" class="shrink-0" />
             <h1 class="first-letter:uppercase">last name</h1>
           </div>
 
@@ -123,7 +123,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <PhoneIcon height="1.8em" class="shrink-0" />
+            <PhoneIcon height="1.5em" class="shrink-0" />
             <h1 class="first-letter:uppercase">phone number</h1>
           </div>
 
@@ -150,7 +150,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <UsernameIcon height="1.8em" class="shrink-0" />
+            <UsernameIcon height="1.5em" class="shrink-0" />
             <h1 class="first-letter:uppercase">username</h1>
           </div>
 
@@ -177,7 +177,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <EmailIcon height="1.8em" class="shrink-0" />
+            <EmailIcon height="1.5em" class="shrink-0" />
             <h1 class="first-letter:uppercase">email</h1>
           </div>
 
@@ -200,7 +200,7 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <ConfirmIcon height="1.8em" class="shrink-0" />
+            <ConfirmIcon height="1.5em" class="shrink-0" />
             <h1 class="first-letter:uppercase">is email confirmed</h1>
           </div>
 
@@ -216,12 +216,12 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
-            <TimeIcon height="1.8em" class="shrink-0" />
-            <h1 class="first-letter:uppercase">email confirmed at</h1>
+            <TimeIcon height="1.5em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">account created at</h1>
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{format(user.account_verified_at, "dd/MM/yyyy")}</h2>
+            <h2 class="">{format(user.account_created_at, "dd/MM/yyyy")}</h2>
           </div>
         </div>
 
@@ -230,12 +230,12 @@
           class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-br-3xl rounded-bl-3xl rounded-tr-lg rounded-tl-lg"
         >
           <div class="flex items-center gap-2">
-            <BioIcon height="1.8em" class="shrink-0" />
+            <BioIcon height="1.5em" class="shrink-0" />
             <h1 class="first-letter:uppercase">bio</h1>
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.bio}</h2>
+            <h2 class="">{user.bio?.slice(0, 50) ?? "Not set"}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
@@ -246,6 +246,22 @@
               <PencilIcon height="1.4em" class="shrink-0" />
             </button>
           </div>
+        </div>
+      </div>
+
+      <!-- for updating the password -->
+      <div class="border rounded-4xl px-5 py-4 border-gray-300 space-y-5">
+        <h1 class="text-xl capitalize">log out</h1>
+        <div>
+          <form action="">
+            <button
+              aria-label="delete-button"
+              title="Delete Account"
+              class="flex items-center justify-center rounded-full px-10 py-2 cursor-pointer bg-blue-200/50 text-primary-main-blue"
+            >
+              <span>Log out</span>
+            </button>
+          </form>
         </div>
       </div>
 

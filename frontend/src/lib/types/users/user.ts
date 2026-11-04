@@ -8,5 +8,5 @@ export interface User {
     profile_image: string | undefined
     is_email_verified: boolean
     bio: string | undefined
-    account_verified_at: string
+    account_created_at: string
 }

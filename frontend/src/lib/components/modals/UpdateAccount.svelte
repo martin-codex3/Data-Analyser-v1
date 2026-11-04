@@ -5,6 +5,7 @@
   import LoadingSVG from "@iconify-svelte/svg-spinners/180-ring";
   import { toast } from "svelte-sonner";
   import type { ActionData, PageProps } from "../../../routes/$types";
+  import TextArea from "../inputs/TextArea.svelte";
 
   let isUpdating: boolean = $state(false);
   let errorTitle: string = $state("");
@@ -33,7 +34,14 @@
 
 {#snippet input(fieldLabel: string | undefined)}
   {#if fieldLabel === "Bio"}
-    <div>hey</div>
+    <TextArea
+      id={fieldLabel}
+      label={fieldLabel}
+      value={fieldValue}
+      placeholder=""
+      errorValue=""
+      name={fieldName}
+    />
   {:else}
     <TextInput
       type="text"
@@ -74,7 +82,7 @@
 
       <div>
         {#if fieldLabel === "Email"}
-          <div class="bg-green-900 text-green-50 p-3 rounded-xl">
+          <div class="bg-green-100 text-green-900 p-3 rounded-xl">
             <p class="text-sm">
               You'll not get redirected to the log in page when you change your
               email. But changes will be reflected next time you log in using
