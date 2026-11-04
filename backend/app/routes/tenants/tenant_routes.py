@@ -13,7 +13,7 @@ from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenant_users.tenant_user_schema import CreateTenantUserSchema
-from app.schemas.tenants.tenant_schemas import TenantResponseSchema
+from app.schemas.tenants.tenant_schemas import TenantResponseSchema, UpdateTenantSchema
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password
 from app.services.tenant_service import CurrentUser
@@ -157,6 +157,36 @@ async def get_tenant_details(
     return tenants
 
 
-@tenant_routes.patch("/{tenant_id}")
-async def updated_tenant(session: Annotated[AsyncSession, Depends(app_session)]):
-    pass
+@tenant_routes.patch(
+    "", status_code=status.HTTP_200_OK, response_model=TenantResponseSchema
+)
+async def updated_tenant(
+    current_user: CurrentUser,
+    tenant_data: UpdateTenantSchema,
+    session: Annotated[AsyncSession, Depends(app_session)],
+):
+    exceptions = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="You cannot update the organisation data",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    if not current_user:
+        raise exceptions
+
+    current_user_tenant = await get_tenant_details(
+        current_user=current_user, session=session
+    )
+
+    if not current_user_tenant:
+        raise exceptions
+
+    # we will change the passed data to dict
+    tenant_data_dict = tenant_data.model_dump()
+
+    for keys, values in tenant_data_dict.items():
+        setattr(current_user_tenant, keys, values)
+
+    await session.commit()
+    await session.refresh(current_user_tenant)
+    return current_user_tenant

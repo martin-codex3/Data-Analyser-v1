@@ -33,6 +33,39 @@ class TenantBaseSchema(BaseModel):
             return cls.profile_image
 
 
+# for updating the tenant
+class CreateTenantSchema(BaseModel):
+    business_name: str = Field(min_length=5, max_length=40)
+    business_type: str = Field(min_length=2)
+    business_email: EmailStr
+    business_phone: MalawiPhone
+    registration_number: str | None = Field(min_length=5, max_length=50)
+    industry: str | None = Field(min_length=5)
+    address_line_1: str = Field(min_length=5, max_length=100)
+    address_line_2: str | None = Field(min_length=5, max_length=100)
+    city: str | None = Field(min_length=5, max_length=100)
+    region: str | None = Field(min_length=5, max_length=100)
+    postal_code: str | None = Field(min_length=1, max_length=10)
+    country_code: str | None = Field()
+    status: str | None = Field(default="Active")
+    website_url: str | None = Field(min_length=4, max_length=255)
+    slug: str | None = Field(min_length=5)
+    settings: dict | None = Field(default={})
+    created_by_id: uuid.UUID | None = Field(default=uuid.uuid4())
+    created_at: datetime = Field(default=datetime.now(UTC))
+    updated_at: datetime = Field(default=datetime.now(UTC))
+    is_deleted: bool = Field(default=False)
+    description: str | None = Field(min_length=5, max_length=255)
+    business_logo: str | None = Field(max_length=100)
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    @classmethod
+    def profile_image_path(cls):
+        if not cls.profile_image_path:
+            return "static/uploads/profile.jpg"
+
+
 # for creating a new tenant
 class UpdateTenantSchema(BaseModel):
     business_name: str | None = Field(default=None, min_length=5, max_length=40)
@@ -45,7 +78,7 @@ class UpdateTenantSchema(BaseModel):
     address_line_2: str | None = Field(default=None, min_length=5, max_length=100)
     city: str | None = Field(default=None, min_length=5, max_length=100)
     region: str | None = Field(default=None, min_length=5, max_length=100)
-    postal_code: str | None
+    postal_code: str | None = Field(default=None, min_length=2, max_length=10)
     country_code: str | None = Field(default=None)
     status: str | None = Field(default="Active")
     website_url: str | None = Field(default=None, min_length=4, max_length=255)
@@ -64,34 +97,6 @@ class UpdateTenantSchema(BaseModel):
     def profile_image_path(cls):
         if not cls.profile_image_path:
             return "static/uploads/profile.jpg"
-
-
-# for updating the tenant
-class CreateTenantSchema(BaseModel):
-    business_name: str = Field(min_length=5, max_length=40)
-    business_type: str = Field(min_length=2)
-    business_email: EmailStr
-    business_phone: MalawiPhone
-    registration_number: str | None = Field(min_length=5, max_length=50)
-    industry: str | None = Field(min_length=5)
-    address_line_1: str = Field(min_length=5, max_length=100)
-    address_line_2: str | None = Field(min_length=5, max_length=100)
-    city: str | None = Field(min_length=5, max_length=100)
-    region: str | None = Field(min_length=5, max_length=100)
-    postal_code: str | None
-    country_code: str | None = Field()
-    status: str | None = Field(default="Active")
-    website_url: str | None = Field(min_length=4, max_length=255)
-    slug: str | None = Field(min_length=5)
-    settings: dict | None = Field(default={})
-    created_by_id: uuid.UUID | None = Field(default=uuid.uuid4())
-    created_at: datetime = Field(default=datetime.now(UTC))
-    updated_at: datetime = Field(default=datetime.now(UTC))
-    is_deleted: bool = Field(default=False)
-    description: str | None = Field(min_length=5, max_length=255)
-    business_logo: str | None = Field(max_length=100)
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class TenantResponseSchema(BaseModel):
