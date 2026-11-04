@@ -13,9 +13,12 @@
   import UpdateAccount from "../modals/UpdateAccount.svelte";
   import type { ActionData } from "../../../routes/$types";
   import { format } from "date-fns";
+  import { enhance } from "$app/forms";
+  import { toast } from "svelte-sonner";
 
   let { user, form }: { user: User; form: ActionData } = $props();
   let openUpdateModal: boolean = $state(false);
+  let isLoggingOut: boolean = $state(false);
 
   let fieldValue: string = $state("");
   let fieldLabel: string = $state("");
@@ -235,7 +238,7 @@
           </div>
 
           <div class="flex items-center gap-5">
-            <h2 class="">{user.bio?.slice(0, 50) ?? "Not set"}</h2>
+            <h2 class="">{user.bio?.slice(0, 30) ?? "Not set"}</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
@@ -253,10 +256,27 @@
       <div class="border rounded-4xl px-5 py-4 border-gray-300 space-y-5">
         <h1 class="text-xl capitalize">log out</h1>
         <div>
-          <form action="">
+          <form
+            method="POST"
+            action="?/logoutUser"
+            use:enhance={() => {
+              isLoggingOut = true;
+              return async ({ update, result }) => {
+                await update();
+                isLoggingOut = false;
+                if (result.type === "failure") {
+                  toast.error("Something went wrong.");
+                }
+
+                if (result.type === "success") {
+                  toast.success("Logged out successfully");
+                }
+              };
+            }}
+          >
             <button
-              aria-label="delete-button"
-              title="Delete Account"
+              aria-label="Account logout button"
+              title="Log out"
               class="flex items-center justify-center rounded-full px-10 py-2 cursor-pointer bg-blue-200/50 text-primary-main-blue"
             >
               <span>Log out</span>

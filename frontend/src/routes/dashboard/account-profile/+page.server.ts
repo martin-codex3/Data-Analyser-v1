@@ -36,5 +36,19 @@ export const actions: Actions = {
 
         // if the response if okay
         return { success: true }
+    },
+
+    // for logging out the users 
+    logoutUser: async ({ locals, fetch, cookies }) => {
+        const user = locals.user
+
+        if (!user) {
+            redirect(307, "/");
+        }
+
+        cookies.delete("access_token", { path: "/" });
+
+        return { success: true }
+
     }
 }
