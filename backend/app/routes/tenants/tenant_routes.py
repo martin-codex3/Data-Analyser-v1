@@ -155,3 +155,8 @@ async def get_tenant_details(
     tenants = result.unique().first()
 
     return tenants
+
+
+@tenant_routes.patch("/{tenant_id}")
+async def updated_tenant(session: Annotated[AsyncSession, Depends(app_session)]):
+    pass
