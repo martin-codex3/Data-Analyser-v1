@@ -63,6 +63,7 @@ class UpdateApplicationUserSchema(BaseModel):
     profile_image: str | None = Field(default=None, max_length=50)
     is_email_verified: bool | None = Field(default=False)
     account_verified_at: datetime = Field(default=datetime.now(UTC))
+    bio: str | None = Field(default=None, min_length=10, max_length=255)
     password_hash: str | None = Field(default=None, min_length=5, max_length=20)
 
     @classmethod
@@ -105,4 +106,4 @@ class ApplicationUserResponse(BaseModel):
     profile_image: str | None
     is_email_verified: bool = Field(default=False)
     bio: str | None
-    account_verified_at: datetime = Field(default=datetime.now(UTC))
+    account_created_at: datetime = Field(default=datetime.now(UTC))
