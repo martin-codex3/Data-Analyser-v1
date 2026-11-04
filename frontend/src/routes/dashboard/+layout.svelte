@@ -195,7 +195,7 @@
           <div class="h-8 w-8 rounded-full bg-blue-300"></div>
 
           <div>
-            <h1>{data.user.first_name}</h1>
+            <h1 class="first-letter:uppercase">{data.user.first_name}</h1>
             <p class="text-sm">View your profile</p>
           </div>
         </div>

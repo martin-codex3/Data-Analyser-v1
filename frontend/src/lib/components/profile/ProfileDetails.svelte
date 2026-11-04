@@ -15,6 +15,8 @@
   import { format } from "date-fns";
   import { enhance } from "$app/forms";
   import { toast } from "svelte-sonner";
+  import LoadingSVG from "@iconify-svelte/svg-spinners/180-ring";
+  import LockIcon from "@iconify-svelte/tabler/key";
 
   let { user, form }: { user: User; form: ActionData } = $props();
   let openUpdateModal: boolean = $state(false);
@@ -230,7 +232,7 @@
 
         <!-- for the bio -->
         <div
-          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-br-3xl rounded-bl-3xl rounded-tr-lg rounded-tl-lg"
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
         >
           <div class="flex items-center gap-2">
             <BioIcon height="1.5em" class="shrink-0" />
@@ -239,6 +241,29 @@
 
           <div class="flex items-center gap-5">
             <h2 class="">{user.bio?.slice(0, 30) ?? "Not set"}</h2>
+            <button
+              aria-label="Update details button"
+              title="Update Name"
+              onclick={() =>
+                handleOpenUpdateModal(user.bio ?? "Not set", "Bio", "bio")}
+              class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
+            >
+              <PencilIcon height="1.4em" class="shrink-0" />
+            </button>
+          </div>
+        </div>
+
+        <!-- for udpdating the password -->
+        <div
+          class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-br-3xl rounded-bl-3xl rounded-tr-lg rounded-tl-lg"
+        >
+          <div class="flex items-center gap-2">
+            <LockIcon height="1.5em" class="shrink-0" />
+            <h1 class="first-letter:uppercase">Password</h1>
+          </div>
+
+          <div class="flex items-center gap-5">
+            <h2 class="">Update password</h2>
             <button
               aria-label="Update details button"
               title="Update Name"
@@ -277,9 +302,16 @@
             <button
               aria-label="Account logout button"
               title="Log out"
-              class="flex items-center justify-center rounded-full px-10 py-2 cursor-pointer bg-blue-200/50 text-primary-main-blue"
+              class="flex items-center justify-center rounded-full w-44 px-10 py-2 cursor-pointer bg-blue-200/50 text-primary-main-blue"
             >
-              <span>Log out</span>
+              {#if isLoggingOut}
+                <div class="flex items-center gap-3">
+                  <span>Processing</span>
+                  <LoadingSVG height="1.3em" />
+                </div>
+              {:else}
+                <span>Log out</span>
+              {/if}
             </button>
           </form>
         </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
+  import OrganisationDetails from "#lib/components/organisation/OrganisationDetails.svelte";
   import ProfileDetails from "#lib/components/profile/ProfileDetails.svelte";
-  import UpdateProfileDetails from "#lib/components/profile/UpdateProfileDetails.svelte";
   import type { PageProps } from "./$types";
 
   let toggleProfilePage: number = $state(1);
@@ -9,7 +9,7 @@
     toggleProfilePage = index;
   };
 
-  let { data }: PageProps = $props();
+  let { data, form }: PageProps = $props();
 </script>
 
 <svelte:head>
@@ -53,9 +53,9 @@
       <!-- for the main content  -->
       <div>
         {#if toggleProfilePage === 1}
-          <ProfileDetails user={data.user} />
+          <ProfileDetails user={data.user} {form} />
         {:else if toggleProfilePage === 2}
-          <UpdateProfileDetails />
+          <OrganisationDetails tenant={data.tenant} />
         {/if}
       </div>
     </div>
