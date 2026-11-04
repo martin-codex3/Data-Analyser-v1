@@ -13,8 +13,10 @@ from app.models.roles.role_model import Role
 from app.models.tenant_users.tenant_user import TenantUsers
 from app.models.tenants.tenant_model import Tenant
 from app.schemas.tenant_users.tenant_user_schema import CreateTenantUserSchema
+from app.schemas.tenants.tenant_schemas import TenantResponseSchema
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import hash_tenant_password
+from app.services.tenant_service import CurrentUser
 
 tenant_routes = APIRouter()
 
@@ -104,9 +106,8 @@ async def create_tenant_account(
             tenant_id=new_tenant.id, application_user_id=new_user.id, role=role.name
         )
 
-        await session.flush()
-
         session.add(new_tenant_user)
+        await session.flush()
 
         await session.commit()
 
@@ -124,3 +125,33 @@ async def create_tenant_account(
 
         access_token = create_access_token(data=token_data, expires_delta=expire_delta)
         return Token(access_token=access_token, token_type="bearer")
+
+
+@tenant_routes.get(
+    "/", status_code=status.HTTP_200_OK, response_model=TenantResponseSchema
+)
+async def get_tenant_details(
+    current_user: CurrentUser, session: Annotated[AsyncSession, Depends(app_session)]
+):
+    """We will get the tenant based on the logged in user"""
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Cannot access the organidation",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    statement = (
+        select(Tenant)
+        .join(
+            TenantUsers,
+            TenantUsers.tenant_id == Tenant.id,
+        )
+        .where(TenantUsers.application_user_id == current_user.id)
+    )
+
+    result = await session.scalars(statement)
+
+    tenants = result.unique().first()
+
+    return tenants

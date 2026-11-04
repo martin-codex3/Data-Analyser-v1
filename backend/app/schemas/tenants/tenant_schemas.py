@@ -67,11 +67,26 @@ class CreateTenantSchema(BaseModel):
 
 
 class TenantResponseSchema(BaseModel):
-    first_name: str
-    last_name: str
-    phone_number: MalawiPhone
-    address: str
-    nationality: str
-    email: EmailStr
+    id: uuid.UUID
     business_name: str
     business_type: str
+    business_email: str
+    business_phone: str
+    registration_number: str | None
+    industry: str | None
+    address_line_1: str
+    address_line_2: str | None
+    city: str | None
+    region: str | None
+    postal_code: str | None
+    country_code: str | None
+    status: str | None
+    website_url: str | None
+    slug: str | None
+    settings: dict | None = Field(default={})
+    created_by_id: uuid.UUID
+    created_at: datetime
+    updated_at: datetime
+    is_deleted: bool = Field(default=False)
+    description: str | None
+    business_logo: str | None = Field(default="Business.logo")
