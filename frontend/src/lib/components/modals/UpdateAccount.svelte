@@ -13,7 +13,7 @@
   //   for the typing
   interface Props {
     fieldLabel: string;
-    fieldValue: string;
+    fieldValue: string | string[];
     fieldName: string;
     form: ActionData;
     closeModal: () => void;

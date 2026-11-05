@@ -6,7 +6,7 @@
     label: string | undefined;
     type: string;
     name: string;
-    value: string;
+    value: string | object;
     errorValue: string | undefined;
     placeholder: string;
   }

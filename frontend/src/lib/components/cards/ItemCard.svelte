@@ -4,8 +4,9 @@
   interface Props {
     title: string;
     iconData: any;
-    value: string;
+    value: string | string[];
     headerIcon: any;
+    length: number;
     openModal: () => void;
   }
 
@@ -13,19 +14,20 @@
     title,
     iconData: IconData,
     headerIcon: HeaderIcon,
+    length,
     value,
     openModal,
   }: Props = $props();
 </script>
 
-{#snippet cardHeader(title: string, Icon: Component)}
+{#snippet cardHeader(title: string | string[], Icon: Component)}
   <div class="flex items-center gap-2">
     <Icon height="1.5em" class="shrink-0" />
     <h1 class="first-letter:uppercase">{title}</h1>
   </div>
 {/snippet}
 
-{#snippet cardBody(value: string, Icon: Component)}
+{#snippet cardBody(value: string | string[], Icon: Component)}
   <div class="flex items-center gap-5">
     <h2>{value ?? "Not set"}</h2>
     <button
@@ -41,7 +43,10 @@
 
 <div>
   <div
-    class="flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg"
+    class={[
+      "flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg",
+      length === 3 ? "rounded-tr-3xl" : "",
+    ]}
   >
     {@render cardHeader(title, HeaderIcon)}
     {@render cardBody(value, IconData)}

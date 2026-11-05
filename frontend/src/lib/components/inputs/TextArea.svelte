@@ -3,7 +3,7 @@
     id: string | undefined;
     label: string | undefined;
     name: string;
-    value: string;
+    value: string | string[];
     errorValue: string | undefined;
     placeholder: string;
   }

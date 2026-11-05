@@ -61,6 +61,18 @@ export const actions: Actions = {
         return { success: true }
     },
 
+    // for updating the tenant data
+    editTenant: async ({ locals, fetch }) => {
+        const user = locals.user;
+
+        if (!user) {
+            redirect(307, "/")
+        }
+
+        console.log("hey mate");
+
+    },
+
     // for logging out the users 
     logoutUser: async ({ locals, fetch, cookies }) => {
         const user = locals.user
