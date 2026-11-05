@@ -21,7 +21,6 @@
   import CalendarTimeIcon from "@iconify-svelte/tabler/calendar-time";
   import FileDescriptionIcon from "@iconify-svelte/tabler/file-description";
   import ItemCard from "../cards/ItemCard.svelte";
-  import UpdateAccount from "../modals/UpdateAccount.svelte";
   import type { ActionData } from "../../../routes/$types";
   import UpdateTenant from "../modals/UpdateTenant.svelte";
 
@@ -82,7 +81,7 @@
 </script>
 
 <div class="">
-  <div class="motion-preset-slide-down-sm motion-duration-300">
+  <div class="motion-preset-slide-down-sm motion-duration-300 space-y-10">
     <div>
       <h1 class="text-xl capitalize">organisation details</h1>
       <p>{tenant.business_name}</p>

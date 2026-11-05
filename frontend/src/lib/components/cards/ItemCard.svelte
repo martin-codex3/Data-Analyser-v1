@@ -41,6 +41,16 @@
       return true;
     }
   });
+
+  const getCardIndex = $derived(() => {
+    if (index === 0) {
+      return "rounded-tr-3xl rounded-tl-3xl rounded-bl-lg rounded-br-lg";
+    } else if (index === length - 1) {
+      return "rounded-br-3xl rounded-bl-3xl rounded-tl-lg rounded-tr-lg";
+    } else {
+      return "rounded-lg";
+    }
+  });
 </script>
 
 {#snippet cardHeader(title: string | string[], Icon: Component)}
@@ -71,8 +81,8 @@
 <div>
   <div
     class={[
-      "flex items-center justify-between bg-mauve-50 px-5 py-3 rounded-lg",
-      length - 1 === index ? "rounded-3xl" : "",
+      getCardIndex(),
+      "flex items-center justify-between bg-mauve-50 px-5 py-3",
     ]}
   >
     {@render cardHeader(title, HeaderIcon)}

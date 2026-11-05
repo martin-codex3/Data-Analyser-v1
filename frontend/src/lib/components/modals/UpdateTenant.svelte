@@ -4,7 +4,7 @@
   import { enhance } from "$app/forms";
   import LoadingSVG from "@iconify-svelte/svg-spinners/180-ring";
   import { toast } from "svelte-sonner";
-  import type { ActionData, PageProps } from "../../../routes/$types";
+  import type { ActionData } from "../../../routes/$types";
   import TextArea from "../inputs/TextArea.svelte";
 
   let isUpdating: boolean = $state(false);
