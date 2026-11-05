@@ -23,6 +23,7 @@
   import ItemCard from "../cards/ItemCard.svelte";
   import UpdateAccount from "../modals/UpdateAccount.svelte";
   import type { ActionData } from "../../../routes/$types";
+  import UpdateTenant from "../modals/UpdateTenant.svelte";
 
   let openUpdateModal: boolean = $state(false);
 
@@ -90,11 +91,12 @@
     <!-- for the main content here -->
     <div>
       <div class="space-y-1">
-        {#each fields as field (field.name)}
+        {#each fields as field, index (field.name)}
           <ItemCard
             title={field.label}
             headerIcon={field.icon}
             length={fields.length}
+            {index}
             value={tenant[field.name]}
             iconData={PencilIcon}
             openModal={() =>
@@ -111,7 +113,7 @@
 
   <!-- for the modal here -->
   {#if openUpdateModal}
-    <UpdateAccount
+    <UpdateTenant
       closeModal={handleCloseModal}
       {fieldLabel}
       {fieldName}

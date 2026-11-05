@@ -54,7 +54,7 @@ export const actions: Actions = {
 
         if (!response.ok) {
             const responseData: ValidationError = await response.json();
-            fail(response.status, { problem: responseData })
+            return fail(response.status, { problem: responseData })
         }
 
         // if the response if okay
@@ -62,14 +62,30 @@ export const actions: Actions = {
     },
 
     // for updating the tenant data
-    editTenant: async ({ locals, fetch }) => {
+    editTenant: async ({ locals, fetch, request }) => {
         const user = locals.user;
+
+        const data = await request.formData()
 
         if (!user) {
             redirect(307, "/")
         }
 
-        console.log("hey mate");
+
+        const payload = Object.fromEntries(data.entries())
+
+        const response = await fetch(`${PUBLIC_API_ENDPOINT}/tenants`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${locals.token}` },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const responseData: ValidationError = await response.json();
+            return fail(response.status, { problem: responseData });
+        }
+
+        return { success: true }
 
     },
 
