@@ -6,28 +6,22 @@
   let fieldName: string = $state("");
 
   interface Props {
+    name: string;
+    label: string;
     title: string;
     iconData: any;
     value: string;
     headerIcon: any;
-    openModal: () => void;
   }
 
   const {
+    name,
+    label,
     title,
     iconData: IconData,
     headerIcon: HeaderIcon,
-    openModal,
     value,
   }: Props = $props();
-
-  const handleOpenModal = (value: string, label: string, name: string) => {
-    if (value != null) {
-      fieldValue = value;
-      fieldLabel = label;
-      fieldName = name;
-    }
-  };
 </script>
 
 {#snippet cardHeader(title: string, Icon: Component)}

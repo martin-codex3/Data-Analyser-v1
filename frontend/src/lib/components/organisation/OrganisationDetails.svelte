@@ -3,10 +3,32 @@
   import PencilIcon from "@iconify-svelte/tabler/pencil";
   import BuildingIcon from "@iconify-svelte/tabler/building";
   import ItemCard from "../cards/ItemCard.svelte";
+  import UpdateAccount from "../modals/UpdateAccount.svelte";
+
+  let fieldValue: string = $state("");
+  let fieldLabel: string = $state("");
+  let fieldName: string = $state("");
 
   let openUpdateModal: boolean = $state(false);
 
   let { tenant }: { tenant: TenantResponse } = $props();
+
+  const handleOpenUpdateModal = (
+    value: string,
+    label: string,
+    name: string,
+  ) => {
+    if (value) {
+      fieldValue = value;
+      fieldName = name;
+      fieldLabel = label;
+      openUpdateModal = true;
+    }
+  };
+
+  const handleCloseModal = () => {
+    openUpdateModal = false;
+  };
 </script>
 
 <div class="">
@@ -28,4 +50,6 @@
       </div>
     </div>
   </div>
+
+  <!-- for the modal here -->
 </div>
