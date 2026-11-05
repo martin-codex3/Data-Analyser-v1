@@ -6,6 +6,8 @@
   import { toast } from "svelte-sonner";
   import type { ActionData } from "../../../routes/$types";
   import TextArea from "../inputs/TextArea.svelte";
+  import SelectInput from "../inputs/SelectInput.svelte";
+  import { getCountryDataList } from "countries-list";
 
   let isUpdating: boolean = $state(false);
   let errorTitle: string = $state("");
@@ -40,6 +42,16 @@
       value={fieldValue}
       placeholder=""
       errorValue=""
+      name={fieldName}
+    />
+  {:else if fieldLabel === "Country code"}
+    <SelectInput
+      id={fieldLabel}
+      label={fieldLabel}
+      value={fieldValue}
+      placeholder=""
+      errorValue=""
+      allRecords={getCountryDataList()}
       name={fieldName}
     />
   {:else}
