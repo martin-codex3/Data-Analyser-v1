@@ -1,26 +1,20 @@
 <script lang="ts">
   import type { Component } from "svelte";
 
-  let fieldValue: string = $state("");
-  let fieldLabel: string = $state("");
-  let fieldName: string = $state("");
-
   interface Props {
-    name: string;
-    label: string;
     title: string;
     iconData: any;
     value: string;
     headerIcon: any;
+    openModal: () => void;
   }
 
   const {
-    name,
-    label,
     title,
     iconData: IconData,
     headerIcon: HeaderIcon,
     value,
+    openModal,
   }: Props = $props();
 </script>
 
@@ -37,6 +31,7 @@
     <button
       aria-label="Update details button"
       title="Update Name"
+      onclick={() => openModal()}
       class="flex items-center justify-center rounded-full p-2 hover:bg-blue-50 hover:text-blue-900 transition-all duration-300 cursor-pointer"
     >
       <Icon height="1.5em" class="shrink-0" />

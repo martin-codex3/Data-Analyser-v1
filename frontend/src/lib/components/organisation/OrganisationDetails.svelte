@@ -4,26 +4,23 @@
   import BuildingIcon from "@iconify-svelte/tabler/building";
   import ItemCard from "../cards/ItemCard.svelte";
   import UpdateAccount from "../modals/UpdateAccount.svelte";
-
-  let fieldValue: string = $state("");
-  let fieldLabel: string = $state("");
-  let fieldName: string = $state("");
+  import type { ActionData } from "../../../routes/$types";
 
   let openUpdateModal: boolean = $state(false);
 
-  let { tenant }: { tenant: TenantResponse } = $props();
+  let { tenant, form }: { tenant: TenantResponse; form: ActionData } = $props();
+
+  // for the fields
+  let fieldLabel: string = $state("");
+  let fieldValue: string = $state("");
+  let fieldName: string = $state("");
 
   const handleOpenUpdateModal = (
     value: string,
     label: string,
     name: string,
   ) => {
-    if (value) {
-      fieldValue = value;
-      fieldName = name;
-      fieldLabel = label;
-      openUpdateModal = true;
-    }
+    openUpdateModal = true;
   };
 
   const handleCloseModal = () => {
@@ -46,10 +43,20 @@
           headerIcon={BuildingIcon}
           value={tenant.business_name}
           iconData={PencilIcon}
+          openModal={handleOpenUpdateModal}
         />
       </div>
     </div>
   </div>
 
   <!-- for the modal here -->
+  {#if openUpdateModal}
+    <UpdateAccount
+      closeModal={handleCloseModal}
+      {fieldLabel}
+      {fieldName}
+      {fieldValue}
+      {form}
+    />
+  {/if}
 </div>
