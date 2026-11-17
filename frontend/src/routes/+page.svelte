@@ -1,4 +1,5 @@
 <script lang="ts">
+  import StyledButton from "#lib/components/buttons/StyledButton.svelte";
   import TextInput from "#lib/components/inputs/TextInput.svelte";
 </script>
 
@@ -39,6 +40,8 @@
                 value=""
                 label="Password"
               />
+
+              <StyledButton isLoading={true} title="Log in" />
             </div>
           </div>
         </form>
