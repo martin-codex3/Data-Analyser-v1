@@ -13,5 +13,7 @@
 
 <main>
   <Toaster richColors position="top-right" />
-  {@render children()}
+  <section>
+    {@render children()}
+  </section>
 </main>
