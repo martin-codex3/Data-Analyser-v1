@@ -11,7 +11,10 @@
     import CpuIcon from "@iconify-svelte/tabler/cpu";
     import SettingsIcon from "@iconify-svelte/tabler/settings";
     import ShieldCheckIcon from "@iconify-svelte/tabler/shield-check";
-    import type { LayoutProps } from "../$types";
+    import ChevronRightIcon from "@iconify-svelte/tabler/chevron-right";
+
+    import type { LayoutProps } from "./$types";
+    import { page } from "$app/state";
 
     let { children, data }: LayoutProps = $props();
 
@@ -116,7 +119,12 @@
                     <a
                         href={link.to}
                         title={link.label}
-                        class="flex items-center w-full gap-3 hover:bg-white hover:text-primary-main-black rounded-full py-2 px-2 transiion duration-200"
+                        class={[
+                            "flex items-center w-full gap-3 hover:bg-white hover:text-primary-main-black rounded-full py-2 px-2 transiion duration-200",
+                            page.url.pathname === link.to
+                                ? "bg-white text-black"
+                                : "",
+                        ]}
                     >
                         <link.icon height="1.5em" class="shrink-0" />
                         <span>{link.label}</span>
@@ -131,13 +139,30 @@
         <a
             href="/dashboard/profile"
             title="Profile"
-            class="flex items-center border border-white rounded-3xl text-orange-950 px-2"
+            class="flex items-center border border-white rounded-full text-white px-2 py-1 w-full"
         >
-            <div class="flex items-center">
-                <div
-                    class="h-10 w-10 rounded-full bg-primary-main-orange flex items-center justify-center"
-                >
-                    <h1>MS</h1>
+            <div class="flex items-center justify-between w-full">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="h-10 w-10 rounded-full bg-primary-main-orange text-orange-950 flex items-center justify-center"
+                    >
+                        <h1>
+                            {abbreviatedName(
+                                `${data.user.first_name} ${data.user.last_name}`,
+                            )}
+                        </h1>
+                    </div>
+
+                    <div class="space-y-px">
+                        <h1 class="font-semibold capitalize">
+                            {data.user.first_name}
+                        </h1>
+                        <p class="first-letter:capitalize">get full details</p>
+                    </div>
+                </div>
+
+                <div>
+                    <ChevronRightIcon height="1.5em" />
                 </div>
             </div>
         </a>
