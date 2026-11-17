@@ -25,6 +25,7 @@ export const actions: Actions = {
 
         if (!response.ok) {
             const responseData: ValidationErrors = await response.json();
+            console.log(responseData)
             return fail(response.status, { problem: responseData });
         }
 

@@ -86,6 +86,7 @@
                 id="Email"
                 placeholder="example@gmail.com"
                 errorValue={fieldError("#/username")?.detail}
+                value=""
               />
 
               <TextInput
@@ -95,6 +96,7 @@
                 id="Password"
                 placeholder=""
                 errorValue={fieldError("#/password")?.detail}
+                value=""
               />
               <div>
                 <StyledButton
