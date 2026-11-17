@@ -1,12 +1,11 @@
 import { fail, type Actions } from "@sveltejs/kit";
-import { PUBLIC_API_ENDPOINT } from "$app/env/public"
-import type { ValidationErrors } from "#lib/types/validation_errors.ts";
-import type { CreateTenant } from "#lib/types/tenant/create_tenant.ts";
-import type { Token } from "#lib/types/tokens/token.ts";
+import { PUBLIC_API_ENDPOINT } from "$app/env/public";
+import type { CreateTenant } from "#lib/types/tenants/create_tenant.ts";
+import type { ValidationErrors } from "#lib/types/validations/validation_errors.ts";
 
 export const actions: Actions = {
-    createAccount: async ({ request, fetch, cookies }) => {
-        const data = await request.formData()
+    createAccount: async ({ request, fetch }) => {
+        const data = await request.formData();
 
         const first_name = data.get("first_name")?.toString().trim() ?? "";
         const last_name = data.get("last_name")?.toString().trim() ?? "";
@@ -18,22 +17,22 @@ export const actions: Actions = {
         const business_phone = data.get("business_phone")?.toString().trim() ?? "";
         const email = data.get("email")?.toString().trim() ?? "";
         const phone_number = data.get("phone_number")?.toString().trim() ?? "";
-        const password = data.get("password")?.toString() ?? "";
+        const password_hash = data.get("password_hash")?.toString() ?? "";
 
         const payload: CreateTenant = {
             first_name: first_name,
             last_name: last_name,
-            phone_number: phone_number,
             address_line_1: address_line_1,
-            email: email,
+            country_code: country_code,
             business_name: business_name,
             business_type: business_type,
             business_email: business_email,
             business_phone: business_phone,
-            password_hash: password
+            email: email,
+            phone_number: phone_number,
+            password_hash: password_hash
         }
 
-        // we will attempt to save the details here
         const response = await fetch(`${PUBLIC_API_ENDPOINT}/tenants/create-tenant-account`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -41,20 +40,12 @@ export const actions: Actions = {
         });
 
         if (!response.ok) {
-            const responseData: ValidationErrors = await response.json()
+            const responseData: ValidationErrors = await response.json();
+            console.log(responseData);
             return fail(response.status, { problem: responseData });
         }
 
-        // we will set the cookies here 
-        if (response.ok) {
-            const responseData: Token = await response.json();
-            cookies.set("access_token", responseData.access_token, {
-                httpOnly: true,
-                secure: true,
-                sameSite: "lax"
-            });
-        }
-
         return { success: true }
+
     }
 }

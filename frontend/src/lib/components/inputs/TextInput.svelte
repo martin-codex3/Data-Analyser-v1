@@ -4,7 +4,7 @@
         id: string;
         placeholder: string;
         value: string;
-        inputError: string;
+        inputError: string | undefined;
         name: string;
         type: string;
     }
@@ -13,8 +13,8 @@
         $props();
 </script>
 
-{#snippet formError(name: string)}
-    <span>{name}</span>
+{#snippet formError(name: string | undefined)}
+    <span class="text-sm text-red-600">{name}</span>
 {/snippet}
 
 <div class="">
@@ -27,7 +27,10 @@
         {placeholder}
         {name}
         {value}
-        class="w-full outline-none mt-1 px-2 py-3 rounded-lg border border-white bg-transparent focus:ring-primary-main-orange focus:border-primary-main-orange"
+        class={[
+            "w-full outline-none mt-1 px-2 py-3 rounded-lg border bg-transparent focus:ring-primary-main-orange focus:border-primary-main-orange",
+            inputError ? "border-red-500" : "border-white",
+        ]}
     />
     {@render formError(inputError)}
 </div>
