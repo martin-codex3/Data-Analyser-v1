@@ -83,8 +83,25 @@
 </script>
 
 <nav class="h-[calc(100vh)] w-80 overflow-hidden flex flex-col items-start">
-    <div class="main__app__logo"></div>
+    <div class="main__app__logo">
+        <h1>site logo</h1>
+    </div>
 
     <!-- for the app links -->
-    <div class="h-full overflow-auto scrollbar-thin"></div>
+    <div class="h-full overflow-auto scrollbar-thin">
+        <ul>
+            {#each mainLinks as link}
+                <li>
+                    <a
+                        href={link.to}
+                        title={link.label}
+                        class="flex items-center gap-3"
+                    >
+                        <link.icon height="1.5em" class="shrink-0" />
+                        <span>{link.label}</span>
+                    </a>
+                </li>
+            {/each}
+        </ul>
+    </div>
 </nav>

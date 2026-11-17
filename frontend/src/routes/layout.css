@@ -11,7 +11,7 @@
 
 @font-face {
   font-family: "SF-Pro";
-  src: url("/fonts/SF-Pro.ttf") format("truetype");
+  src: url("/fonts/Inter-Medium.ttf") format("truetype");
   font-weight: 400 900;
   font-style: normal;
   font-display: swap;
