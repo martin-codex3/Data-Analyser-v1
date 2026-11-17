@@ -7,8 +7,8 @@
 >
   <div class="w-full max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2">
     <!-- for the form here -->
-    <div class="">
-      <div>
+    <div class="space-y-10">
+      <div class="space-y-2">
         <h1 class="text-3xl lg:text-6xl font-extrabold first-letter:uppercase">
           welcome back
         </h1>
@@ -19,8 +19,26 @@
       <div>
         <form action="" method="POST">
           <div class="input__wrapper">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              <TextInput />
+            <div class="space-y-7">
+              <TextInput
+                type="text"
+                name="email"
+                id="Email"
+                placeholder="user@example.com"
+                inputError=""
+                value=""
+                label="Email"
+              />
+
+              <TextInput
+                type="password"
+                name="password"
+                id="Password"
+                placeholder=""
+                inputError=""
+                value=""
+                label="Password"
+              />
             </div>
           </div>
         </form>
