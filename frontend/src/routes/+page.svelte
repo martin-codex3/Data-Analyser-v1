@@ -1,4 +1,6 @@
-<script lang="ts"></script>
+<script lang="ts">
+  import TextInput from "#lib/components/inputs/TextInput.svelte";
+</script>
 
 <div
   class="h-screen overflow-auto scrollbar-thin flex items-center justify-center"
@@ -17,7 +19,9 @@
       <div>
         <form action="" method="POST">
           <div class="input__wrapper">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <TextInput />
+            </div>
           </div>
         </form>
       </div>
