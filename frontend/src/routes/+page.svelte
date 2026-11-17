@@ -1,6 +1,24 @@
 <script lang="ts">
   import StyledButton from "#lib/components/buttons/StyledButton.svelte";
   import TextInput from "#lib/components/inputs/TextInput.svelte";
+  import { enhance } from "$app/forms";
+  import { toast } from "svelte-sonner";
+  import type { PageProps } from "./$types";
+
+  let isloggingIn: boolean = $state(false);
+
+  const { form }: PageProps = $props();
+  let errorTitle: string = $state("");
+
+  $effect(() => {
+    if (form?.problem?.title) {
+      errorTitle = form?.problem?.title;
+    }
+
+    if (form?.problem?.detail) {
+      errorTitle = form?.problem?.detail;
+    }
+  });
 </script>
 
 <div
@@ -18,7 +36,29 @@
 
       <!-- for the form here -->
       <div>
-        <form action="" method="POST">
+        <form
+          action="?/signIn"
+          method="POST"
+          use:enhance={() => {
+            isloggingIn = true;
+            return async ({ result, update }) => {
+              await update();
+              isloggingIn = false;
+
+              if (result.type === "failure") {
+                toast.error("error");
+              }
+
+              if (result.type === "error") {
+                toast.error("error");
+              }
+
+              if (result.type === "success") {
+                toast.success("Logged in successfully");
+              }
+            };
+          }}
+        >
           <div class="input__wrapper">
             <div class="space-y-7">
               <TextInput
@@ -41,7 +81,7 @@
                 label="Password"
               />
 
-              <StyledButton isLoading={true} title="Log in" />
+              <StyledButton isLoading={isloggingIn} title="Log in" />
             </div>
           </div>
         </form>

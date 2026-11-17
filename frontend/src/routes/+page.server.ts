@@ -1,7 +1,8 @@
 import { fail, type Actions } from "@sveltejs/kit";
 import { PUBLIC_API_ENDPOINT } from "$app/env/public"
-import type { ValidationErrors } from "#lib/types/validation_errors.ts";
-import type { Token } from "#lib/types/tokens/token.ts";
+import type { ValidationErrors } from "#lib/types/validations/validation_errors.ts";
+import type { AccessToken } from "#lib/types/token/access_token.ts";
+
 
 
 export const actions: Actions = {
@@ -30,7 +31,7 @@ export const actions: Actions = {
         }
 
         if (response.ok) {
-            const responseData: Token = await response.json();
+            const responseData: AccessToken = await response.json();
             cookies.set("access_token", responseData.access_token ?? "", {
                 secure: true,
                 httpOnly: true,

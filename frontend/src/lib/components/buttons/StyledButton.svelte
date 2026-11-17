@@ -12,13 +12,15 @@
     <button
         aria-label="Button component"
         title="Click to send"
-        class="flex items-center justify-center rounded-full h-12 cursor-pointer bg-primary-main-orange text-primary-main-black w-44"
+        class="flex items-center justify-center rounded-full h-12 font-semibold cursor-pointer bg-primary-main-orange text-primary-main-black w-44"
     >
         {#if isLoading}
             <div class="flex items-center gap-2">
                 <LoadingSVG height="1.3em" class="shrink-0" />
                 <span class="test-sm">Processing..</span>
             </div>
+        {:else}
+            <span>{title}</span>
         {/if}
     </button>
 </div>
