@@ -7,6 +7,8 @@
     import CircleCheckIcon from "@iconify-svelte/tabler/circle-check";
     import CalendarIcon from "@iconify-svelte/tabler/calendar";
     import FileDescriptionIcon from "@iconify-svelte/tabler/file-description";
+    import ProfileCard from "#lib/components/cards/ProfileCard.svelte";
+    import { Icon } from "svelte-sonner";
 
     const { data }: PageProps = $props();
 
@@ -67,6 +69,10 @@
             value: data.user.bio ?? "Not set",
         },
     ]);
+
+    const truncatedDescription = $derived(() => {
+        return data.user?.bio?.slice(0, 30);
+    });
 </script>
 
 <div class="h-screen flex items-center justify-center overflow-hidden">
@@ -84,6 +90,18 @@
                     <p>{data.user.email}</p>
                 </div>
             </div>
+
+            <!-- for the main content here  -->
+            {#each profileData as profile}
+                <ProfileCard
+                    Icon={profile.icon}
+                    title={profile.title}
+                    description={profile.description}
+                    value={profile.title === "Bio"
+                        ? truncatedDescription()
+                        : profile.value}
+                />
+            {/each}
         </div>
     </div>
 </div>
