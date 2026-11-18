@@ -18,6 +18,7 @@
         description: string;
         icon: any;
         value: string | undefined | boolean | object;
+        name: string;
     }
 
     const formattedDate = $derived(() => {
@@ -30,48 +31,56 @@
             description: "The name for the account",
             icon: UserIcon,
             value: data.user.first_name,
+            name: "first_name",
         },
         {
             title: "Last Name",
             description: "The name for the account",
             icon: UserIcon,
             value: data.user.last_name,
+            name: "last_name",
         },
         {
             title: "Email",
             description: "The email for the account",
             icon: MailIcon,
             value: data.user.email,
+            name: "email",
         },
         {
             title: "phone number",
             description: "Current phone",
             icon: PhoneIcon,
             value: data.user.phone_number,
+            name: "phone_number",
         },
         {
             title: "Username",
             description: "Name to display on profile",
             icon: AtIcon,
             value: data.user.username ?? "Not set",
+            name: "username",
         },
         {
             title: "Email verified",
             description: "Email verification",
             icon: CircleCheckIcon,
             value: data.user.is_email_verified ?? "Not set",
+            name: "is_email_verified",
         },
         {
             title: "Account created at",
             description: "Account creation date",
             icon: CalendarIcon,
             value: formattedDate() ?? "Not set",
+            name: "account_created_at",
         },
         {
             title: "Bio",
             description: "User biography",
             icon: FileDescriptionIcon,
             value: data.user.bio ?? "Not set",
+            name: "bio",
         },
     ]);
 
@@ -80,10 +89,22 @@
     });
 
     let openModal: boolean = $state(false);
+    // for the field values
+    const fieldName: string = $state("");
+    const fieldValue: String = $state("");
+    const fieldLabel: string = $state("");
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (
+        name: string,
+        value: string | undefined | boolean | object,
+        label: string,
+    ) => {
         openModal = true;
-        console.log(openModal);
+        if (openModal) {
+            fieldName: name;
+            fieldValue: value;
+            fieldLabel: label;
+        }
     };
 
     const handleCloseModal = () => {
@@ -119,7 +140,12 @@
                             : profile.value}
                         {index}
                         length={profileData.length}
-                        openModal={handleOpenModal}
+                        openModal={() =>
+                            handleOpenModal(
+                                profile.name,
+                                profile.value,
+                                profile.title,
+                            )}
                     />
                 {/each}
             </div>
@@ -128,5 +154,5 @@
 </div>
 
 {#if openModal}
-    <UpdateProfile />
+    <UpdateProfile name={fieldName} value={fieldValue} label={fieldLabel} />
 {/if}

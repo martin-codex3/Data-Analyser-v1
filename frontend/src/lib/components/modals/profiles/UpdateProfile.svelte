@@ -2,26 +2,22 @@
     import TextInput from "#lib/components/inputs/TextInput.svelte";
 
     interface Props {
-        type: string;
         name: string;
-        id: string;
-        placeholder: string;
-        inputError: string;
-        value: String;
+        value: string | undefined | boolean | object;
         label: string;
     }
 
-    const { type, name, id, placeholder, inputError, value, label } = $props();
+    const { name, value, label }: Props = $props();
 </script>
 
 {#snippet modalBody()}
     <div>
         <TextInput
-            {type}
+            type="text"
             {name}
-            {id}
-            {placeholder}
-            {inputError}
+            id={label}
+            placeholder=""
+            inputError=""
             {value}
             {label}
         />
@@ -38,7 +34,7 @@
             <h1 class="text-xl font-semibold first-letter:capitalize">
                 update profile
             </h1>
-            <p class="text-gray-500">
+            <p class="text-gray-400">
                 Make changes to your profile. The changes will reflect
                 automatically when the action is successful
             </p>

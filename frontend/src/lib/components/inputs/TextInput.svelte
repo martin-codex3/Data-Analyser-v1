@@ -3,7 +3,7 @@
         label: string;
         id: string;
         placeholder: string;
-        value: string;
+        value: string | undefined | boolean | object;
         inputError: string | undefined;
         name: string;
         type: string;
