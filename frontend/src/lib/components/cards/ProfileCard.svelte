@@ -6,9 +6,19 @@
         title: string;
         description: string;
         value: string | undefined | boolean | object;
+        index: number;
+        length: number;
     }
 
-    const { Icon, title, description, value }: Props = $props();
+    const { Icon, title, description, value, index, length }: Props = $props();
+
+    // for the border radius
+    const cardRadius = $derived(() => {
+        return index + 1 === 1 ? "rounded-tr-3xl rounded-tl-3xl" : "rounded-lg";
+    });
+    const lastCardRadius = $derived(() => {
+        return length - 1 === index ? "rounded-bl-3xl rounded-br-3xl" : "";
+    });
 </script>
 
 <!-- the card header -->
@@ -45,7 +55,13 @@
     </div>
 {/snippet}
 
-<div class="flex items-center justify-between">
+<div
+    class={[
+        "flex items-center justify-between bg-black",
+        cardRadius(),
+        lastCardRadius(),
+    ]}
+>
     {@render cardHeader(Icon, title, description)}
     {@render cardBody(value)}
 </div>

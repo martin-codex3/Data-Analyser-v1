@@ -77,9 +77,9 @@
 
 <div class="h-screen flex items-center justify-center overflow-hidden">
     <div
-        class="bg-primary-slight-black w-full max-w-4xl px-10 py-5 rounded-4xl h-[calc(100vh-2rem)]"
+        class="bg-primary-slight-black w-full max-w-4xl px-5 py-5 rounded-4xl h-[calc(100vh-2rem)]"
     >
-        <div class="h-full overflow-auto scrollbar-thin">
+        <div class="h-full overflow-auto scrollbar-thin space-y-10 px-5">
             <!-- for the main header -->
             <div class="flex items-center gap-5">
                 <div class="rounded-full border h-20 w-20"></div>
@@ -92,16 +92,20 @@
             </div>
 
             <!-- for the main content here  -->
-            {#each profileData as profile}
-                <ProfileCard
-                    Icon={profile.icon}
-                    title={profile.title}
-                    description={profile.description}
-                    value={profile.title === "Bio"
-                        ? truncatedDescription()
-                        : profile.value}
-                />
-            {/each}
+            <div class="space-y-1">
+                {#each profileData as profile, index}
+                    <ProfileCard
+                        Icon={profile.icon}
+                        title={profile.title}
+                        description={profile.description}
+                        value={profile.title === "Bio"
+                            ? truncatedDescription()
+                            : profile.value}
+                        {index}
+                        length={profileData.length}
+                    />
+                {/each}
+            </div>
         </div>
     </div>
 </div>
