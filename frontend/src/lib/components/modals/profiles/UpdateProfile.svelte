@@ -1,4 +1,5 @@
 <script lang="ts">
+    import StyledButton from "#lib/components/buttons/StyledButton.svelte";
     import TextInput from "#lib/components/inputs/TextInput.svelte";
 
     interface Props {
@@ -12,15 +13,18 @@
 
 {#snippet modalBody()}
     <div>
-        <TextInput
-            type="text"
-            {name}
-            id={label}
-            placeholder=""
-            inputError=""
-            {value}
-            {label}
-        />
+        <form action="">
+            <TextInput
+                type="text"
+                {name}
+                id={label}
+                placeholder=""
+                inputError=""
+                {value}
+                {label}
+            />
+            <StyledButton isLoading={true} title="Update detail" />
+        </form>
     </div>
 {/snippet}
 
@@ -41,7 +45,7 @@
         </div>
 
         <div>
-            <h1>for the main content</h1>
+            {@render modalBody()}
         </div>
     </div>
 </div>

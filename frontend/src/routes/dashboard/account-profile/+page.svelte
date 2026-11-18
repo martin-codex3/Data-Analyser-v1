@@ -90,9 +90,9 @@
 
     let openModal: boolean = $state(false);
     // for the field values
-    const fieldName: string = $state("");
-    const fieldValue: String = $state("");
-    const fieldLabel: string = $state("");
+    let fieldName: string = $state("");
+    let fieldValue: String | undefined | boolean | object = $state("");
+    let fieldLabel: string = $state("");
 
     const handleOpenModal = (
         name: string,
@@ -100,11 +100,9 @@
         label: string,
     ) => {
         openModal = true;
-        if (openModal) {
-            fieldName: name;
-            fieldValue: value;
-            fieldLabel: label;
-        }
+        fieldValue = value;
+        fieldName = name;
+        fieldLabel = label;
     };
 
     const handleCloseModal = () => {
