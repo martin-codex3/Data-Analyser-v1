@@ -105,7 +105,7 @@
 </svelte:head>
 
 <nav
-    class="fixed h-[calc(100vh)] w-90 overflow-hidden flex flex-col items-stretch space-y-5 py-3 px-3"
+    class="fixed h-[calc(100vh)] w-90 overflow-hidden border-r border-r-gray-100/30 flex flex-col items-stretch space-y-5 py-3 px-3"
 >
     <div class="main__app__logo px-5">
         <h1>site logo</h1>
@@ -137,7 +137,7 @@
     <!-- for the profile page -->
     <div>
         <a
-            href="/dashboard/profile"
+            href="/dashboard/account-profile"
             title="Profile"
             class="flex items-center border border-white rounded-full text-white px-2 py-1 w-full"
         >
@@ -169,7 +169,7 @@
     </div>
 </nav>
 
-<main class="ms-80">
+<main class="ms-90">
     <section>
         {@render children()}
     </section>
