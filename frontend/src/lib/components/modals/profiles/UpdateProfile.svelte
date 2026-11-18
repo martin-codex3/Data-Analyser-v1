@@ -4,15 +4,30 @@
     import { enhance } from "$app/forms";
     import CancelIcon from "@iconify-svelte/tabler/x";
     import { toast } from "svelte-sonner";
+    import type { ActionData } from "../../../../routes/dashboard/account-profile/$types";
 
     interface Props {
         name: string;
         value: string | undefined | boolean | object;
         label: string;
+        closeModal: () => void;
+        form: ActionData;
     }
 
-    const { name, value, label }: Props = $props();
+    const { name, value, label, closeModal, form }: Props = $props();
+
     let isUpdatingProfile: boolean = $state(false);
+    let errorTitle: string = $state("");
+
+    $effect(() => {
+        if (form?.problem?.title) {
+            errorTitle = form?.problem?.title;
+        }
+
+        if (form?.problem?.detail) {
+            errorTitle = form?.problem?.detail;
+        }
+    });
 </script>
 
 {#snippet modalBody()}
@@ -63,7 +78,7 @@
     class="fixed inset-0 z-100 backdrop-blur-sm bg-black/20 flex items-center justify-center"
 >
     <div
-        class="w-full max-w-md rounded-4xl px-5 py-5 space-y-7 bg-primary-slight-black border border-orange-50/10"
+        class="w-full max-w-md rounded-4xl px-5 py-5 space-y-7 bg-primary-slight-black border border-orange-50/10 motion-preset-slide-down-sm"
     >
         <div class="space-y-4">
             <div class="flex items-center justify-between">
@@ -73,6 +88,7 @@
 
                 <button
                     aria-label="button to close modal"
+                    onclick={closeModal}
                     class="flex items-center justfiy-center cursor-pointer hover:bg-black rounded-full transition duration-300 p-2"
                 >
                     <CancelIcon height="1.3em" class="shrink-0" />

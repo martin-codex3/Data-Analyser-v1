@@ -11,7 +11,7 @@
     import { format } from "date-fns";
     import UpdateProfile from "#lib/components/modals/profiles/UpdateProfile.svelte";
 
-    const { data }: PageProps = $props();
+    const { data, form }: PageProps = $props();
 
     interface Props {
         title: string;
@@ -152,5 +152,11 @@
 </div>
 
 {#if openModal}
-    <UpdateProfile name={fieldName} value={fieldValue} label={fieldLabel} />
+    <UpdateProfile
+        name={fieldName}
+        value={fieldValue}
+        label={fieldLabel}
+        closeModal={handleCloseModal}
+        {form}
+    />
 {/if}
