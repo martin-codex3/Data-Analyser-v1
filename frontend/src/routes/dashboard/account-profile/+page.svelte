@@ -8,7 +8,7 @@
     import CalendarIcon from "@iconify-svelte/tabler/calendar";
     import FileDescriptionIcon from "@iconify-svelte/tabler/file-description";
     import ProfileCard from "#lib/components/cards/ProfileCard.svelte";
-    import { Icon } from "svelte-sonner";
+    import { format } from "date-fns";
 
     const { data }: PageProps = $props();
 
@@ -18,6 +18,10 @@
         icon: any;
         value: string | undefined | boolean | object;
     }
+
+    const formattedDate = $derived(() => {
+        return format(data.user.account_created_at, "MM-dd-yyyy");
+    });
 
     const profileData: Props[] = $derived([
         {
@@ -60,7 +64,7 @@
             title: "Account created at",
             description: "Account creation date",
             icon: CalendarIcon,
-            value: data.user.account_created_at ?? "Not set",
+            value: formattedDate() ?? "Not set",
         },
         {
             title: "Bio",
@@ -73,6 +77,8 @@
     const truncatedDescription = $derived(() => {
         return data.user?.bio?.slice(0, 30);
     });
+
+    $inspect(formattedDate());
 </script>
 
 <div class="h-screen flex items-center justify-center overflow-hidden">

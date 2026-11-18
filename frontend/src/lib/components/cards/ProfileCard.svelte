@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Component } from "svelte";
+    import PencilIcon from "@iconify-svelte/tabler/pencil";
 
     interface Props {
         Icon: Component;
@@ -17,7 +18,9 @@
         return index + 1 === 1 ? "rounded-tr-3xl rounded-tl-3xl" : "rounded-lg";
     });
     const lastCardRadius = $derived(() => {
-        return length - 1 === index ? "rounded-bl-3xl rounded-br-3xl" : "";
+        return length - 1 === index
+            ? "rounded-bl-3xl rounded-br-3xl"
+            : "rounded-lg";
     });
 </script>
 
@@ -33,7 +36,7 @@
         </div>
 
         <div>
-            <h1>{title}</h1>
+            <h1 class="text-lg">{title}</h1>
             <p>{description}</p>
         </div>
     </div>
@@ -48,16 +51,18 @@
         <div>
             <button
                 aria-label="The open details button"
-                title="Open Modal"
-                class="flex items-center justify-center"
-            ></button>
+                title="Open Update Modal"
+                class="flex items-center justify-center cursor-pointer hover:bg-primary-slight-black/40 p-2 rounded-full"
+            >
+                <PencilIcon height="1.3em" class="shrink-0" />
+            </button>
         </div>
     </div>
 {/snippet}
 
 <div
     class={[
-        "flex items-center justify-between bg-black",
+        "flex items-center justify-between bg-black px-2 py-2",
         cardRadius(),
         lastCardRadius(),
     ]}
