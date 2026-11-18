@@ -5,6 +5,7 @@
     import CancelIcon from "@iconify-svelte/tabler/x";
     import { toast } from "svelte-sonner";
     import type { ActionData } from "../../../../routes/dashboard/account-profile/$types";
+    import TextAreaInput from "#lib/components/inputs/TextAreaInput.svelte";
 
     interface Props {
         name: string;
@@ -59,16 +60,28 @@
                 };
             }}
         >
-            <div class="space-y-7">
-                <TextInput
-                    type="text"
-                    {name}
-                    id={label}
-                    placeholder=""
-                    inputError={fieldErrors(`#/${name}`)?.detail}
-                    {value}
-                    {label}
-                />
+            <div class="space-y-5">
+                {#if name === "bio"}
+                    <TextAreaInput
+                        type="text"
+                        {name}
+                        id={label}
+                        placeholder=""
+                        inputError={fieldErrors(`#/${name}`)?.detail}
+                        value={`${value}`}
+                        {label}
+                    />
+                {:else}
+                    <TextInput
+                        type="text"
+                        {name}
+                        id={label}
+                        placeholder=""
+                        inputError={fieldErrors(`#/${name}`)?.detail}
+                        {value}
+                        {label}
+                    />
+                {/if}
                 <StyledButton
                     isLoading={isUpdatingProfile}
                     title="Update detail"

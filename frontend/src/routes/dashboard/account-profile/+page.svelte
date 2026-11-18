@@ -138,6 +138,7 @@
                             : profile.value}
                         {index}
                         length={profileData.length}
+                        name={profile.name}
                         openModal={() =>
                             handleOpenModal(
                                 profile.name,

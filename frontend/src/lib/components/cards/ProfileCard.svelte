@@ -9,11 +9,20 @@
         value: string | undefined | boolean | object;
         index: number;
         length: number;
+        name: string;
         openModal: () => void;
     }
 
-    const { Icon, title, description, value, index, length, openModal }: Props =
-        $props();
+    const {
+        Icon,
+        title,
+        description,
+        value,
+        index,
+        length,
+        openModal,
+        name,
+    }: Props = $props();
 
     // for the border radius
     const cardRadius = $derived(() => {
@@ -26,7 +35,6 @@
     });
 
     const handleOpenModal = () => {
-        console.log("hey");
         openModal();
     };
 </script>
@@ -56,14 +64,16 @@
             <h1>{value}</h1>
         </div>
         <div>
-            <button
-                aria-label="The open details button"
-                title="Open Update Modal"
-                onclick={handleOpenModal}
-                class="flex items-center justify-center cursor-pointer hover:bg-primary-slight-black/40 p-2 rounded-full"
-            >
-                <PencilIcon height="1.3em" class="shrink-0" />
-            </button>
+            {#if name !== "is_email_verified" && name !== "account_created_at"}
+                <button
+                    aria-label="The open details button"
+                    title="Open Update Modal"
+                    onclick={handleOpenModal}
+                    class="flex items-center justify-center cursor-pointer hover:bg-primary-slight-black/40 p-2 rounded-full"
+                >
+                    <PencilIcon height="1.3em" class="shrink-0" />
+                </button>
+            {/if}
         </div>
     </div>
 {/snippet}
