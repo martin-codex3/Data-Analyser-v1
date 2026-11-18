@@ -28,6 +28,10 @@
             errorTitle = form?.problem?.detail;
         }
     });
+
+    const fieldErrors = $derived((field: string) => {
+        return form?.problem?.errors.find((e) => field === e.pointer);
+    });
 </script>
 
 {#snippet modalBody()}
@@ -42,11 +46,11 @@
                     isUpdatingProfile = false;
 
                     if (result.type === "failure") {
-                        toast.error("error");
+                        toast.error(errorTitle);
                     }
 
-                    if (result.type === "failure") {
-                        toast.error("error");
+                    if (result.type === "error") {
+                        toast.error(errorTitle);
                     }
 
                     if (result.type === "success") {
@@ -61,7 +65,7 @@
                     {name}
                     id={label}
                     placeholder=""
-                    inputError=""
+                    inputError={fieldErrors(`#/${name}`)?.detail}
                     {value}
                     {label}
                 />
