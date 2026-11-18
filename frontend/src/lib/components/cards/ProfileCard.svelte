@@ -5,7 +5,7 @@
         Icon: Component;
         title: string;
         description: string;
-        value: string | undefined;
+        value: string | undefined | boolean | object;
     }
 
     const { Icon, title, description, value }: Props = $props();
@@ -30,17 +30,22 @@
 {/snippet}
 
 <!-- for the card body -->
-{#snippet cardBody(value: string | undefined)}
-    <div class=""></div>
-    <div>
-        <button
-            aria-label="The open details button"
-            title="Open Modal"
-            class="flex items-center justify-center"
-        ></button>
+{#snippet cardBody(value: string | undefined | boolean | object)}
+    <div class="flex items-center gap-5">
+        <div class="">
+            <h1>{value}</h1>
+        </div>
+        <div>
+            <button
+                aria-label="The open details button"
+                title="Open Modal"
+                class="flex items-center justify-center"
+            ></button>
+        </div>
     </div>
 {/snippet}
 
 <div class="flex items-center justify-between">
     {@render cardHeader(Icon, title, description)}
+    {@render cardBody(value)}
 </div>
