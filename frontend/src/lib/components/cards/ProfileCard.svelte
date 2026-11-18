@@ -9,9 +9,11 @@
         value: string | undefined | boolean | object;
         index: number;
         length: number;
+        openModal: () => void;
     }
 
-    const { Icon, title, description, value, index, length }: Props = $props();
+    const { Icon, title, description, value, index, length, openModal }: Props =
+        $props();
 
     // for the border radius
     const cardRadius = $derived(() => {
@@ -22,6 +24,11 @@
             ? "rounded-bl-3xl rounded-br-3xl"
             : "rounded-lg";
     });
+
+    const handleOpenModal = () => {
+        console.log("hey");
+        openModal();
+    };
 </script>
 
 <!-- the card header -->
@@ -52,6 +59,7 @@
             <button
                 aria-label="The open details button"
                 title="Open Update Modal"
+                onclick={handleOpenModal}
                 class="flex items-center justify-center cursor-pointer hover:bg-primary-slight-black/40 p-2 rounded-full"
             >
                 <PencilIcon height="1.3em" class="shrink-0" />

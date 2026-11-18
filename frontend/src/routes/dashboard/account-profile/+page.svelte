@@ -9,6 +9,7 @@
     import FileDescriptionIcon from "@iconify-svelte/tabler/file-description";
     import ProfileCard from "#lib/components/cards/ProfileCard.svelte";
     import { format } from "date-fns";
+    import UpdateProfile from "#lib/components/modals/profiles/UpdateProfile.svelte";
 
     const { data }: PageProps = $props();
 
@@ -78,7 +79,16 @@
         return data.user?.bio?.slice(0, 30);
     });
 
-    $inspect(formattedDate());
+    let openModal: boolean = $state(false);
+
+    const handleOpenModal = () => {
+        openModal = true;
+        console.log(openModal);
+    };
+
+    const handleCloseModal = () => {
+        openModal = false;
+    };
 </script>
 
 <div class="h-screen flex items-center justify-center overflow-hidden">
@@ -109,9 +119,14 @@
                             : profile.value}
                         {index}
                         length={profileData.length}
+                        openModal={handleOpenModal}
                     />
                 {/each}
             </div>
         </div>
     </div>
 </div>
+
+{#if openModal}
+    <UpdateProfile />
+{/if}
