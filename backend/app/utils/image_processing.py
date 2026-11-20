@@ -1,6 +1,5 @@
 import uuid
 from io import BytesIO
-from pathlib import Path
 
 from PIL import Image, ImageOps
 
@@ -29,7 +28,7 @@ def process_profile_image(content: bytes) -> str:
     return filename
 
 
-# this is for deleting the profile images 
+# this is for deleting the profile images
 def delete_profile_image(filename: str | None) -> None:
     if filename is None:
         return
@@ -37,4 +36,4 @@ def delete_profile_image(filename: str | None) -> None:
     filepath = IMAGE_UPLOAD_DIR / filename
 
     if filepath.exits():
-
+        filepath.unlink()

@@ -2,10 +2,12 @@ import uuid
 from datetime import timedelta
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from fastapi.security import OAuth2PasswordRequestForm
+from PIL import UnidentifiedImageError
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio.session import AsyncSession
+from starlette.concurrency import run_in_threadpool
 
 from app.config.database.app_database import app_session
 from app.config.settings.app_settings import AppSettings
@@ -18,6 +20,7 @@ from app.schemas.application_users.application_user_schemas import (
 from app.services.jwt_token_management import Token, create_access_token
 from app.services.password_management import verify_password
 from app.services.tenant_service import CurrentUser
+from app.utils.image_processing import delete_profile_image, process_profile_image
 
 users_routes = APIRouter()
 
@@ -136,3 +139,47 @@ async def delete_user_account(
 
     await session.delete(current_user)
     await session.commit()
+
+
+# for removing the profile image
+@users_routes.post("/upload-profile/{user_id}")
+async def updload_profile_picture(
+    user_id: uuid.UUID,
+    current_user: CurrentUser,
+    file: UploadFile,
+    session: Annotated[AsyncSession, Depends(app_session)],
+):
+    """This will be use to upload the user profiles"""
+    if current_user.id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized to upload a profile picture",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    content = await file.read()
+
+    if len(content) > AppSettings.max_image_size_bytes:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"File too large maximum size is {AppSettings.max_image_size_bytes}MB",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    try:
+        new_filename = await run_in_threadpool(process_profile_image, content=content)
+    except UnidentifiedImageError as err:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid image file. Please upload a valid image file (JPEG, JPG, PNG)",
+        ) from err
+
+    old_filename = current_user.profile_image
+    current_user.profile_image = new_filename
+    await session.commit()
+    await session.refresh(current_user)
+
+    if old_filename:
+        delete_profile_image(old_filename)
+
+    return current_user
