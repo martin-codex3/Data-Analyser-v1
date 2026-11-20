@@ -33,3 +33,8 @@ class ApplicationUser(Base):
     tenants: Mapped[list["TenantUsers"]] = relationship(
         back_populates="users", lazy="selectin"
     )
+
+    @classmethod
+    def profile_image_path(cls):
+        if not cls.profile_image:
+            return "media/profile_pics/default.jpg"

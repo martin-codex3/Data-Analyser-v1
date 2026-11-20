@@ -142,7 +142,7 @@ async def delete_user_account(
 
 
 # for removing the profile image
-@users_routes.post("/upload-profile/{user_id}")
+@users_routes.post("/{user_id}/picture")
 async def updload_profile_picture(
     user_id: uuid.UUID,
     current_user: CurrentUser,
@@ -182,4 +182,36 @@ async def updload_profile_picture(
     if old_filename:
         delete_profile_image(old_filename)
 
+    return current_user
+
+
+# for deleting the profile picture
+@users_routes.delete("/{user_id}/picture")
+async def delete_profile_picture(
+    user_id: uuid.UUID,
+    current_user: CurrentUser,
+    session: Annotated[AsyncSession, Depends(app_session)],
+):
+    """This will delete the profile image for the user"""
+    if user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized to delete the image",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # we will check if the old image is available
+    old_filename = current_user.profile_image
+
+    if not old_filename:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No profile picture to delete",
+        )
+
+    current_user.profile_image = None
+    await session.commit()
+    await session.refresh(current_user)
+
+    delete_profile_image(old_filename)
     return current_user
