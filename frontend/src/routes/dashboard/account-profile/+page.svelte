@@ -95,6 +95,8 @@
     let fieldName: string = $state("");
     let fieldValue: String | undefined | boolean | object = $state("");
     let fieldLabel: string = $state("");
+    // for opening the more options
+    let openMoreOptions: boolean = $state(false);
 
     const handleOpenModal = (
         name: string,
@@ -110,15 +112,23 @@
     const handleCloseModal = () => {
         openModal = false;
     };
+
+    const handleOpenMoreOptions = () => {
+        openMoreOptions = true;
+    };
+
+    const handleCloseMoreOptions = () => {
+        openMoreOptions = false;
+    };
 </script>
 
-<div class="h-screen flex items-center justify-center overflow-hidden">
+<div class="relative h-screen flex items-center justify-center overflow-hidden">
     <div
         class="bg-primary-slight-black w-full max-w-4xl px-5 py-5 rounded-4xl h-[calc(100vh-2rem)]"
     >
         <div class="h-full overflow-auto scrollbar-thin space-y-10 px-5">
             <!-- for the main header -->
-            <div>
+            <div class="flex items-center justify-between">
                 <div class="flex items-center gap-5">
                     <div class="rounded-full border h-20 w-20"></div>
                     <div>
@@ -129,9 +139,10 @@
                     </div>
                 </div>
 
-                <div>
+                <div class="">
                     <button
                         aria-label="open options"
+                        onclick={handleOpenMoreOptions}
                         class="flex items-center justify-center cursor-pointer p-3 rounded-full bg-black hover:ring-1 transition duration-200"
                     >
                         <SelectorIcon height="1.5em" class="shrink-0" />
@@ -212,4 +223,19 @@
         closeModal={handleCloseModal}
         {form}
     />
+{/if}
+
+<!-- for the other options -->
+{#if openMoreOptions}
+    <div
+        class="fixed inset-0 z-100 backdrop-blur-sm bg-black/20 flex items-center justify-center"
+    >
+        <div
+            class="absolute right-32 w-44 rounded-4xl px-5 py-3 top-28 bg-primary-slight-black border border-primary-main-orange/10 z-100"
+        >
+            <div>
+                <h1>hey mate</h1>
+            </div>
+        </div>
+    </div>
 {/if}
