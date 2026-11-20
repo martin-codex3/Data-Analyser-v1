@@ -11,6 +11,7 @@
     import { format } from "date-fns";
     import UpdateProfile from "#lib/components/modals/profiles/UpdateProfile.svelte";
     import TextInput from "#lib/components/inputs/TextInput.svelte";
+    import SelectorIcon from "@iconify-svelte/tabler/selector";
 
     const { data, form }: PageProps = $props();
 
@@ -131,8 +132,9 @@
                 <div>
                     <button
                         aria-label="open options"
-                        class="flex items-center justify-center"
+                        class="flex items-center justify-center cursor-pointer p-3 rounded-full bg-black hover:ring-1 transition duration-200"
                     >
+                        <SelectorIcon height="1.5em" class="shrink-0" />
                     </button>
                 </div>
             </div>

@@ -32,7 +32,7 @@
         },
         {
             to: "/dashboard/workspaces-document-management",
-            label: "document management",
+            label: "Document management",
             icon: FolderKanbanIcon,
         },
         {
@@ -120,7 +120,7 @@
                         href={link.to}
                         title={link.label}
                         class={[
-                            "flex items-center w-full gap-3 hover:bg-white hover:text-primary-main-black rounded-full py-2 px-2 transiion duration-200",
+                            "flex items-center w-full gap-3 hover:bg-white hover:text-primary-main-black rounded-full py-2 px-2 transiion duration-200 first-letter:capitalize",
                             page.url.pathname === link.to
                                 ? "bg-white text-black"
                                 : "",
