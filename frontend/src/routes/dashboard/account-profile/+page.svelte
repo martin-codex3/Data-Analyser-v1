@@ -10,6 +10,7 @@
     import ProfileCard from "#lib/components/cards/ProfileCard.svelte";
     import { format } from "date-fns";
     import UpdateProfile from "#lib/components/modals/profiles/UpdateProfile.svelte";
+    import TextInput from "#lib/components/inputs/TextInput.svelte";
 
     const { data, form }: PageProps = $props();
 
@@ -116,13 +117,23 @@
     >
         <div class="h-full overflow-auto scrollbar-thin space-y-10 px-5">
             <!-- for the main header -->
-            <div class="flex items-center gap-5">
-                <div class="rounded-full border h-20 w-20"></div>
+            <div>
+                <div class="flex items-center gap-5">
+                    <div class="rounded-full border h-20 w-20"></div>
+                    <div>
+                        <h1 class="capitalize text-lg font-semibold">
+                            {data.user.first_name}
+                        </h1>
+                        <p>{data.user.email}</p>
+                    </div>
+                </div>
+
                 <div>
-                    <h1 class="capitalize text-lg font-semibold">
-                        {data.user.first_name}
-                    </h1>
-                    <p>{data.user.email}</p>
+                    <button
+                        aria-label="open options"
+                        class="flex items-center justify-center"
+                    >
+                    </button>
                 </div>
             </div>
 
@@ -147,6 +158,45 @@
                             )}
                     />
                 {/each}
+            </div>
+
+            <!-- for the password updates -->
+            <div class="bg-black rounded-4xl px-5 py-5 space-y-10">
+                <div class="space-y-px">
+                    <h1 class="text-2xl capitalize font-semibold">
+                        change password
+                    </h1>
+                    <p>
+                        You will be redirected to the login page when the
+                        password change is successful
+                    </p>
+                </div>
+
+                <div>
+                    <form action="">
+                        <div class="form__wrapper space-y-5">
+                            <TextInput
+                                type="text"
+                                id="Password"
+                                placeholder=""
+                                value=""
+                                label="Current Password"
+                                inputError=""
+                                name="password"
+                            />
+
+                            <TextInput
+                                type="text"
+                                id="Password"
+                                placeholder=""
+                                value=""
+                                label="New Password"
+                                inputError=""
+                                name="password"
+                            />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

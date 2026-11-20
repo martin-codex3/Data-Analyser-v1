@@ -80,7 +80,7 @@
 
 <div
     class={[
-        "flex items-center justify-between bg-black px-2 py-2",
+        "flex items-center justify-between bg-black px-5 py-2",
         cardRadius(),
         lastCardRadius(),
     ]}
