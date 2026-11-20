@@ -1,12 +1,15 @@
 import uuid
 from io import BytesIO
+from pathlib import Path
 
 from PIL import Image, ImageOps
 
-IMAGE_UPLOAD_DIR = "/media/profile_pics"
+IMAGE_UPLOAD_DIR = Path("static/media/profile_pics")
 
 
 def process_profile_image(content: bytes) -> str:
+    IMAGE_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
     with Image.open(BytesIO(content)) as original:
         img = ImageOps.exif_transpose(original)
 
@@ -22,7 +25,7 @@ def process_profile_image(content: bytes) -> str:
         filepath = IMAGE_UPLOAD_DIR / filename
 
         # we will create the directory if it does not exists
-        IMAGE_UPLOAD_DIR.mkdir(parents=True, exists=True)
+
         img.save(filepath, "JPEG", quality=85, optimize=True)
 
     return filename
@@ -35,5 +38,5 @@ def delete_profile_image(filename: str | None) -> None:
 
     filepath = IMAGE_UPLOAD_DIR / filename
 
-    if filepath.exits():
+    if filepath.exists():
         filepath.unlink()

@@ -30,7 +30,9 @@ app = FastAPI(
 
 # we will mount the static files here
 app.mount(
-    "/static/media/profile_pics", StaticFiles(directory="static/media"), name="static"
+    "/static/media",
+    StaticFiles(directory="static/media/profile_pics"),
+    name="static",
 )
 
 # for the app faults configurations
