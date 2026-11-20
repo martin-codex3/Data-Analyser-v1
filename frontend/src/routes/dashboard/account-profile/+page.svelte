@@ -13,6 +13,10 @@
     import TextInput from "#lib/components/inputs/TextInput.svelte";
     import SelectorIcon from "@iconify-svelte/tabler/selector";
     import CloseIcon from "@iconify-svelte/tabler/x";
+    import BuildingIcon from "@iconify-svelte/tabler/building";
+    import ThemeIcon from "@iconify-svelte/tabler/palette";
+    import LogoutIcon from "@iconify-svelte/tabler/logout";
+    import DeleteIcon from "@iconify-svelte/tabler/trash";
 
     const { data, form }: PageProps = $props();
 
@@ -232,7 +236,7 @@
         class="fixed inset-0 z-100 bg-black/40 flex items-center justify-center"
     >
         <div
-            class="absolute right-32 w-sm rounded-4xl px-5 py-3 top-28 bg-primary-slight-black border border-gray-300/10 z-100"
+            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-3 top-28 bg-primary-slight-black border border-gray-300/10 z-100"
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-xl font-semibold capitalize">more</h1>
@@ -250,28 +254,42 @@
 
             <!-- for the main content here -->
             <div>
-                <ul>
+                <ul class="space-y-5">
                     <li>
-                        <a href="/account-profile/manage-business">
-                            <span>manage business</span>
+                        <a
+                            href="/account-profile/manage-business"
+                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
+                        >
+                            <span class="capitalize">manage your business</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="/account-profile/manage-business">
-                            <span>theme and colors</span>
+                        <a
+                            href="/account-profile/manage-business"
+                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
+                        >
+                            <span class="capitalize">themes and colors</span>
                         </a>
                     </li>
 
                     <li>
-                        <button aria-label="logout button" title="Log out">
-                            <span>Log out</span>
+                        <button
+                            aria-label="logout button"
+                            title="Log out"
+                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg border cursor-pointer w-full hover:opacity-80 transition duration-200"
+                        >
+                            <span class="capitalize">Log out</span>
                         </button>
                     </li>
 
                     <li>
-                        <button aria-label="logout button" title="Log out">
-                            <span>Delete account</span>
+                        <button
+                            aria-label="logout button"
+                            title="Log out"
+                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg bg-red-600 text-red-100 w-full hover:opacity-80 transition duration-200"
+                        >
+                            <span class="capitalize">Delete your account</span>
                         </button>
                     </li>
                 </ul>
