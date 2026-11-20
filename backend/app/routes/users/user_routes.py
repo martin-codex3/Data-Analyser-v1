@@ -63,7 +63,7 @@ async def login_to_create_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    expire_delta = timedelta(minutes=AppSettings.access_token_expiry_minutes)
+    expire_delta = timedelta(days=AppSettings.access_token_expiry_minutes)
     token_data = {
         "user_id": str(user.id),
         "sub": str(tenant_user.tenant_id),
