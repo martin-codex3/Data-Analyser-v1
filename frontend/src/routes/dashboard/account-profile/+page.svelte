@@ -12,6 +12,7 @@
     import UpdateProfile from "#lib/components/modals/profiles/UpdateProfile.svelte";
     import TextInput from "#lib/components/inputs/TextInput.svelte";
     import SelectorIcon from "@iconify-svelte/tabler/selector";
+    import CloseIcon from "@iconify-svelte/tabler/x";
 
     const { data, form }: PageProps = $props();
 
@@ -228,13 +229,52 @@
 <!-- for the other options -->
 {#if openMoreOptions}
     <div
-        class="fixed inset-0 z-100 backdrop-blur-sm bg-black/20 flex items-center justify-center"
+        class="fixed inset-0 z-100 bg-black/40 flex items-center justify-center"
     >
         <div
-            class="absolute right-32 w-44 rounded-4xl px-5 py-3 top-28 bg-primary-slight-black border border-primary-main-orange/10 z-100"
+            class="absolute right-32 w-sm rounded-4xl px-5 py-3 top-28 bg-primary-slight-black border border-gray-300/10 z-100"
         >
+            <div class="flex items-center justify-between">
+                <h1 class="text-xl font-semibold capitalize">more</h1>
+                <button
+                    aria-label="closing options"
+                    title="Close Options"
+                    class="flex items-center justify-center cursor-pointer transition duration-300"
+                >
+                    <CloseIcon
+                        height="2.5em"
+                        class="flex items-center justify-center hover:bg-black rounded-full p-2"
+                    />
+                </button>
+            </div>
+
+            <!-- for the main content here -->
             <div>
-                <h1>hey mate</h1>
+                <ul>
+                    <li>
+                        <a href="/account-profile/manage-business">
+                            <span>manage business</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/account-profile/manage-business">
+                            <span>theme and colors</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <button aria-label="logout button" title="Log out">
+                            <span>Log out</span>
+                        </button>
+                    </li>
+
+                    <li>
+                        <button aria-label="logout button" title="Log out">
+                            <span>Delete account</span>
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
