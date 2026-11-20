@@ -11,6 +11,8 @@ from app.utils.base import Base
 if TYPE_CHECKING:
     from app.models.tenant_users.tenant_user import TenantUsers
 
+DEFAULT_PROFILE_IMAGE = "media/profile_pics/default.jpg"
+
 
 class ApplicationUser(Base):
     __tablename__ = "application_users"
@@ -23,18 +25,17 @@ class ApplicationUser(Base):
     phone_number: Mapped[str] = mapped_column(String(15))
     email: Mapped[str] = mapped_column(unique=True, index=True)
     username: Mapped[str | None] = mapped_column(String(100), nullable=True)
-    profile_image: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    profile_image: Mapped[str | None] = mapped_column(String(255), nullable=True)
     is_email_verified: Mapped[bool | None] = mapped_column(default=False, nullable=True)
     account_created_at: Mapped[datetime] = mapped_column(
         default=lambda: datetime.now(UTC)
     )
     bio: Mapped[str | None] = mapped_column(String(255), nullable=True)
-    password_hash: Mapped[str] = mapped_column(String(20), index=True)
+    password_hash: Mapped[str] = mapped_column(String(255), index=True)
     tenants: Mapped[list["TenantUsers"]] = relationship(
         back_populates="users", lazy="selectin"
     )
 
-    @classmethod
-    def profile_image_path(cls):
-        if not cls.profile_image:
-            return "media/profile_pics/default.jpg"
+    @property
+    def set_default_profile_image(self):
+        return self.profile_image or DEFAULT_PROFILE_IMAGE
