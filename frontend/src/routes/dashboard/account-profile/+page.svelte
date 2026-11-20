@@ -17,6 +17,7 @@
     import ThemeIcon from "@iconify-svelte/tabler/palette";
     import LogoutIcon from "@iconify-svelte/tabler/logout";
     import DeleteIcon from "@iconify-svelte/tabler/trash";
+    import { enhance } from "$app/forms";
 
     const { data, form }: PageProps = $props();
 
@@ -236,7 +237,7 @@
         class="fixed inset-0 z-100 bg-black/40 flex items-center justify-center"
     >
         <div
-            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-3 top-28 bg-primary-slight-black border border-gray-300/10 z-100"
+            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100"
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-xl font-semibold capitalize">more</h1>
@@ -254,12 +255,13 @@
 
             <!-- for the main content here -->
             <div>
-                <ul class="space-y-5">
+                <ul class="space-y-3">
                     <li>
                         <a
                             href="/account-profile/manage-business"
                             class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
                         >
+                            <BuildingIcon height="1.3em" class="shrink-0" />
                             <span class="capitalize">manage your business</span>
                         </a>
                     </li>
@@ -269,28 +271,51 @@
                             href="/account-profile/manage-business"
                             class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
                         >
+                            <ThemeIcon height="1.3em" class="shrink-0" />
                             <span class="capitalize">themes and colors</span>
                         </a>
                     </li>
 
                     <li>
-                        <button
-                            aria-label="logout button"
-                            title="Log out"
-                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg border cursor-pointer w-full hover:opacity-80 transition duration-200"
+                        <form
+                            action=""
+                            method="POST"
+                            use:enhance={() => {
+                                return async ({ update, result }) => {
+                                    await update();
+                                };
+                            }}
                         >
-                            <span class="capitalize">Log out</span>
-                        </button>
+                            <button
+                                aria-label="logout button"
+                                title="Log out"
+                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg cursor-pointer w-full hover:bg-white hover:text-primary-main-black transition duration-200"
+                            >
+                                <LogoutIcon height="1.3em" class="shrink-0" />
+                                <span class="capitalize">Log out</span>
+                            </button>
+                        </form>
                     </li>
 
                     <li>
-                        <button
-                            aria-label="logout button"
-                            title="Log out"
-                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg bg-red-600 text-red-100 w-full hover:opacity-80 transition duration-200"
+                        <form
+                            action=""
+                            method="POST"
+                            use:enhance={() => {
+                                return async ({ result, update }) => {};
+                            }}
                         >
-                            <span class="capitalize">Delete your account</span>
-                        </button>
+                            <button
+                                aria-label="logout button"
+                                title="Log out"
+                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black w-full hover:opacity-80 transition duration-200"
+                            >
+                                <DeleteIcon height="1.3em" class="shrink-0" />
+                                <span class="capitalize"
+                                    >Delete your account</span
+                                >
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>
