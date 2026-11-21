@@ -107,3 +107,5 @@ class ApplicationUserResponse(BaseModel):
     is_email_verified: bool = Field(default=False)
     bio: str | None
     account_created_at: datetime = Field(default=datetime.now(UTC))
+
+    model_config = ConfigDict(from_attributes=True)

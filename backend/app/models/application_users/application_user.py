@@ -38,4 +38,6 @@ class ApplicationUser(Base):
 
     @property
     def set_default_profile_image(self):
-        return self.profile_image or DEFAULT_PROFILE_IMAGE
+        if not self.profile_image:
+            return DEFAULT_PROFILE_IMAGE
+        return f"/media/profile_pics/{self.profile_image}"

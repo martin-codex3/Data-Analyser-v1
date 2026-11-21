@@ -176,6 +176,7 @@ async def updload_profile_picture(
 
     old_filename = current_user.profile_image
     current_user.profile_image = new_filename
+
     await session.commit()
     await session.refresh(current_user)
 
