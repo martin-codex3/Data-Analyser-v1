@@ -24,8 +24,6 @@ def process_profile_image(content: bytes) -> str:
         filename = f"{uuid.uuid4().hex}.jpg"
         filepath = IMAGE_UPLOAD_DIR / filename
 
-        # we will create the directory if it does not exists
-
         img.save(filepath, "JPEG", quality=85, optimize=True)
 
     return filename

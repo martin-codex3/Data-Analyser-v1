@@ -142,7 +142,7 @@ async def delete_user_account(
 
 
 # for removing the profile image
-@users_routes.post("/{user_id}/picture")
+@users_routes.post("/{user_id}/picture", response_model=ApplicationUserResponse)
 async def updload_profile_picture(
     user_id: uuid.UUID,
     current_user: CurrentUser,
