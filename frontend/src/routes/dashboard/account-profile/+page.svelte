@@ -17,6 +17,7 @@
     import ThemeIcon from "@iconify-svelte/tabler/palette";
     import LogoutIcon from "@iconify-svelte/tabler/logout";
     import DeleteIcon from "@iconify-svelte/tabler/trash";
+    import KeysIcon from "@iconify-svelte/tabler/lock";
     import { enhance } from "$app/forms";
 
     const { data, form }: PageProps = $props();
@@ -178,45 +179,6 @@
                     />
                 {/each}
             </div>
-
-            <!-- for the password updates -->
-            <div class="bg-black rounded-4xl px-5 py-5 space-y-10">
-                <div class="space-y-px">
-                    <h1 class="text-2xl capitalize font-semibold">
-                        change password
-                    </h1>
-                    <p>
-                        You will be redirected to the login page when the
-                        password change is successful
-                    </p>
-                </div>
-
-                <div>
-                    <form action="">
-                        <div class="form__wrapper space-y-5">
-                            <TextInput
-                                type="text"
-                                id="Password"
-                                placeholder=""
-                                value=""
-                                label="Current Password"
-                                inputError=""
-                                name="password"
-                            />
-
-                            <TextInput
-                                type="text"
-                                id="Password"
-                                placeholder=""
-                                value=""
-                                label="New Password"
-                                inputError=""
-                                name="password"
-                            />
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -237,13 +199,14 @@
         class="fixed inset-0 z-100 bg-black/40 flex items-center justify-center"
     >
         <div
-            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100"
+            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100 motion-preset-slide-down-sm motion-duration-200"
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-xl font-semibold capitalize">more</h1>
                 <button
                     aria-label="closing options"
                     title="Close Options"
+                    onclick={handleCloseMoreOptions}
                     class="flex items-center justify-center cursor-pointer transition duration-300"
                 >
                     <CloseIcon
@@ -262,7 +225,9 @@
                             class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
                         >
                             <BuildingIcon height="1.3em" class="shrink-0" />
-                            <span class="capitalize">manage your business</span>
+                            <span class="first-letter:uppercase"
+                                >manage your business</span
+                            >
                         </a>
                     </li>
 
@@ -272,8 +237,34 @@
                             class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
                         >
                             <ThemeIcon height="1.3em" class="shrink-0" />
-                            <span class="capitalize">themes and colors</span>
+                            <span class="first-letter:uppercase"
+                                >themes and colors</span
+                            >
                         </a>
+                    </li>
+
+                    <!-- for updating the user password here -->
+                    <li>
+                        <form
+                            action=""
+                            method="POST"
+                            use:enhance={() => {
+                                return async ({ update, result }) => {
+                                    await update();
+                                };
+                            }}
+                        >
+                            <button
+                                aria-label="logout button"
+                                title="Log out"
+                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg cursor-pointer w-full hover:bg-white hover:text-primary-main-black transition duration-200"
+                            >
+                                <KeysIcon height="1.3em" class="shrink-0" />
+                                <span class="first-letter:uppercase"
+                                    >update your password</span
+                                >
+                            </button>
+                        </form>
                     </li>
 
                     <li>
@@ -292,7 +283,9 @@
                                 class="flex items-center gap-3 rounded-full px-3 py-2 text-lg cursor-pointer w-full hover:bg-white hover:text-primary-main-black transition duration-200"
                             >
                                 <LogoutIcon height="1.3em" class="shrink-0" />
-                                <span class="capitalize">Log out</span>
+                                <span class="first-letter:uppercase"
+                                    >Log out</span
+                                >
                             </button>
                         </form>
                     </li>
@@ -308,7 +301,7 @@
                             <button
                                 aria-label="logout button"
                                 title="Log out"
-                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black w-full hover:opacity-80 transition duration-200"
+                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg cursor-pointer hover:bg-white hover:text-primary-main-black w-full hover:opacity-80 transition duration-200"
                             >
                                 <DeleteIcon height="1.3em" class="shrink-0" />
                                 <span class="capitalize"
