@@ -14,7 +14,7 @@ class CreateTenantUserSchema(BaseModel):
     last_name: str = Field(min_length=5, max_length=40)
     phone_number: MalawiPhone
     email: EmailStr
-    business_name: str = Field(min_length=5, max_length=40)
+    business_name: str = Field(min_length=5, max_length=100)
     business_type: str = Field(min_length=2)
     business_email: EmailStr
     business_phone: MalawiPhone

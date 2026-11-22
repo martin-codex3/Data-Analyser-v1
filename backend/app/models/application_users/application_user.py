@@ -22,7 +22,7 @@ class ApplicationUser(Base):
     )
     first_name: Mapped[str] = mapped_column(String(50))
     last_name: Mapped[str] = mapped_column(String(50))
-    phone_number: Mapped[str] = mapped_column(String(15))
+    phone_number: Mapped[str] = mapped_column(String(50))
     email: Mapped[str] = mapped_column(unique=True, index=True)
     username: Mapped[str | None] = mapped_column(String(100), nullable=True)
     profile_image: Mapped[str | None] = mapped_column(String(255), nullable=True)
@@ -37,7 +37,7 @@ class ApplicationUser(Base):
     )
 
     @property
-    def set_default_profile_image(self):
+    def profile_image_url(self):
         if not self.profile_image:
             return DEFAULT_PROFILE_IMAGE
         return f"/media/profile_pics/{self.profile_image}"
