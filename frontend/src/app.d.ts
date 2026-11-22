@@ -8,7 +8,7 @@ import type { ValidationError } from "@sveltejs/kit";
 declare global {
 	namespace App {
 		interface Error {
-			formErrors: ValidationError
+
 		}
 		interface Locals {
 			token: string | undefined,

@@ -39,7 +39,7 @@
             <ul class="space-y-3">
                 <li>
                     <a
-                        href="/account-profile/manage-business"
+                        href="/dashboard/organisation-profile"
                         class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
                     >
                         <BuildingIcon height="1.3em" class="shrink-0" />
