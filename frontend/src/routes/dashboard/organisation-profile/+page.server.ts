@@ -1,9 +1,7 @@
-import { error, redirect } from "@sveltejs/kit";
-import type { PageServerLoad } from "./$types";
+import type { Actions } from "@sveltejs/kit";
 
-import type { ValidationErrors } from "#lib/types/validations/validation_errors.ts";
-
-export const load: PageServerLoad = async ({ locals, fetch }) => {
-
-
+export const actions: Actions = {
+    updateTenantProfile: async ({ fetch, locals, request }) => {
+        console.log("Hey mate we are here too");
+    }
 }

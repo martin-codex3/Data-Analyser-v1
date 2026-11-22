@@ -42,7 +42,7 @@
 {#snippet modalBody()}
     <div>
         <form
-            action="?/updateProfile"
+            action="?/updateTenantProfile"
             method="POST"
             use:enhance={() => {
                 isUpdatingProfile = true;
@@ -104,7 +104,7 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between">
                 <h1 class="text-xl font-semibold first-letter:capitalize">
-                    update profile
+                    update organisation
                 </h1>
 
                 <button
