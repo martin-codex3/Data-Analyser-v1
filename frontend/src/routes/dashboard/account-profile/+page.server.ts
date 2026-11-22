@@ -55,13 +55,13 @@ export const actions: Actions = {
         const file = data.get("file");
 
         if (!(file instanceof File) || file.size === 0) {
-            return;
+            return fail(400, { message: "Send valid files (JPEG, JPG, PNG, GIF)" });
         }
 
         const fileData = new FormData();
         fileData.append("file", file, file.name);
 
-        const response = await fetch(`${PUBLIC_API_ENDPOINT}/${user.id}/picture`, {
+        const response = await fetch(`${PUBLIC_API_ENDPOINT}/users/${user.id}/picture`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${access_token}`

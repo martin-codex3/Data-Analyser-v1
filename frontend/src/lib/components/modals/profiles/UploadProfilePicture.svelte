@@ -5,6 +5,8 @@
     import { enhance } from "$app/forms";
     import FileUploadIcon from "@iconify-svelte/tabler/pencil";
     import CloseIcon from "@iconify-svelte/tabler/x";
+    import { toast } from "svelte-sonner";
+    import LoadingIcon from "@iconify-svelte/svg-spinners/180-ring";
 
     interface Props {
         user: User;
@@ -13,19 +15,25 @@
     }
 
     const { user, closeModal, form }: Props = $props();
+    let errorTitle: string = $state("");
+
+    $effect(() => {
+        if (form?.problem?.title) {
+            errorTitle = form?.problem?.title;
+        }
+
+        if (form?.message) {
+            errorTitle = form?.message;
+        }
+    });
 
     const handleCloseModal = () => {
         closeModal();
     };
 
-    const files: FileList | undefined | null = $state();
-
-    const handleUploadFile = () => {
-        if (!files || files.length === 0) {
-            return;
-        }
-        console.log(files);
-    };
+    const fieldErrors = $derived((field: string) => {
+        return form?.problem?.errors?.find((e) => field === e.pointer);
+    });
 </script>
 
 <div
@@ -70,25 +78,54 @@
                     use:enhance={() => {
                         return async ({ update, result }) => {
                             await update();
+
+                            if (result.type === "error") {
+                                toast.error(errorTitle);
+                            }
+
+                            if (result.type === "failure") {
+                                toast.error(errorTitle);
+                            }
+
+                            if (result.type === "success") {
+                                toast.success("Profile uploaded successfully");
+                            }
                         };
                     }}
                 >
                     <div class="flex items-center w-full gap-3">
-                        <input
-                            type="file"
-                            accept="images/*"
-                            name="file"
-                            onchange={handleUploadFile}
-                            class="w-full rounded-full border border-gray-100 px-4 py-3"
-                        />
+                        <div class="w-full">
+                            <input
+                                type="file"
+                                accept="images/*"
+                                name="file"
+                                class={[
+                                    "w-full rounded-full border border-gray-100 px-4 py-3",
+                                    form?.message
+                                        ? "border-red-600 text-red-600"
+                                        : "",
+                                ]}
+                            />
+                            {#if fieldErrors("#/profile_image")?.detail}
+                                <span
+                                    >{fieldErrors("#/profile_image")
+                                        ?.detail}</span
+                                >
+                            {/if}
+                        </div>
 
-                        <button
-                            aria-label="upload profile picture"
-                            title="Save Profile Picture"
-                            class="flex items-center justify-center p-3 rounded-full bg-primary-main-orange text-orange-950 cursor-pointer"
-                        >
-                            <FileUploadIcon height="1.5em" class="shrink-0" />
-                        </button>
+                        <div>
+                            <button
+                                aria-label="upload profile picture"
+                                title="Save Profile Picture"
+                                class="flex items-center justify-center p-3 rounded-full bg-primary-main-orange text-orange-950 cursor-pointer"
+                            >
+                                <FileUploadIcon
+                                    height="1.5em"
+                                    class="shrink-0"
+                                />
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
