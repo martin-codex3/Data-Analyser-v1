@@ -41,5 +41,24 @@ export const actions: Actions = {
         }
 
         return { success: true }
+    },
+
+    handleUploadedFile: async ({ request, fetch, locals }) => {
+        const user = locals.user;
+
+        if (!user) {
+            redirect(307, "/")
+        }
+
+        const data = await request.formData();
+        const file = data.get("file")
+
+        if (!(file instanceof File) || file.size === 0) {
+            return fail(400, { problem: "Invalid file selected" })
+        }
+
+        console.log(file)
+
+
     }
 }

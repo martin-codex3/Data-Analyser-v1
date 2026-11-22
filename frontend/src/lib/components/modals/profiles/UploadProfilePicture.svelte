@@ -1,5 +1,6 @@
 <script lang="ts">
     import { PUBLIC_API_ENDPOINT } from "$app/env/public";
+    import { enhance } from "$app/forms";
     import FileUploadIcon from "@iconify-svelte/tabler/pencil";
     import CloseIcon from "@iconify-svelte/tabler/x";
 
@@ -9,19 +10,13 @@
         closeModal();
     };
 
-    let files: FileList | null | undefined = $state();
-    let uploadedFile: string = $state("");
+    const files: FileList | undefined | null = $state();
 
-    const handleUploadFile = async () => {
+    const handleUploadFile = () => {
         if (!files || files.length === 0) {
             return;
         }
-        for (let file of files!) {
-            uploadedFile = file?.name;
-        }
-
-        if (uploadedFile) {
-        }
+        console.log(files);
     };
 </script>
 
@@ -59,22 +54,35 @@
                 <p>upload files in (JPEG, JPG, PNG, GIF) format</p>
             </div>
 
-            <div class="flex items-center w-full gap-3">
-                <input
-                    type="file"
-                    accept="images/*"
-                    bind:files
-                    class="w-full rounded-full border border-gray-100 px-4 py-3"
-                />
-
-                <button
-                    aria-label="upload profile picture"
-                    title="Save Profile Picture"
-                    onclick={handleUploadFile}
-                    class="flex items-center justify-center p-3 rounded-full bg-primary-main-orange text-orange-950 cursor-pointer"
+            <div>
+                <form
+                    action="?/handleUploadedFile"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    use:enhance={() => {
+                        return async ({ update, result }) => {
+                            await update();
+                        };
+                    }}
                 >
-                    <FileUploadIcon height="1.5em" class="shrink-0" />
-                </button>
+                    <div class="flex items-center w-full gap-3">
+                        <input
+                            type="file"
+                            accept="images/*"
+                            name="file"
+                            onchange={handleUploadFile}
+                            class="w-full rounded-full border border-gray-100 px-4 py-3"
+                        />
+
+                        <button
+                            aria-label="upload profile picture"
+                            title="Save Profile Picture"
+                            class="flex items-center justify-center p-3 rounded-full bg-primary-main-orange text-orange-950 cursor-pointer"
+                        >
+                            <FileUploadIcon height="1.5em" class="shrink-0" />
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
