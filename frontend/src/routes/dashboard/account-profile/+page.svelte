@@ -12,15 +12,12 @@
     import UpdateProfile from "#lib/components/modals/profiles/UpdateProfile.svelte";
     import TextInput from "#lib/components/inputs/TextInput.svelte";
     import SelectorIcon from "@iconify-svelte/tabler/selector";
-    import CloseIcon from "@iconify-svelte/tabler/x";
-    import BuildingIcon from "@iconify-svelte/tabler/building";
-    import ThemeIcon from "@iconify-svelte/tabler/palette";
-    import LogoutIcon from "@iconify-svelte/tabler/logout";
-    import DeleteIcon from "@iconify-svelte/tabler/trash";
-    import KeysIcon from "@iconify-svelte/tabler/lock";
+
     import { enhance } from "$app/forms";
     import PictureIcon from "@iconify-svelte/tabler/photo";
     import { PUBLIC_API_ENDPOINT } from "$app/env/public";
+    import UploadProfilePicture from "#lib/components/modals/profiles/UploadProfilePicture.svelte";
+    import MoreOptions from "#lib/components/modals/options/MoreOptions.svelte";
 
     const { data, form }: PageProps = $props();
 
@@ -228,140 +225,10 @@
 
 <!-- for the other options -->
 {#if isOpeningOptions}
-    <div
-        class="fixed inset-0 z-100 bg-black/40 flex items-center justify-center"
-    >
-        <div
-            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100 motion-preset-slide-down-sm motion-duration-150"
-        >
-            <div class="flex items-center justify-between">
-                <h1 class="text-xl font-semibold capitalize">more</h1>
-                <button
-                    aria-label="closing options"
-                    title="Close Options"
-                    onclick={handleCloseMoreOptions}
-                    class="flex items-center justify-center cursor-pointer transition duration-300"
-                >
-                    <CloseIcon
-                        height="2.5em"
-                        class="flex items-center justify-center hover:bg-black rounded-full p-2"
-                    />
-                </button>
-            </div>
-
-            <!-- for the main content here -->
-            <div>
-                <ul class="space-y-3">
-                    <li>
-                        <a
-                            href="/account-profile/manage-business"
-                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
-                        >
-                            <BuildingIcon height="1.3em" class="shrink-0" />
-                            <span class="first-letter:uppercase"
-                                >manage your business</span
-                            >
-                        </a>
-                    </li>
-
-                    <li>
-                        <a
-                            href="/account-profile/manage-business"
-                            class="flex items-center gap-3 rounded-full px-3 py-2 text-lg hover:bg-white hover:text-primary-main-black transition duration-200"
-                        >
-                            <ThemeIcon height="1.3em" class="shrink-0" />
-                            <span class="first-letter:uppercase"
-                                >themes and colors</span
-                            >
-                        </a>
-                    </li>
-
-                    <!-- for updating the user password here -->
-                    <li>
-                        <form
-                            action=""
-                            method="POST"
-                            use:enhance={() => {
-                                return async ({ update, result }) => {
-                                    await update();
-                                };
-                            }}
-                        >
-                            <button
-                                aria-label="logout button"
-                                title="Log out"
-                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg cursor-pointer w-full hover:bg-white hover:text-primary-main-black transition duration-200"
-                            >
-                                <KeysIcon height="1.3em" class="shrink-0" />
-                                <span class="first-letter:uppercase"
-                                    >update your password</span
-                                >
-                            </button>
-                        </form>
-                    </li>
-
-                    <li>
-                        <form
-                            action=""
-                            method="POST"
-                            use:enhance={() => {
-                                return async ({ update, result }) => {
-                                    await update();
-                                };
-                            }}
-                        >
-                            <button
-                                aria-label="logout button"
-                                title="Log out"
-                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg cursor-pointer w-full hover:bg-white hover:text-primary-main-black transition duration-200"
-                            >
-                                <LogoutIcon height="1.3em" class="shrink-0" />
-                                <span class="first-letter:uppercase"
-                                    >Log out</span
-                                >
-                            </button>
-                        </form>
-                    </li>
-
-                    <li>
-                        <form
-                            action=""
-                            method="POST"
-                            use:enhance={() => {
-                                return async ({ result, update }) => {};
-                            }}
-                        >
-                            <button
-                                aria-label="logout button"
-                                title="Log out"
-                                class="flex items-center gap-3 rounded-full px-3 py-2 text-lg cursor-pointer hover:bg-white hover:text-primary-main-black w-full hover:opacity-80 transition duration-200"
-                            >
-                                <DeleteIcon height="1.3em" class="shrink-0" />
-                                <span class="capitalize"
-                                    >Delete your account</span
-                                >
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <MoreOptions closeModal={handleCloseMoreOptions} />
 {/if}
 
 <!-- for uploading the profile image here -->
 {#if openProfileModal}
-    <div
-        class="fixed bg-black/10 backdrop-blur-sm inset-0 z-100 flex items-center justify-center"
-    >
-        <div
-            class="bg-primary-slight-black w-full max-w-sm rounded-4xl border border-primary-main-orange/10"
-        >
-            <img
-                src={`${PUBLIC_API_ENDPOINT}${data.user.profile_image_url}`}
-                alt=""
-                class="h-70 w-full object-cover bg-cover rounded-tr-4xl rounded-tl-4xl"
-            />
-        </div>
-    </div>
+    <UploadProfilePicture user={data.user} />
 {/if}
