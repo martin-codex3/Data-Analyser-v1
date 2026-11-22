@@ -20,6 +20,7 @@
     import KeysIcon from "@iconify-svelte/tabler/lock";
     import { enhance } from "$app/forms";
     import PictureIcon from "@iconify-svelte/tabler/photo";
+    import { PUBLIC_API_ENDPOINT } from "$app/env/public";
 
     const { data, form }: PageProps = $props();
 
@@ -129,18 +130,10 @@
     // for the more options modal
     const handleOpenMoreOptions = () => {
         isOpeningOptions = true;
-        isClosingOptions = false;
     };
 
     const handleCloseMoreOptions = () => {
-        isClosingOptions = true;
-    };
-
-    const handleAnimationEnd = () => {
-        if (isClosingOptions) {
-            isOpeningOptions = false;
-            isClosingOptions = false;
-        }
+        isOpeningOptions = false;
     };
 
     const handleOpenUploadProfileModal = () => {
@@ -160,7 +153,11 @@
             <!-- for the main header -->
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-5">
-                    <div class="rounded-full border h-32 w-32"></div>
+                    <img
+                        src={`${PUBLIC_API_ENDPOINT}${data.user.profile_image_url}`}
+                        alt=""
+                        class="h-32 w-32 border-none rounded-full shrink-0"
+                    />
                     <div class="space-y-3">
                         <div>
                             <h1 class="capitalize text-lg font-semibold">
@@ -172,6 +169,7 @@
                             <button
                                 aria-label="uploading profile pictures"
                                 title="Upload Profile"
+                                onclick={handleOpenUploadProfileModal}
                                 class="flex items-center gap-2 justify-center cursor-pointer hover:opacity-80 transition duration-200 bg-green-100 text-green-900 rounded-full px-4 py-2"
                             >
                                 <PictureIcon height="1.5em" class="shrink-0" />
@@ -234,13 +232,7 @@
         class="fixed inset-0 z-100 bg-black/40 flex items-center justify-center"
     >
         <div
-            class={[
-                "absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100",
-                isClosingOptions
-                    ? "motion-opacity-out-5"
-                    : "motion-preset-slide-down-sm motion-duration-500 motion-opacity-in-10",
-            ]}
-            onanimationend={handleAnimationEnd}
+            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100 motion-preset-slide-down-sm motion-duration-150"
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-xl font-semibold capitalize">more</h1>
@@ -353,6 +345,23 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </div>
+{/if}
+
+<!-- for uploading the profile image here -->
+{#if openProfileModal}
+    <div
+        class="fixed bg-black/10 backdrop-blur-sm inset-0 z-100 flex items-center justify-center"
+    >
+        <div
+            class="bg-primary-slight-black w-full max-w-sm rounded-4xl border border-primary-main-orange/10"
+        >
+            <img
+                src={`${PUBLIC_API_ENDPOINT}${data.user.profile_image_url}`}
+                alt=""
+                class="h-70 w-full object-cover bg-cover rounded-tr-4xl rounded-tl-4xl"
+            />
         </div>
     </div>
 {/if}
