@@ -6,6 +6,7 @@
     import DeleteIcon from "@iconify-svelte/tabler/trash";
     import KeysIcon from "@iconify-svelte/tabler/lock";
     import { enhance } from "$app/forms";
+    import { toast } from "svelte-sonner";
 
     const { closeModal } = $props();
 
@@ -86,11 +87,23 @@
 
                 <li>
                     <form
-                        action=""
+                        action="?/logoutUsers"
                         method="POST"
                         use:enhance={() => {
                             return async ({ update, result }) => {
                                 await update();
+
+                                if (result.type === "error") {
+                                    toast.error("Something went wrong");
+                                }
+
+                                if (result.type === "failure") {
+                                    toast.error("Something went wrong");
+                                }
+
+                                if (result.type === "success") {
+                                    toast.error("Logged out successfully");
+                                }
                             };
                         }}
                     >

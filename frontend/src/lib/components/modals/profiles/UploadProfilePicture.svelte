@@ -16,6 +16,7 @@
 
     const { user, closeModal, form }: Props = $props();
     let errorTitle: string = $state("");
+    let isUpdatingProfile: boolean = $state(false);
 
     $effect(() => {
         if (form?.problem?.title) {
@@ -76,8 +77,10 @@
                     method="POST"
                     enctype="multipart/form-data"
                     use:enhance={() => {
+                        isUpdatingProfile = true;
                         return async ({ update, result }) => {
                             await update();
+                            isUpdatingProfile = false;
 
                             if (result.type === "error") {
                                 toast.error(errorTitle);
@@ -120,10 +123,17 @@
                                 title="Save Profile Picture"
                                 class="flex items-center justify-center p-3 rounded-full bg-primary-main-orange text-orange-950 cursor-pointer"
                             >
-                                <FileUploadIcon
-                                    height="1.5em"
-                                    class="shrink-0"
-                                />
+                                {#if isUpdatingProfile}
+                                    <LoadingIcon
+                                        height="1.5em"
+                                        class="shrink-0"
+                                    />
+                                {:else}
+                                    <FileUploadIcon
+                                        height="1.5em"
+                                        class="shrink-0"
+                                    />
+                                {/if}
                             </button>
                         </div>
                     </div>

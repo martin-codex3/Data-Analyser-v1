@@ -75,7 +75,16 @@ export const actions: Actions = {
         }
 
         return { success: true }
+    },
 
+    logoutUsers: async ({ locals, cookies }) => {
+        const access_token = locals.token;
+
+        if (!access_token) {
+            redirect(307, "/");
+        }
+
+        cookies.delete("access_token", { path: "/" });
 
     }
 }
