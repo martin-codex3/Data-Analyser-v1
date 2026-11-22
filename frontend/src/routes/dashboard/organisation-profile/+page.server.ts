@@ -1,7 +1,36 @@
-import type { Actions } from "@sveltejs/kit";
+import { fail, redirect, type Actions } from "@sveltejs/kit";
+import { PUBLIC_API_ENDPOINT } from "$app/env/public";
+import type { ValidationErrors } from "#lib/types/validations/validation_errors.ts";
 
 export const actions: Actions = {
     updateTenantProfile: async ({ fetch, locals, request }) => {
-        console.log("Hey mate we are here too");
+
+        const user = locals.user;
+
+        if (!user) { redirect(307, "/") }
+
+        const access_token = locals.token;
+
+        const data = await request.formData();
+
+        const payload = Object.fromEntries(data);
+
+        const response = await fetch(`${PUBLIC_API_ENDPOINT}/tenants/${user.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${access_token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const responseData: ValidationErrors = await response.json();
+            console.log(responseData)
+            return fail(response.status, { problem: responseData });
+        }
+
+        return { success: true }
+
     }
 }
