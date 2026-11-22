@@ -19,6 +19,7 @@
     import DeleteIcon from "@iconify-svelte/tabler/trash";
     import KeysIcon from "@iconify-svelte/tabler/lock";
     import { enhance } from "$app/forms";
+    import PictureIcon from "@iconify-svelte/tabler/photo";
 
     const { data, form }: PageProps = $props();
 
@@ -103,7 +104,12 @@
     let fieldValue: String | undefined | boolean | object = $state("");
     let fieldLabel: string = $state("");
     // for opening the more options
-    let openMoreOptions: boolean = $state(false);
+
+    let isOpeningOptions: boolean = $state(false);
+    let isClosingOptions: boolean = $state(false);
+
+    // for uploading the profile photo
+    let openProfileModal: boolean = $state(false);
 
     const handleOpenModal = (
         name: string,
@@ -120,12 +126,29 @@
         openModal = false;
     };
 
+    // for the more options modal
     const handleOpenMoreOptions = () => {
-        openMoreOptions = true;
+        isOpeningOptions = true;
+        isClosingOptions = false;
     };
 
     const handleCloseMoreOptions = () => {
-        openMoreOptions = false;
+        isClosingOptions = true;
+    };
+
+    const handleAnimationEnd = () => {
+        if (isClosingOptions) {
+            isOpeningOptions = false;
+            isClosingOptions = false;
+        }
+    };
+
+    const handleOpenUploadProfileModal = () => {
+        openProfileModal = true;
+    };
+
+    const closeOpenUploadProfileModal = () => {
+        openProfileModal = true;
     };
 </script>
 
@@ -137,12 +160,24 @@
             <!-- for the main header -->
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-5">
-                    <div class="rounded-full border h-20 w-20"></div>
-                    <div>
-                        <h1 class="capitalize text-lg font-semibold">
-                            {data.user.first_name}
-                        </h1>
-                        <p>{data.user.email}</p>
+                    <div class="rounded-full border h-32 w-32"></div>
+                    <div class="space-y-3">
+                        <div>
+                            <h1 class="capitalize text-lg font-semibold">
+                                {data.user.first_name}
+                            </h1>
+                            <p>{data.user.email}</p>
+                        </div>
+                        <form action="">
+                            <button
+                                aria-label="uploading profile pictures"
+                                title="Upload Profile"
+                                class="flex items-center gap-2 justify-center cursor-pointer hover:opacity-80 transition duration-200 bg-green-100 text-green-900 rounded-full px-4 py-2"
+                            >
+                                <PictureIcon height="1.5em" class="shrink-0" />
+                                <span>upload profile</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -194,12 +229,18 @@
 {/if}
 
 <!-- for the other options -->
-{#if openMoreOptions}
+{#if isOpeningOptions}
     <div
         class="fixed inset-0 z-100 bg-black/40 flex items-center justify-center"
     >
         <div
-            class="absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100 motion-preset-slide-down-sm motion-duration-200"
+            class={[
+                "absolute right-32 w-sm rounded-4xl space-y-5 px-5 py-5 top-28 bg-primary-slight-black border border-gray-300/10 z-100",
+                isClosingOptions
+                    ? "motion-opacity-out-5"
+                    : "motion-preset-slide-down-sm motion-duration-500 motion-opacity-in-10",
+            ]}
+            onanimationend={handleAnimationEnd}
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-xl font-semibold capitalize">more</h1>
