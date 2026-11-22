@@ -1,7 +1,6 @@
 <script lang="ts">
     import SelectorIcon from "@iconify-svelte/tabler/selector";
     import PictureIcon from "@iconify-svelte/tabler/photo";
-    import { PUBLIC_API_ENDPOINT } from "$app/env/public";
     import type { PageProps } from "./$types";
     import TenantCard from "#lib/components/cards/TenantCard.svelte";
     import BuildingStoreIcon from "@iconify-svelte/tabler/building-store";
@@ -26,8 +25,9 @@
     import CalendarPlusIcon from "@iconify-svelte/tabler/calendar-plus";
     import CalendarEventIcon from "@iconify-svelte/tabler/calendar-event";
     import TrashIcon from "@iconify-svelte/tabler/trash";
+    import UpdateTenantProfile from "#lib/components/modals/tenants/UpdateTenantProfile.svelte";
 
-    const { data }: PageProps = $props();
+    const { data, form }: PageProps = $props();
 
     interface Props {
         title: string;
@@ -219,7 +219,7 @@
     <div
         class="w-full max-w-4xl rounded-4xl bg-primary-slight-black h-[calc(100vh-2rem)] px-5 py-5"
     >
-        <div class="h-full overflow-auto scrollbar-thin">
+        <div class="h-full overflow-auto scrollbar-thin space-y-10 px-5">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-5">
                     <div class="rounded-full h-32 w-32 border"></div>
@@ -254,7 +254,7 @@
             </div>
 
             <!-- for the main content here  -->
-            <div>
+            <div class="space-y-1">
                 {#each tenantData as tenant, index}
                     <TenantCard
                         Icon={tenant.Icon}
@@ -276,3 +276,13 @@
         </div>
     </div>
 </div>
+
+{#if openModal}
+    <UpdateTenantProfile
+        name={fieldName}
+        value={fieldValue}
+        label={fieldLabel}
+        closeModal={handleCloseModal}
+        {form}
+    />
+{/if}
