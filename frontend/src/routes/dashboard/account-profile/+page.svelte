@@ -138,7 +138,7 @@
     };
 
     const closeOpenUploadProfileModal = () => {
-        openProfileModal = true;
+        openProfileModal = false;
     };
 </script>
 
@@ -230,5 +230,8 @@
 
 <!-- for uploading the profile image here -->
 {#if openProfileModal}
-    <UploadProfilePicture user={data.user} />
+    <UploadProfilePicture
+        user={data.user}
+        closeModal={closeOpenUploadProfileModal}
+    />
 {/if}
