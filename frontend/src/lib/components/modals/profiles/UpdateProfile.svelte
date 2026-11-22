@@ -4,15 +4,15 @@
     import { enhance } from "$app/forms";
     import CancelIcon from "@iconify-svelte/tabler/x";
     import { toast } from "svelte-sonner";
-    import type { ActionData } from "../../../../routes/dashboard/account-profile/$types";
     import TextAreaInput from "#lib/components/inputs/TextAreaInput.svelte";
+    import type { FormResponse } from "#lib/types/forms/form_response.ts";
 
     interface Props {
         name: string;
         value: string | undefined | boolean | object;
         label: string;
         closeModal: () => void;
-        form: ActionData;
+        form: FormResponse | null;
     }
 
     const { name, value, label, closeModal, form }: Props = $props();
@@ -28,10 +28,14 @@
         if (form?.problem?.detail) {
             errorTitle = form?.problem?.detail;
         }
+
+        if (form?.message) {
+            errorTitle = form.message;
+        }
     });
 
     const fieldErrors = $derived((field: string) => {
-        return form?.problem?.errors.find((e) => field === e.pointer);
+        return form?.problem?.errors?.find((e) => field === e.pointer);
     });
 </script>
 
@@ -55,7 +59,7 @@
                     }
 
                     if (result.type === "success") {
-                        toast.success("Okay");
+                        toast.success("Profile updated successfully");
                     }
                 };
             }}

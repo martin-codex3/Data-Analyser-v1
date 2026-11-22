@@ -1,10 +1,18 @@
 <script lang="ts">
+    import type { FormResponse } from "#lib/types/forms/form_response.ts";
+    import type { User } from "#lib/types/users/user.ts";
     import { PUBLIC_API_ENDPOINT } from "$app/env/public";
     import { enhance } from "$app/forms";
     import FileUploadIcon from "@iconify-svelte/tabler/pencil";
     import CloseIcon from "@iconify-svelte/tabler/x";
 
-    const { user, closeModal } = $props();
+    interface Props {
+        user: User;
+        closeModal: () => void;
+        form: FormResponse | null;
+    }
+
+    const { user, closeModal, form }: Props = $props();
 
     const handleCloseModal = () => {
         closeModal();

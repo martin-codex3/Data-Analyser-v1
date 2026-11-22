@@ -49,15 +49,32 @@ export const actions: Actions = {
         if (!user) {
             redirect(307, "/")
         }
+        const access_token = locals.token;
 
         const data = await request.formData();
-        const file = data.get("file")
+        const file = data.get("file");
 
         if (!(file instanceof File) || file.size === 0) {
-            return fail(400, { problem: "Invalid file selected" })
+            return;
         }
 
-        console.log(file)
+        const fileData = new FormData();
+        fileData.append("file", file, file.name);
+
+        const response = await fetch(`${PUBLIC_API_ENDPOINT}/${user.id}/picture`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${access_token}`
+            },
+            body: fileData
+        });
+
+        if (!response.ok) {
+            const responseData: ValidationErrors = await response.json()
+            return fail(response.status, { problem: responseData });
+        }
+
+        return { success: true }
 
 
     }

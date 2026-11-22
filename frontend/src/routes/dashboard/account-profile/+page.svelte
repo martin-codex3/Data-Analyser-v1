@@ -10,10 +10,7 @@
     import ProfileCard from "#lib/components/cards/ProfileCard.svelte";
     import { format } from "date-fns";
     import UpdateProfile from "#lib/components/modals/profiles/UpdateProfile.svelte";
-    import TextInput from "#lib/components/inputs/TextInput.svelte";
     import SelectorIcon from "@iconify-svelte/tabler/selector";
-
-    import { enhance } from "$app/forms";
     import PictureIcon from "@iconify-svelte/tabler/photo";
     import { PUBLIC_API_ENDPOINT } from "$app/env/public";
     import UploadProfilePicture from "#lib/components/modals/profiles/UploadProfilePicture.svelte";
@@ -104,7 +101,6 @@
     // for opening the more options
 
     let isOpeningOptions: boolean = $state(false);
-    let isClosingOptions: boolean = $state(false);
 
     // for uploading the profile photo
     let openProfileModal: boolean = $state(false);
@@ -233,5 +229,6 @@
     <UploadProfilePicture
         user={data.user}
         closeModal={closeOpenUploadProfileModal}
+        {form}
     />
 {/if}
