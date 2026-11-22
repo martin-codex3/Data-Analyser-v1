@@ -125,13 +125,15 @@ async def create_tenant_account(
 
 
 @tenant_routes.get(
-    "/", status_code=status.HTTP_200_OK, response_model=TenantResponseSchema
+    "/{user_id}", status_code=status.HTTP_200_OK, response_model=TenantResponseSchema
 )
 async def get_tenant_details(
-    current_user: CurrentUser, session: Annotated[AsyncSession, Depends(app_session)]
+    user_id: uuid.UUID,
+    current_user: CurrentUser,
+    session: Annotated[AsyncSession, Depends(app_session)],
 ):
     """We will get the tenant based on the logged in user"""
-    if not current_user:
+    if user_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Cannot access the organidation",
@@ -149,9 +151,9 @@ async def get_tenant_details(
 
     result = await session.scalars(statement)
 
-    tenants = result.unique().first()
+    tenant = result.unique().first()
 
-    return tenants
+    return tenant
 
 
 @tenant_routes.patch(
