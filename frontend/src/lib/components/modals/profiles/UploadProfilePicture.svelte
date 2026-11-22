@@ -9,20 +9,19 @@
         closeModal();
     };
 
-    interface Props {
-        lastModified: number;
-        name: string;
-        size: number;
-        type: string;
-        webkitRelativePath: string;
-    }
-
-    let files: any = $state();
-
-    let uploadedFile: Props = $state({});
+    let files: FileList | null | undefined = $state();
+    let uploadedFile: string = $state("");
 
     const handleUploadFile = async () => {
-        console.log(files);
+        if (!files || files.length === 0) {
+            return;
+        }
+        for (let file of files!) {
+            uploadedFile = file?.name;
+        }
+
+        if (uploadedFile) {
+        }
     };
 </script>
 
