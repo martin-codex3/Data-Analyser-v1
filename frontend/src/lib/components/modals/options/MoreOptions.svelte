@@ -102,7 +102,7 @@
                                 }
 
                                 if (result.type === "success") {
-                                    toast.error("Logged out successfully");
+                                    toast.success("Logged out successfully");
                                 }
                             };
                         }}
