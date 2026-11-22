@@ -28,10 +28,11 @@ app = FastAPI(
     lifespan=app_life_span,
 )
 
+
 # we will mount the static files here
 app.mount(
-    "/static/media",
-    StaticFiles(directory="static/media/profile_pics"),
+    "/api/media",
+    StaticFiles(directory="static/media"),
     name="static",
 )
 

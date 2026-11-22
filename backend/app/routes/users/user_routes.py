@@ -140,7 +140,7 @@ async def delete_user_account(
     await session.commit()
 
 
-# for removing the profile image
+# for uploading the profile image
 @users_routes.post("/{user_id}/picture", response_model=ApplicationUserResponse)
 async def updload_profile_picture(
     user_id: uuid.UUID,

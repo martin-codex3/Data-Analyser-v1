@@ -11,7 +11,7 @@ from app.utils.base import Base
 if TYPE_CHECKING:
     from app.models.tenant_users.tenant_user import TenantUsers
 
-DEFAULT_PROFILE_IMAGE = "media/profile_pics/default.jpg"
+DEFAULT_PROFILE_IMAGE = "/media/profile_pics/default.jpg"
 
 
 class ApplicationUser(Base):
