@@ -157,9 +157,10 @@ async def get_tenant_details(
 
 
 @tenant_routes.patch(
-    "", status_code=status.HTTP_200_OK, response_model=TenantResponseSchema
+    "/{user_id}", status_code=status.HTTP_200_OK, response_model=TenantResponseSchema
 )
 async def updated_tenant(
+    user_id: uuid.UUID,
     current_user: CurrentUser,
     tenant_data: UpdateTenantSchema,
     session: Annotated[AsyncSession, Depends(app_session)],
@@ -170,18 +171,18 @@ async def updated_tenant(
         headers={"WWW-Authenticate": "Bearer"},
     )
 
-    if not current_user:
+    if user_id != current_user.id:
         raise exceptions
 
     current_user_tenant = await get_tenant_details(
-        current_user=current_user, session=session
+        user_id=user_id, current_user=current_user, session=session
     )
 
     if not current_user_tenant:
         raise exceptions
 
     # we will change the passed data to dict
-    tenant_data_dict = tenant_data.model_dump()
+    tenant_data_dict = tenant_data.model_dump(exclude_unset=True)
 
     for keys, values in tenant_data_dict.items():
         setattr(current_user_tenant, keys, values)
