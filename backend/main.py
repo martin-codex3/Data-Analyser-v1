@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi_faults import FaultRegistry
 
 from app.config.database.app_database import app_database_engine, app_database_init
+from app.routes.documents.document_router import document_router
 from app.routes.roles.roles_router import roles_router
 from app.routes.tenants.tenant_routes import tenant_routes
 from app.routes.users.user_routes import users_routes
@@ -43,6 +44,7 @@ faults = FaultRegistry(faults=[], name="Api Faults")
 app.include_router(router=roles_router, prefix="/api/roles", tags=["Roles"])
 app.include_router(router=tenant_routes, prefix="/api/tenants", tags=["Tenants"])
 app.include_router(router=users_routes, prefix="/api/users", tags=["Users"])
+app.include_router(router=document_router, prefix="/api/documents", tags=["Documents"])
 
 # we will configure the cors here
 origins = ["http://localhost:5173", "http://localhost:8080"]
