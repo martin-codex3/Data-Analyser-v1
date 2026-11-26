@@ -64,7 +64,7 @@
             <h1>{value}</h1>
         </div>
         <div>
-            {#if name !== "is_email_verified" && name !== "account_created_at"}
+            {#if name !== "is_deleted" && name !== "created_at" && name !== "updated_at" && name !== "created_by_id"}
                 <button
                     aria-label="The open details button"
                     title="Open Update Modal"

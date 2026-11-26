@@ -3,13 +3,12 @@
         label: string;
         id: string;
         placeholder: string;
-        value: string;
         inputError: string | undefined;
         name: string;
         children: any;
     }
 
-    const { label, id, placeholder, value, inputError, name, children }: Props =
+    const { label, id, placeholder, inputError, name, children }: Props =
         $props();
 </script>
 
@@ -25,7 +24,6 @@
         {id}
         {placeholder}
         {name}
-        {value}
         class={[
             "w-full outline-none mt-1 px-2 py-3 rounded-lg border bg-transparent focus:ring-primary-main-orange focus:border-primary-main-orange",
             inputError ? "border-red-500" : "border-white",

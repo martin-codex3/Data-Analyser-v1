@@ -164,13 +164,7 @@
             name: "business_logo",
             Icon: PhotoIcon,
         },
-        {
-            title: "Created by",
-            description: "ID of the user who created the tenant",
-            value: data.tenant.created_by_id ?? "Unset",
-            name: "created_by_id",
-            Icon: UserCheckIcon,
-        },
+
         {
             title: "Created at",
             description: "Timestamp when the tenant was created",
@@ -226,9 +220,9 @@
                     <div class="space-y-3">
                         <div>
                             <h1 class="capitalize text-lg font-semibold">
-                                Martin
+                                {data.tenant.business_name}
                             </h1>
-                            <p>martinsilungwe12@gmail.com</p>
+                            <p>{data.tenant.business_email}</p>
                         </div>
                         <form action="">
                             <button
@@ -237,19 +231,10 @@
                                 class="flex items-center gap-2 justify-center cursor-pointer hover:opacity-80 transition duration-200 bg-green-100 text-green-900 rounded-full px-4 py-2"
                             >
                                 <PictureIcon height="1.5em" class="shrink-0" />
-                                <span>upload profile</span>
+                                <span>upload organisation logo</span>
                             </button>
                         </form>
                     </div>
-                </div>
-
-                <div class="">
-                    <button
-                        aria-label="open options"
-                        class="flex items-center justify-center cursor-pointer p-3 rounded-full bg-black hover:ring-1 transition duration-200"
-                    >
-                        <SelectorIcon height="1.5em" class="shrink-0" />
-                    </button>
                 </div>
             </div>
 

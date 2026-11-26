@@ -6,6 +6,8 @@
     import { toast } from "svelte-sonner";
     import TextAreaInput from "#lib/components/inputs/TextAreaInput.svelte";
     import type { FormResponse } from "#lib/types/forms/form_response.ts";
+    import SelectInput from "#lib/components/inputs/SelectInput.svelte";
+    import { getCountryDataList } from "countries-list";
 
     interface Props {
         name: string;
@@ -75,6 +77,21 @@
                         value={`${value}`}
                         {label}
                     />
+                {:else if name === "country_code"}
+                    <SelectInput
+                        {name}
+                        id={label}
+                        placeholder=""
+                        inputError={fieldErrors(`#/${name}`)?.detail}
+                        {label}
+                    >
+                        <option value="">Select option</option>
+                        {#each getCountryDataList() as countries}
+                            <option value={countries.iso3}
+                                >{countries.name}</option
+                            >
+                        {/each}
+                    </SelectInput>
                 {:else}
                     <TextInput
                         type="text"

@@ -24,8 +24,6 @@
   const fieldErrors = $derived((field: string) => {
     return form?.problem?.errors?.find((e) => field === e.pointer);
   });
-
-  $inspect(fieldErrors("#/username"));
 </script>
 
 <div
