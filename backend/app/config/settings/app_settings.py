@@ -26,6 +26,7 @@ class AppSettings(BaseSettings):
             port=self.port,
             password=self.password,
             username=self.username,
+            database=self.database,
         )
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")

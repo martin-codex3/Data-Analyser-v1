@@ -2,7 +2,7 @@ import asyncio
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import pool
+from sqlalchemy import make_url, pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
@@ -15,7 +15,8 @@ from app.utils.base import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-database_url_string = AppSettings.database.render_as_string(hide_password=True)
+url: str = make_url(AppSettings.database_url)
+database_url_string = url.render_as_string(hide_password=False)
 escaped_database_url_string = database_url_string.replace("%", "%%")
 config = context.config
 config.set_main_option("sqlalchemy.url", escaped_database_url_string)
