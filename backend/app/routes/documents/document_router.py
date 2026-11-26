@@ -1,7 +1,7 @@
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app.config.database.app_database import app_session

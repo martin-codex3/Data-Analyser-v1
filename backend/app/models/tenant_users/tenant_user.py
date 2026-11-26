@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from sqlalchemy import DateTime, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.models.documents.document_model import Document
 from app.utils.base import Base
 
 if TYPE_CHECKING:
@@ -37,4 +38,7 @@ class TenantUsers(Base):
     tenants: Mapped["Tenant"] = relationship(back_populates="users", lazy="selectin")
     users: Mapped["ApplicationUser"] = relationship(
         back_populates="tenants", lazy="selectin"
+    )
+    documents: Mapped[list[Document]] = relationship(
+        back_populates="tenant_user", lazy="selectin"
     )
