@@ -21,19 +21,19 @@ class Tenant(Base):
     business_type: Mapped[str] = mapped_column(String(100))
     business_email: Mapped[str] = mapped_column(String(200))
     business_phone: Mapped[str] = mapped_column(String(30))
-    registration_number: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    registration_number: Mapped[str | None] = mapped_column(String(100), nullable=True)
     industry: Mapped[str | None] = mapped_column(String(255), nullable=True)
-    address_line_1: Mapped[str | None] = mapped_column(String(30), nullable=True)
-    address_line_2: Mapped[str | None] = mapped_column(String(50), nullable=True)
-    city: Mapped[str | None] = mapped_column(String(40), nullable=True)
-    region: Mapped[str | None] = mapped_column(String(50), nullable=True, index=True)
+    address_line_1: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    address_line_2: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    city: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    region: Mapped[str | None] = mapped_column(String(100), nullable=True, index=True)
     postal_code: Mapped[str | None] = mapped_column(
         String(100), nullable=True, index=True
     )
     country_code: Mapped[str | None] = mapped_column(
         String(40), nullable=True, index=True
     )
-    status: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    status: Mapped[str | None] = mapped_column(String(100), nullable=True)
     website_url: Mapped[str | None] = mapped_column(String(100), nullable=True)
     slug: Mapped[str | None] = mapped_column(String(255), unique=True, nullable=True)
     settings: Mapped[dict] = mapped_column(JSON, nullable=True, default=dict)
