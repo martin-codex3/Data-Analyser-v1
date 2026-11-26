@@ -31,7 +31,7 @@
             icon: LayoutDashboardIcon,
         },
         {
-            to: "/dashboard/workspaces-document-management",
+            to: "/dashboard/document-management",
             label: "Document management",
             icon: FolderKanbanIcon,
         },
