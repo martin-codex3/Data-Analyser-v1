@@ -2,7 +2,7 @@ import uuid
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import String
+from sqlalchemy import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.tenant_users.tenant_user import TenantUsers
@@ -28,7 +28,7 @@ class ApplicationUser(Base):
     profile_image: Mapped[str | None] = mapped_column(String(255), nullable=True)
     is_email_verified: Mapped[bool | None] = mapped_column(default=False, nullable=True)
     account_created_at: Mapped[datetime] = mapped_column(
-        default=lambda: datetime.now(UTC)
+        DateTime(timezone=True), default=lambda: datetime.now(UTC)
     )
     bio: Mapped[str | None] = mapped_column(String(255), nullable=True)
     password_hash: Mapped[str] = mapped_column(String(255), index=True)

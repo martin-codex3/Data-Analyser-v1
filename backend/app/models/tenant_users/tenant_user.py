@@ -2,7 +2,7 @@ import uuid
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import DateTime, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.utils.base import Base
@@ -26,8 +26,12 @@ class TenantUsers(Base):
 
     # extra data
     role: Mapped[str] = mapped_column(String(50))
-    created_date: Mapped[datetime] = mapped_column(default=datetime.now(UTC))
-    updated_date: Mapped[datetime] = mapped_column(default=datetime.now(UTC))
+    created_date: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=datetime.now(UTC)
+    )
+    updated_date: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=datetime.now(UTC)
+    )
 
     # this will also include the parents and the childrens of both tables
     tenants: Mapped["Tenant"] = relationship(back_populates="users", lazy="selectin")

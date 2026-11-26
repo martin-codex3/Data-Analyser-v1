@@ -5,7 +5,7 @@ from sqlalchemy import URL
 
 class AppSettings(BaseSettings):
     host: str
-    port: str
+    port: int
     username: str
     database: str
     password: str
