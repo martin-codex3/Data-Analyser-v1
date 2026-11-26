@@ -1,4 +1,4 @@
-from sqlalchemy.ext.asyncio.engine import create_async_engine
+from sqlalchemy.ext.asyncio.engine import create_async_engine  # noqa: I001
 from sqlalchemy.ext.asyncio.session import AsyncSession, async_sessionmaker
 
 from app.config.settings.app_settings import AppSettings
@@ -6,6 +6,7 @@ from app.models.application_users.application_user import ApplicationUser  # noq
 from app.models.roles.role_model import Role  # noqa: F401
 from app.models.tenant_users.tenant_user import TenantUsers  # noqa: F401
 from app.models.tenants.tenant_model import Tenant  # noqa: F401
+from app.models.documents.document_model import Document  # noqa: F401
 from app.utils.base import Base
 
 # we will create the database engine here

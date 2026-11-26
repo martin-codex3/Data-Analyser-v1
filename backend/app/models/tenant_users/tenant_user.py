@@ -18,20 +18,18 @@ class TenantUsers(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         primary_key=True, default=lambda: uuid.uuid4()
     )
-    tenant_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("tenants.id"), primary_key=True
-    )
+    tenant_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("tenants.id"))
     application_user_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("application_users.id"), primary_key=True
+        ForeignKey("application_users.id")
     )
 
     # extra data
     role: Mapped[str] = mapped_column(String(50))
     created_date: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=datetime.now(UTC)
+        DateTime(timezone=True), default=lambda: datetime.now(UTC)
     )
     updated_date: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=datetime.now(UTC)
+        DateTime(timezone=True), default=lambda: datetime.now(UTC)
     )
 
     # this will also include the parents and the childrens of both tables

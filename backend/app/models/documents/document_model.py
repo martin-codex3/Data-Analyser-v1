@@ -1,11 +1,14 @@
 import uuid
 from datetime import UTC, datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import DateTime, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.tenant_users.tenant_user import TenantUsers
 from app.utils.base import Base
+
+if TYPE_CHECKING:
+    from app.models.tenant_users.tenant_user import TenantUsers
 
 
 class Document(Base):
@@ -34,6 +37,6 @@ class Document(Base):
     )
 
     tenant_user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("tenant_users.id"))
-    tenant_user = Mapped[TenantUsers] = relationship(
+    tenant_user: Mapped["TenantUsers"] = relationship(
         back_populates="documents", lazy="selectin"
     )
