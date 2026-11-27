@@ -11,6 +11,8 @@
     import IconArrowsUpDown from "@iconify-svelte/tabler/arrows-up-down";
     import IconSortAscending from "@iconify-svelte/tabler/sort-ascending";
     import IconSortDescending from "@iconify-svelte/tabler/sort-descending";
+    import ReloadIcon from "@iconify-svelte/tabler/reload";
+    import FilterIcon from "@iconify-svelte/tabler/filter";
     import {
         createSortedRowModel,
         createTable,
@@ -351,9 +353,34 @@
 <div class="h-screen overflow-hidden flex items-center justify-end">
     <!-- for the preview card here -->
     <div
-        class="relative bg-primary-slight-black rounded-4xl py-5 h-[calc(100vh-2rem)] w-full"
+        class="relative bg-primary-slight-black rounded-4xl h-[calc(100vh-2rem)] w-full"
     >
         <div class="h-full overflow-auto scrollbar-none">
+            <!-- for the table header here -->
+            <div class="flex items-center px-5 py-10 justify-between">
+                <div class="">
+                    <h1 class="text-xl font-semibold first-letter:capitalize">
+                        manage your files
+                    </h1>
+                </div>
+
+                <div class="hidden md:block">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        class="w-full border outline-none px-3 bg-transparent rounded-xl border-white ring-0"
+                    />
+                </div>
+
+                <div class="">
+                    <button aria-label="refresh data" title="Refresh">
+                        refresh
+                    </button>
+
+                    <button aria-label="filter" title="Filter">options</button>
+                </div>
+            </div>
+
             <table class="w-full table-auto border-collapse">
                 <thead>
                     {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
@@ -401,7 +428,14 @@
                             class="relative odd:bg-black/10 text-start border-b border-white/10"
                         >
                             {#each rows.getAllCells() as cell (cell.id)}
-                                <td class="px-5 py-4 font-normal">
+                                <td
+                                    transition:fly={{
+                                        x: 100,
+                                        y: 40,
+                                        duration: 300,
+                                    }}
+                                    class="px-5 py-4 font-normal"
+                                >
                                     <FlexRender {cell} />
                                 </td>
                             {/each}
