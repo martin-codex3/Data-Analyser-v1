@@ -361,21 +361,26 @@
                             {#each headerGroup.headers as header}
                                 <th
                                     onclick={header.column.getToggleSortingHandler()}
-                                    class="text-start p-4 font-normal border-b border-b-white/10"
+                                    class="text-start p-4 font-normal border-b border-b-white/10 cursor-pointer hover:bg-black/30"
                                 >
                                     <div class="flex items-center gap-2">
                                         {#if !header.isPlaceholder}
                                             <FlexRender {header} />
                                         {/if}
 
-                                        {#if header.column.getFirstSortDir() === "asc"}
+                                        {#if header.column.getIsSorted() === "asc"}
                                             <IconSortAscending
-                                                height="1.3em"
+                                                height="1.2em"
                                                 class="shrink-0"
                                             />
-                                        {:else if header.column.getNextSortingOrder() === "desc"}
+                                        {:else if header.column.getIsSorted() === "desc"}
                                             <IconSortDescending
-                                                height="1.3em"
+                                                height="1.2em"
+                                                class="shrink-0"
+                                            />
+                                        {:else if header.column.getCanSort()}
+                                            <IconArrowsUpDown
+                                                height="1.2em"
                                                 class="shrink-0"
                                             />
                                         {/if}
