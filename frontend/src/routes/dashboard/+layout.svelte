@@ -169,7 +169,7 @@
     </div>
 </nav>
 
-<main class="ms-90">
+<main class="ms-90 px-5">
     <section>
         {@render children()}
     </section>
