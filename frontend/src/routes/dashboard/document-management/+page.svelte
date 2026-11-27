@@ -14,7 +14,7 @@
     import ReloadIcon from "@iconify-svelte/tabler/reload";
     import FilterIcon from "@iconify-svelte/tabler/filter";
     import ChevronLeftIcon from "@iconify-svelte/tabler/chevron-left";
-    import ChevronRightIcon from "@iconify-svelte/tabler/chevron-left";
+    import ChevronRightIcon from "@iconify-svelte/tabler/chevron-right";
 
     import {
         columnFilteringFeature,
@@ -503,7 +503,9 @@
                 <div class="flex items-center gap-1">
                     <button
                         aria-label="pagination-page-1"
-                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black rounded-l-full rounded-r-lg cursor-pointer"
+                        onclick={() => table.firstPage()}
+                        disabled={!table.getCanPreviousPage()}
+                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black rounded-l-full rounded-r-lg cursor-pointer disabled:bg-white/70"
                     >
                         <span class="first-letter:capitalize shrink-0"
                             >first</span
@@ -512,7 +514,10 @@
 
                     <button
                         aria-label="pagination-page-1"
-                        class="flex items-center justify-cneter px-3 text-sm font-semibold py-2 bg-white text-black rounded-lg cursor-pointer"
+                        title="Previous"
+                        onclick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                        class="flex items-center justify-cneter px-3 text-sm font-semibold py-2 bg-white text-black cursor-pointer"
                     >
                         <ChevronLeftIcon height="1.3em" />
                         <span class="first-letter:capitalize">prev</span>
@@ -520,15 +525,18 @@
 
                     <button
                         aria-label="pagination-page-1"
-                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black rounded-lg cursor-pointer"
+                        title="Next"
+                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black cursor-pointer"
                     >
-                        <ChevronRightIcon height="1.3em" />
                         <span class="first-letter:capitalize">next</span>
+                        <ChevronRightIcon height="1.3em" />
                     </button>
 
                     <button
                         aria-label="pagination-page-1"
-                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black rounded-l-full cursor-pointer"
+                        onclick={() => table.lastPage()}
+                        disabled={!table.getCanLastPage()}
+                        class="flex items-center justify-center disabled:bg-white/70 px-5 text-sm font-semibold py-2 bg-white text-black rounded-r-full cursor-pointer"
                     >
                         <span class="first-letter:capitalize">last</span>
                     </button>
