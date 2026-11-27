@@ -2,16 +2,23 @@
     import AddIcon from "@iconify-svelte/tabler/plus";
     import CancelIcon from "@iconify-svelte/tabler/x";
     import { fly } from "svelte/transition";
-    import type { Component } from "svelte";
     import IconFileTypePdf from "@iconify-svelte/tabler/file-type-pdf";
     import IconFileWord from "@iconify-svelte/tabler/file-word";
     import IconFileSpreadsheet from "@iconify-svelte/tabler/file-spreadsheet";
     import IconFileCode from "@iconify-svelte/tabler/file-code";
     import IconPhoto from "@iconify-svelte/tabler/photo";
     import DotsIcon from "@iconify-svelte/tabler/dots-vertical";
+    import IconArrowsUpDown from "@iconify-svelte/tabler/arrows-up-down";
+    import IconSortAscending from "@iconify-svelte/tabler/sort-ascending";
+    import IconSortDescending from "@iconify-svelte/tabler/sort-descending";
     import {
+        createSortedRowModel,
         createTable,
         FlexRender,
+        rowSortingFeature,
+        sortFn_alphanumeric,
+        sortFn_datetime,
+        sortFn_text,
         tableFeatures,
         type ColumnDef,
     } from "@tanstack/svelte-table";
@@ -285,7 +292,15 @@
     ]);
 
     // for the sample tanstack table here
-    const features = tableFeatures({});
+    const features = tableFeatures({
+        rowSortingFeature,
+        sortedRowModel: createSortedRowModel(),
+        sortFns: {
+            alphanumeric: sortFn_alphanumeric,
+            text: sortFn_text,
+            datetime: sortFn_datetime,
+        },
+    });
 
     const columns: ColumnDef<typeof features, Document>[] = [
         {
@@ -324,8 +339,13 @@
 
     const handleToggleRow = () => {
         toggleRow = true;
-        console.log(toggleRow);
     };
+
+    const headerSort = $derived(table.atoms.sorting.get());
+
+    $effect(() => {
+        console.log(table.atoms.sorting.get());
+    });
 </script>
 
 <div class="h-screen overflow-hidden flex items-center justify-end">
@@ -340,11 +360,26 @@
                         <tr class="">
                             {#each headerGroup.headers as header}
                                 <th
+                                    onclick={header.column.getToggleSortingHandler()}
                                     class="text-start p-4 font-normal border-b border-b-white/10"
                                 >
-                                    {#if !header.isPlaceholder}
-                                        <FlexRender {header} />
-                                    {/if}
+                                    <div class="flex items-center gap-2">
+                                        {#if !header.isPlaceholder}
+                                            <FlexRender {header} />
+                                        {/if}
+
+                                        {#if header.column.getFirstSortDir() === "asc"}
+                                            <IconSortAscending
+                                                height="1.3em"
+                                                class="shrink-0"
+                                            />
+                                        {:else if header.column.getNextSortingOrder() === "desc"}
+                                            <IconSortDescending
+                                                height="1.3em"
+                                                class="shrink-0"
+                                            />
+                                        {/if}
+                                    </div>
                                 </th>
                             {/each}
 
