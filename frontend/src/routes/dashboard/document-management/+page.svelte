@@ -14,9 +14,13 @@
     import ReloadIcon from "@iconify-svelte/tabler/reload";
     import FilterIcon from "@iconify-svelte/tabler/filter";
     import {
+        columnFilteringFeature,
+        createFilteredRowModel,
         createSortedRowModel,
         createTable,
+        filterFn_includesString,
         FlexRender,
+        globalFilteringFeature,
         rowSortingFeature,
         sortFn_alphanumeric,
         sortFn_datetime,
@@ -295,12 +299,18 @@
 
     // for the sample tanstack table here
     const features = tableFeatures({
+        columnFilteringFeature,
+        globalFilteringFeature,
         rowSortingFeature,
         sortedRowModel: createSortedRowModel(),
+        filteredRowModel: createFilteredRowModel(),
         sortFns: {
             alphanumeric: sortFn_alphanumeric,
             text: sortFn_text,
             datetime: sortFn_datetime,
+        },
+        filterFns: {
+            includesString: filterFn_includesString,
         },
     });
 
@@ -337,17 +347,15 @@
         get data() {
             return document_data;
         },
+        globalFilterFn: "includesString",
     });
 
     const handleToggleRow = () => {
         toggleRow = true;
     };
 
-    const headerSort = $derived(table.atoms.sorting.get());
-
-    $effect(() => {
-        console.log(table.atoms.sorting.get());
-    });
+    // for the search functionality
+    let searchedItems: any = $state();
 </script>
 
 <div class="h-screen overflow-hidden flex items-center justify-end">
@@ -372,12 +380,22 @@
                     />
                 </div>
 
-                <div class="">
-                    <button aria-label="refresh data" title="Refresh">
-                        refresh
+                <div class="flex items-center gap-3">
+                    <button
+                        aria-label="refresh data"
+                        title="Refresh"
+                        class="flex items-center justify-center p-2 rounded-full text-gray-300 hover:bg-black cursor-pointer transition duration-200"
+                    >
+                        <ReloadIcon height="1.5em" class="shrink-0" />
                     </button>
 
-                    <button aria-label="filter" title="Filter">options</button>
+                    <button
+                        aria-label="filter"
+                        title="Filter"
+                        class="flex items-center justify-center p-2 rounded-full text-gray-300 hover:bg-black cursor-pointer transition duration-200"
+                    >
+                        <FilterIcon height="1.5em" class="shrink-0" />
+                    </button>
                 </div>
             </div>
 
