@@ -13,14 +13,19 @@
     import IconSortDescending from "@iconify-svelte/tabler/sort-descending";
     import ReloadIcon from "@iconify-svelte/tabler/reload";
     import FilterIcon from "@iconify-svelte/tabler/filter";
+    import ChevronLeftIcon from "@iconify-svelte/tabler/chevron-left";
+    import ChevronRightIcon from "@iconify-svelte/tabler/chevron-left";
+
     import {
         columnFilteringFeature,
         createFilteredRowModel,
+        createPaginatedRowModel,
         createSortedRowModel,
         createTable,
         filterFn_includesString,
         FlexRender,
         globalFilteringFeature,
+        rowPaginationFeature,
         rowSortingFeature,
         sortFn_alphanumeric,
         sortFn_datetime,
@@ -302,8 +307,10 @@
         columnFilteringFeature,
         globalFilteringFeature,
         rowSortingFeature,
+        rowPaginationFeature,
         sortedRowModel: createSortedRowModel(),
         filteredRowModel: createFilteredRowModel(),
+        paginatedRowModel: createPaginatedRowModel(),
         sortFns: {
             alphanumeric: sortFn_alphanumeric,
             text: sortFn_text,
@@ -354,8 +361,8 @@
         toggleRow = true;
     };
 
-    // for the search functionality
-    let searchedItems: any = $state();
+    // for the page sizes
+    let pageSize: number[] = $state([10, 20, 30, 40, 50]);
 </script>
 
 <div class="h-screen overflow-hidden flex items-center justify-end">
@@ -363,9 +370,9 @@
     <div
         class="relative bg-primary-slight-black rounded-4xl h-[calc(100vh-2rem)] w-full"
     >
-        <div class="h-full overflow-auto scrollbar-none">
+        <div class="h-full flex flex-col items-stretch justify-between">
             <!-- for the table header here -->
-            <div class="flex items-center px-5 py-10 justify-between">
+            <div class="flex items-center px-5 py-5 justify-between">
                 <div class="">
                     <h1 class="text-xl font-semibold first-letter:capitalize">
                         manage your files
@@ -374,8 +381,13 @@
 
                 <div class="hidden md:block">
                     <input
-                        type="text"
-                        placeholder="Search..."
+                        type="search"
+                        value={table.atoms.globalFilter.get() ?? ""}
+                        oninput={(e) =>
+                            table.setGlobalFilter(
+                                (e.target as HTMLInputElement).value,
+                            )}
+                        placeholder="Search all columns"
                         class="w-full border outline-none px-3 bg-transparent rounded-xl border-white ring-0"
                     />
                 </div>
@@ -384,7 +396,7 @@
                     <button
                         aria-label="refresh data"
                         title="Refresh"
-                        class="flex items-center justify-center p-2 rounded-full text-gray-300 hover:bg-black cursor-pointer transition duration-200"
+                        class="flex items-center justify-center p-2 rounded-full text-gray-300 bg-black hover:border-black/10 cursor-pointer transition duration-200"
                     >
                         <ReloadIcon height="1.5em" class="shrink-0" />
                     </button>
@@ -392,86 +404,136 @@
                     <button
                         aria-label="filter"
                         title="Filter"
-                        class="flex items-center justify-center p-2 rounded-full text-gray-300 hover:bg-black cursor-pointer transition duration-200"
+                        class="flex items-center justify-center p-2 rounded-full text-gray-300 bg-black cursor-pointer transition duration-200"
                     >
                         <FilterIcon height="1.5em" class="shrink-0" />
                     </button>
                 </div>
             </div>
 
-            <table class="w-full table-auto border-collapse">
-                <thead>
-                    {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
-                        <tr class="">
-                            {#each headerGroup.headers as header}
+            <div class="h-full overflow-auto scrollbar-none">
+                <table class="w-full table-auto border-collapse">
+                    <thead>
+                        {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
+                            <tr class="">
+                                {#each headerGroup.headers as header}
+                                    <th
+                                        onclick={header.column.getToggleSortingHandler()}
+                                        class="text-start p-4 font-normal border-b border-b-white/10 cursor-pointer hover:bg-black/30"
+                                    >
+                                        <div class="flex items-center gap-2">
+                                            {#if !header.isPlaceholder}
+                                                <FlexRender {header} />
+                                            {/if}
+
+                                            {#if header.column.getIsSorted() === "asc"}
+                                                <IconSortAscending
+                                                    height="1.2em"
+                                                    class="shrink-0"
+                                                />
+                                            {:else if header.column.getIsSorted() === "desc"}
+                                                <IconSortDescending
+                                                    height="1.2em"
+                                                    class="shrink-0"
+                                                />
+                                            {:else if header.column.getCanSort()}
+                                                <IconArrowsUpDown
+                                                    height="1.2em"
+                                                    class="shrink-0"
+                                                />
+                                            {/if}
+                                        </div>
+                                    </th>
+                                {/each}
+
                                 <th
-                                    onclick={header.column.getToggleSortingHandler()}
-                                    class="text-start p-4 font-normal border-b border-b-white/10 cursor-pointer hover:bg-black/30"
-                                >
-                                    <div class="flex items-center gap-2">
-                                        {#if !header.isPlaceholder}
-                                            <FlexRender {header} />
-                                        {/if}
+                                    class="text-start p-4 border-b border-b-white/10"
+                                ></th>
+                            </tr>
+                        {/each}
+                    </thead>
 
-                                        {#if header.column.getIsSorted() === "asc"}
-                                            <IconSortAscending
-                                                height="1.2em"
-                                                class="shrink-0"
-                                            />
-                                        {:else if header.column.getIsSorted() === "desc"}
-                                            <IconSortDescending
-                                                height="1.2em"
-                                                class="shrink-0"
-                                            />
-                                        {:else if header.column.getCanSort()}
-                                            <IconArrowsUpDown
-                                                height="1.2em"
-                                                class="shrink-0"
-                                            />
-                                        {/if}
-                                    </div>
-                                </th>
-                            {/each}
+                    <tbody class="max-w-full">
+                        {#each table.getRowModel().rows as rows (rows.id)}
+                            <tr
+                                class="relative odd:bg-black/10 text-start border-b border-b-white/10"
+                            >
+                                {#each rows.getAllCells() as cell (cell.id)}
+                                    <td
+                                        transition:fly={{
+                                            x: 100,
+                                            y: 40,
+                                            duration: 300,
+                                        }}
+                                        class="font-normal p-4 py-5"
+                                    >
+                                        <FlexRender {cell} />
+                                    </td>
+                                {/each}
 
-                            <th
-                                class="text-start p-4 border-b border-b-white/10"
-                            ></th>
-                        </tr>
-                    {/each}
-                </thead>
+                                {#if rows.getAllCells().length === 0}
+                                    <td class="">
+                                        <div>
+                                            <h1>No records available</h1>
+                                        </div>
+                                    </td>
+                                {/if}
 
-                <tbody>
-                    {#each table.getRowModel().rows as rows (rows.id)}
-                        <tr
-                            class="relative odd:bg-black/10 text-start border-b border-white/10"
-                        >
-                            {#each rows.getAllCells() as cell (cell.id)}
-                                <td
-                                    transition:fly={{
-                                        x: 100,
-                                        y: 40,
-                                        duration: 300,
-                                    }}
-                                    class="px-5 py-4 font-normal"
-                                >
-                                    <FlexRender {cell} />
+                                <td class="border-b border-b-white/10">
+                                    <button
+                                        aria-label="more options button"
+                                        title="More Options"
+                                        onclick={handleToggleRow}
+                                        class="flex items-center justify-center cursor-pointer hover:bg-black rounded-full p-2"
+                                    >
+                                        <DotsIcon
+                                            height="1.3em"
+                                            class="shrink-0"
+                                        />
+                                    </button>
                                 </td>
-                            {/each}
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </div>
 
-                            <td class="border-b border-b-white/10">
-                                <button
-                                    aria-label="more options button"
-                                    title="More Options"
-                                    onclick={handleToggleRow}
-                                    class="flex items-center justify-center cursor-pointer hover:bg-black rounded-full p-2"
-                                >
-                                    <DotsIcon height="1.3em" class="shrink-0" />
-                                </button>
-                            </td>
-                        </tr>
-                    {/each}
-                </tbody>
-            </table>
+            <!-- for the table footer here -->
+            <div class="flex items-center justify-center px-20 py-3">
+                <div class="flex items-center gap-1">
+                    <button
+                        aria-label="pagination-page-1"
+                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black rounded-l-full rounded-r-lg cursor-pointer"
+                    >
+                        <span class="first-letter:capitalize shrink-0"
+                            >first</span
+                        >
+                    </button>
+
+                    <button
+                        aria-label="pagination-page-1"
+                        class="flex items-center justify-cneter px-3 text-sm font-semibold py-2 bg-white text-black rounded-lg cursor-pointer"
+                    >
+                        <ChevronLeftIcon height="1.3em" />
+                        <span class="first-letter:capitalize">prev</span>
+                    </button>
+
+                    <button
+                        aria-label="pagination-page-1"
+                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black rounded-lg cursor-pointer"
+                    >
+                        <ChevronRightIcon height="1.3em" />
+                        <span class="first-letter:capitalize">next</span>
+                    </button>
+
+                    <button
+                        aria-label="pagination-page-1"
+                        class="flex items-center justify-cneter px-5 text-sm font-semibold py-2 bg-white text-black rounded-l-full cursor-pointer"
+                    >
+                        <span class="first-letter:capitalize">last</span>
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="absolute bottom-5 right-3">
             <button
